@@ -1,0 +1,111 @@
+import QtQuick 2.7
+import QtQuick.Controls 2.0
+import QtQuick.Layouts 1.3
+import QtQuick.Window 2.2
+
+
+import "../SupportingFiles"
+
+Rectangle {
+    id:_updateWindow
+    color: "transparent"
+    signal updateModuleLoadButtonPressed()
+
+    ChooseEpochType {
+        id:_switchPanel
+        width: _updateWindow.width
+    }
+
+    EpochList {
+        id: _epochList
+        anchors.top: _switchPanel.bottom
+        anchors.topMargin: _updateWindow.width*0.03
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.leftMargin: _updateWindow.width*0.05
+        anchors.bottomMargin: _updateWindow.height*0.15
+        anchors.rightMargin: _updateWindow.width*0.05
+        width: _updateWindow.width*0.9
+        height: _updateWindow.height*0.88, _epochList.children.item
+        isTestingResultsWindow: false
+    }
+
+    Rectangle {
+        id:_rowLayout
+        color: "transparent"
+        anchors.top: _epochList.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.leftMargin: _updateWindow.width*0.05
+        anchors.rightMargin: _updateWindow.width*0.05
+        height: _updateWindow.height*0.11
+        width: _updateWindow.width*0.90
+        Button {
+            id:_backButton
+            anchors.left: _rowLayout.left
+            width: _rowLayout.width*0.45
+            anchors.top: parent.top
+            anchors.topMargin: parent.height*0.2
+            anchors.bottom: parent.bottom
+            height: _rowLayout.height*0.2
+            Text {
+                anchors.centerIn: _backButton
+                text: qsTr("Назад")
+                font{
+                    pointSize: Math.min((_backButton.height===0?1:_backButton.height)
+                                        ,(_backButton.width===0?1:_backButton.width))/2
+                }
+            }
+            background: Rectangle
+            {
+                color:_backButton.down? "red":"orangered"
+                radius:_backButton.height
+            }
+            onClicked: buttonsHandler.backButtonPressed()
+
+        }
+
+        Button {
+            id: _loadImagesButton
+            anchors.right: _rowLayout.right
+            anchors.top: parent.top
+            anchors.topMargin: parent.height*0.2
+            anchors.bottom: parent.bottom
+            width: _rowLayout.width*0.45
+            height: _rowLayout.height*0.2
+            Text {
+                anchors.centerIn: _loadImagesButton
+                text: qsTr("Начать")
+                font{
+                    pointSize: Math.min((_loadImagesButton.height===0?1:_loadImagesButton.height)
+                                        ,(_loadImagesButton.width===0?1:_loadImagesButton.width))/2
+                }
+            }
+            background: Rectangle
+            {
+                color: _loadImagesButton.down? "lawngreen":"greenyellow"
+                radius: _loadImagesButton.height
+            }
+            onClicked: {
+                _epochList.chooseCorrectModelData("updateWindow");
+            }
+
+            Connections {
+                target: _epochList
+                onSomethingSelected: buttonsHandler.loadButtonPressed()
+            }
+        }
+    }
+    PopUpNotification {
+        id: _popUpNotification
+
+        Connections {
+            target: _epochList
+            onNothingIsSelected:
+            {
+                _popUpNotification.visible = true;
+                _popUpNotification.text = qsTr("Список обновления пуст")
+            }
+        }
+    }
+}
