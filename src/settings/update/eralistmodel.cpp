@@ -21,10 +21,8 @@ void EraListModel::fillEras(std::vector<EraListModelItem> vec, bool isTestingMod
   // и количество файлов выводить нет необходимости
   if(isTestingModule)
     isTestingModule_=true;
-    //emit itTestingModule();
   else
-    isTestingModule_=false;
-    //emit notTestingModule();
+    isTestingModule_=false;;
 
   emit listViewWindowOpened();
   allErasForLoading = vec;
@@ -62,8 +60,10 @@ void EraListModel::getSelectedElements(bool isTestingRequest,int buttonNumber)
     {
       if(domesticArtSwitchButton)
         it->domesticSelected=true;
+
       if(internationalArtSwitchButton)
         it->internationalSelected=true;
+
       selectedEras.push_back(*it);
     }
   }
@@ -145,8 +145,7 @@ QVariant EraListModel::data(const QModelIndex &index, int role) const
     int addEraToNumber=0;
     if(m_eraListModel[rowIndex].eraNeedToUpdate)
       addEraToNumber=1;
-    //эпоха уже оказалась в списке для отображения
-    //здесь лишь запрашивается информация о ней
+
     if(domesticArtSwitchButton && internationalArtSwitchButton)
     {
       if(m_eraListModel[rowIndex].eraNeedToUpdate)
@@ -172,11 +171,7 @@ QVariant EraListModel::data(const QModelIndex &index, int role) const
 bool EraListModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
   Q_UNUSED(value)
-  /*
-   * Cannot assign to return value because function 'operator[]' returns a const value
-   * m_EraListModel[rowIndex].checkValue=false;
 
-   * */
   if (index.isValid() && role == CheckRole) {
     int rowIndex=index.row();
     if(!isPositionValid(rowIndex))
@@ -200,9 +195,9 @@ bool EraListModel::removeRows(int row, int count, const QModelIndex &parent)
   return true;
 }
 
-bool EraListModel::insertRows(int row, int count, const QModelIndex &parent2)
+bool EraListModel::insertRows(int row, int count, const QModelIndex &parent)
 {
-  Q_UNUSED(parent2)
+  Q_UNUSED(parent)
 
   if(count>0){
     beginInsertRows(QModelIndex(),0,count-1);

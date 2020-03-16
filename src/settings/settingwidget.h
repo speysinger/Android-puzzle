@@ -4,7 +4,7 @@
 #include <QLineEdit>
 #include <QComboBox>
 #include "database/settingsdbfacade.h"
-#include "update/updateWidget.h"
+#include "update/updatewidget.h"
 #include "screen_controller/screensstack.h"
 
 class SettingWidget : public QWidget{

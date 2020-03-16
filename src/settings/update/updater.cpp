@@ -240,11 +240,11 @@ void Updater::UploadSelectedItems(std::vector<EraListModelItem> &selectedEras)
   int itemsForUpdateCount = countSelectedForUpdateItems(selectedEras);
 
   qDebug()<<"COUNT"+QString::number(itemsForUpdateCount);
-  //Количество файлов на загрузку в прогресс бар
+
+
   emit maxValueCalculated(itemsForUpdateCount);
   std::vector<EraListModelItem> eraListModelItems;
 
-  //может обход по картинам с проверкой наличия эпохи картины в списке закачиваемых картин
 
   for(auto& art : updatableArts)
   {
@@ -288,7 +288,6 @@ void Updater::UploadSelectedItems(std::vector<EraListModelItem> &selectedEras)
             }
           }
         }
-        //updatableArts.erase(art);
       }
     }
   }

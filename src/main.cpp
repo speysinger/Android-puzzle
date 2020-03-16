@@ -15,10 +15,10 @@ int main(int argc, char *argv[]) {
   LOADER.moveToThread(thread);
   thread->start();
 
-  QFile levels(":/pictures_db/levels.json");
+  /*QFile levels(":/pictures_db/levels.json");
   if (levels.open(QIODevice::ReadOnly | QFile::Text)) {
     DB.loadLevels(levels.readAll());
-  }
+  }*/
 
   QFontDatabase::addApplicationFont(":/fonts/menu_font.ttf");
 

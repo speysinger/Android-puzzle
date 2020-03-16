@@ -7,14 +7,15 @@
 
 
 struct Era {
-  mutable QString name, imgPath; QDate lastUpdate;
+  mutable QString name, imgPath;
+  QDate lastUpdate;
 
   Era(QString name_, QString imgPath_, QDate lastUpdate_)
     : name(name_), imgPath(imgPath_), lastUpdate(lastUpdate_) {
   }
 
   friend uint qHash(const Era &era){
-      return qHash(era.name);
+    return qHash(era.name);
   }
   /*bool operator==(const Era &other) const
   {
@@ -33,19 +34,17 @@ struct Author {
   Author(QString authorName_, QString imgPath_, QString authorInfo_, QDate lastUpdate_)
     : authorName(authorName_), imgPath(imgPath_), authorInfo(authorInfo_), lastUpdate(lastUpdate_){}
 
-  ///for qset
   friend uint qHash(const Author &author) {
-      return qHash(author.authorName);
+    return qHash(author.authorName);
   }
 
-  ///for find
   bool operator==(const Author &other) const {
     return other.authorName==authorName;
   }
-  ///for qmultimap
+
   friend bool operator<(const Author& x, const Author& y)
   {
-  return x.authorName>y.authorName;
+    return x.authorName>y.authorName;
   }
 };
 
@@ -59,13 +58,12 @@ struct Art {
   Art(QString eraName_, QString imgPath_,  QString imgInfo_, QString name_, bool domestic_, QDate lastUpdate_,
       std::vector<Author> artAuthors_)
     : eraName(eraName_), imgPath(imgPath_), imgInfo(imgInfo_), imgName(name_), domestic(domestic_), lastUpdate(lastUpdate_),
-  artAuthors(artAuthors_) {}
+      artAuthors(artAuthors_) {}
 
   friend uint qHash(const Art &art){
-      return qHash(art.imgName);
+    return qHash(art.imgName);
   }
 
-  //find??
   bool operator==(const Art &other) const {
     return other.eraName==eraName;
   }
@@ -81,7 +79,7 @@ struct Art {
 
   friend bool operator<(const Art& x, const Art& y)
   {
-  return x.imgName<y.imgName;
+    return x.imgName<y.imgName;
   }
 };
 
@@ -125,10 +123,27 @@ struct StatisticRecord
   QString mode;
 
   StatisticRecord(QString eraName_, QString artName_, QString worstTime_, QString bestTime_,
-                      QString mode_):
+                  QString mode_):
     eraName(eraName_), artName(artName_), worstTime(worstTime_), bestTime(bestTime_),
+    mode(mode_){}
+};
+
+struct StatisticsTableItem
+{
+  QString eraName;
+  QString assembledPuzzleArts;
+  QString worstTime;
+  QString bestTime;
+  QString mode;
+
+  StatisticsTableItem(QString eraName_, QString assembledPuzzleArts_, QString worstTime_, QString bestTime_,
+                      QString mode_):
+    eraName(eraName_), assembledPuzzleArts(assembledPuzzleArts_), worstTime(worstTime_), bestTime(bestTime_),
   mode(mode_){}
 };
+
+
+
 
 struct DropGridItem{
   QString itemType;
@@ -138,10 +153,10 @@ struct DropGridItem{
   //Возможно поле parent, если нужна реализация возврата в тестах
 
   DropGridItem(QString itemType_, QString dropItemName_, QString dropItemImageSource_, QString answerObjectName_):
-    itemType(itemType_),dropItemName(dropItemName_), dropItemImageSource(dropItemImageSource_), answerObjectName(answerObjectName_){}
+    itemType(itemType_), dropItemName(dropItemName_), dropItemImageSource(dropItemImageSource_), answerObjectName(answerObjectName_){}
 
   DropGridItem& operator=(const QString newValue){
-    this->answerObjectName=newValue;
+    this->answerObjectName = newValue;
     return *this;
   }
 };
@@ -151,12 +166,11 @@ struct DragGridItem{
   QString dragItemName;
   QString dragItemImageSource;
   int answerIndex;
-  //Возможно поле parent, если нужна реализация возврата в тестах
 
   DragGridItem(QString itemType_, QString dragItemName_, QString dragItemImageSource_, int answerIndex_):
     itemType(itemType_),dragItemName(dragItemName_), dragItemImageSource(dragItemImageSource_), answerIndex(answerIndex_){}
   DragGridItem& operator=(const size_t newValue){
-    this->answerIndex=newValue;
+    this->answerIndex = newValue;
     return *this;
   }
 };

@@ -4,7 +4,7 @@
 
 #include "screensstack.h"
 #include "settings/settingwidget.h"
-#include "settings/update/updateWidget.h"
+#include "settings/update/updatewidget.h"
 #include "settings/update/progressbarwidget.h"
 
 class SettingWidget;

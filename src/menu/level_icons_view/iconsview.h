@@ -4,7 +4,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QMap>
-#include <QTime>
 #include "menuitemproxy.h"
 
 class IconsView : public QGraphicsView {
@@ -40,8 +39,6 @@ protected:
 
   size_t firstLoadableItemIndex = 0;
   size_t lastLoadableItemIndex = 0;
-
-  QTime timer;
 };
 
 #endif // ICONSVIEW_H

@@ -10,6 +10,7 @@ import StatisticModel 1.0
 Rectangle {
     id: window
     color: "lemonchiffon"
+    signal loadData()
 
     ToolBar {
         id:_toolBar

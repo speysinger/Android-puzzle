@@ -9,7 +9,6 @@ const int questionItems = 4;
 TestManager::TestManager()
 {}
 
-//427rows
 int TestManager::convertButtonNumberToNumberQuestions(int buttonNumber)
 {
   int countOfQuestions=0;
@@ -49,9 +48,10 @@ void TestManager::loadAvailableEras()
 
       for(;artsIt!=eraArts.end();artsIt++)
       {
-        //Добавление вопроса Картина+эпоха
+
         DragGridItem dragItem = createDragItem(*artsIt);
         DropGridItem eraDropItem = createDropItem(*erasIt);
+
         bool isDomestic = artsIt->domestic;
         questionsAndAnswers.push_back(QuestionWrapper(dragItem, eraDropItem, true, isDomestic));
 
@@ -186,9 +186,6 @@ void TestManager::takeResultsFromDropModel(std::vector<DropGridItem> results)
 
 void TestManager::findCorrectAnswers(std::vector<DropGridItem> &results, int &residueCount)
 {
-  //correct and wrong answers за один обход
-  //две одинаковые картины в вопросе. find while
-
   std::vector<DropGridItem>::iterator dropIt=results.begin();
   for(int dropItemsIndex = 0; dropItemsIndex < residueCount; dropItemsIndex++, dropIt++)
   {
@@ -281,7 +278,6 @@ void TestManager::sendQuadToDndModels()
   std::random_device rd;
   std::mt19937 g(rd());
 
-  //перемешать четвёрку вопросов
   std::shuffle(dragGridItems.begin(),dragGridItems.end(),g);
   std::shuffle(dropGridItems.begin(),dropGridItems.end(),g);
 

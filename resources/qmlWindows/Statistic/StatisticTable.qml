@@ -9,6 +9,11 @@ TableView {
     frameVisible: false
     sortIndicatorVisible: true
 
+    Connections {
+        target: window
+        onLoadData: sourceModel.loadData()
+    }
+
     Connections  {
         target: _chooseNumberOfQuestions
         onAnyButtonPressed: sourceModel.modeChanged(buttonText)
@@ -66,8 +71,6 @@ TableView {
             anchors.right: parent.right
             anchors.top: parent.top
             anchors.bottom: parent.bottom
-            //anchors.bottomMargin: 1
-            //anchors.topMargin: 1
             width: _rowItem.width*0.015
             color: "#ccc"
         }
@@ -100,7 +103,6 @@ TableView {
                 text: styleData.value
                 font.pointSize: Math.min(_header.width===0?1:_header.width/3,
                                          _header.height===0?1:_header.height/3)
-                //elide: Text.ElideRight
                 color: textColor
                 renderType: Text.NativeRendering
                 wrapMode: Text.WrapAnywhere
@@ -110,8 +112,6 @@ TableView {
                 anchors.right: parent.right
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                //anchors.bottomMargin: 1
-                //anchors.topMargin: 1
                 width: _header.width*0.015
                 color: "#ccc"
             }

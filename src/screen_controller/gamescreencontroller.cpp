@@ -23,11 +23,6 @@ GameScreenController::GameScreenController(QWidget* parent)
     int ms=timer.elapsed();
     m_gameManager->addStatisticRecord(ms);
 
-    QString out = QString("%1:%2").arg( ms / 60000        , 2, 10, QChar('0'))
-                                  .arg((ms % 60000) / 1000, 2, 10, QChar('0'));
-
-    //также нужно сохранить Mode и отправить всё в бд
-    qDebug()<<out;
     push(m_artInfo);
   });
 }

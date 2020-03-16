@@ -55,12 +55,7 @@ QVariant TestingResultsModel::data(const QModelIndex &index, int role) const
 bool TestingResultsModel::insertRows(int column, int count, const QModelIndex &parent)
 {
   Q_UNUSED(parent)
-  /// Сюда вызов функции, которая запишет во временный вектор нужные значения
-  /// После чего в beginInsertRows нужно передать количество созданных элементов
-  /// следом в вектор-модель записать значения временного вектора
-  /// подать вызвать функцию endInsertRows
   if(count>0){
-    //вставка 4 элементов с 0 по 3
     beginInsertRows(QModelIndex(), 0, count-1);
     testingResults = testResultsBuffer;
     endInsertRows();

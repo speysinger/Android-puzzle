@@ -1,11 +1,11 @@
 #ifndef STATISTICWIDGET_H
 #define STATISTICWIDGET_H
 
-#include <QQuickWidget>
 #include <QQmlContext>
 #include "settings/update/qmlbuttonshandler.h"
+#include "settings/update/qmlwidget.h"
 
-class StatisticWidget: public QQuickWidget
+class StatisticWidget: public QmlWidget
 {
   Q_OBJECT
 public:
@@ -13,9 +13,7 @@ public:
   void loadStatistic();
 signals:
   void back();
-
-private:
-  QmlButtonsHandler *buttonsHandler=new QmlButtonsHandler();
+  void loadData();
 };
 
 #endif // STATISTICWIDGET_H

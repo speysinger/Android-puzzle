@@ -3,20 +3,15 @@
 
 #include <QtQuick>
 #include <QQuickItem>
-#include <QQuickView>
 
 
-TestSettingsWidget::TestSettingsWidget(QWidget *parent):QQuickWidget(parent)
+TestSettingsWidget::TestSettingsWidget(QWidget *parent):
+  QmlWidget(parent)
 {
-  setStyleSheet("background-color: 'grey';");
-  this->rootContext()->setContextProperty("buttonsHandler",buttonsHandler);
-  this->setSource(QUrl(QStringLiteral("qrc:/qmlWindows/DragAndDropWindow/TestSettingsWindow.qml")));
-  this->setResizeMode(QQuickWidget::SizeRootObjectToView);
-  this->setAttribute(Qt::WA_AlwaysStackOnTop);
-  this->setClearColor(Qt::transparent);
+  pathToQmlFile = "qrc:/qmlWindows/DragAndDropWindow/TestSettingsWindow.qml";
+  this->setSource(QUrl(pathToQmlFile));
 
   connect(buttonsHandler,&QmlButtonsHandler::back,[=] { emit backButtonPressed();});
-
   connect(&TESTMANAGER,&TestManager::possibleToStartTesting, [=] {emit startTestingButtonPressed();});
 
   auto root = this->rootObject();

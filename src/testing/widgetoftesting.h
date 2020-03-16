@@ -1,9 +1,9 @@
 #ifndef WIDGETOFTESTING_H
 #define WIDGETOFTESTING_H
 
-#include <QQuickWidget>
 #include <QQmlContext>
 #include "settings/update/qmlbuttonshandler.h"
+#include "settings/update/qmlwidget.h"
 
 class Titles: public QObject
 {
@@ -19,14 +19,14 @@ signals:
   void newQuestionsHaveEraType();
   void newQuestionsHaveAuthorType();
  private:
-  QString eraTitle="Соотнесите картины с эпохами";
-  QString artTitle="Соотнесите картины с авторами";
-  QString eras="Эпохи";
-  QString arts="Картины";
-  QString authors="Авторы";
+  QString eraTitle = "Соотнесите картины с эпохами";
+  QString artTitle = "Соотнесите картины с авторами";
+  QString eras = "Эпохи";
+  QString arts = "Картины";
+  QString authors = "Авторы";
 };
 
-class WidgetOfTesting: public QQuickWidget
+class WidgetOfTesting: public QmlWidget
 {
   Q_OBJECT
 public:
@@ -35,7 +35,6 @@ signals:
   void nextQuestionsButtonPressed();
 
 private:
-  QmlButtonsHandler *buttonsHandler=new QmlButtonsHandler();
   Titles *testingTitles=new Titles();
 };
 

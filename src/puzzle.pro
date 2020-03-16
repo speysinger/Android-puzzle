@@ -63,7 +63,7 @@ SOURCES += \
     testing/models/dropgridmodel.cpp \
     testing/models/testingresultsmodel.cpp \
     testing/testmanager.cpp \
-    testing/testresultswindow.cpp \
+    testing/testresultswidget.cpp \
     testing/testsettingswidget.cpp \
     testing/widgetoftesting.cpp
 
@@ -104,8 +104,9 @@ HEADERS += \
     settings/update/eralistmodel.h \
     settings/update/progressbarwidget.h \
     settings/update/qmlbuttonshandler.h \
-    settings/update/updateWidget.h \
+    settings/update/qmlwidget.h \
     settings/update/updater.h \
+    settings/update/updatewidget.h \
     singleton.h \
     mode.h \
     screen_controller/screensstack.h \
@@ -124,7 +125,7 @@ HEADERS += \
     testing/models/dropgridmodel.h \
     testing/models/testingresultsmodel.h \
     testing/testmanager.h \
-    testing/testresultswindow.h \
+    testing/testresultswidget.h \
     testing/testsettingswidget.h \
     testing/widgetoftesting.h
 

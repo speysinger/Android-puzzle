@@ -31,7 +31,6 @@ void DropGridModel::clearGrid()
 
 void DropGridModel::setNextDropQuad()
 {
-  //отослать результаты в testmanager
   TESTMANAGER.takeResultsFromDropModel(m_dropItemsList);
 }
 
@@ -60,7 +59,6 @@ QVariant DropGridModel::data(const QModelIndex &index, int role) const
     return QVariant::fromValue(m_dropItemsList[rowIndex].itemType);
   if(role==dropItemName)
     return QVariant::fromValue(m_dropItemsList[rowIndex].dropItemName);
-  //Продумать с answerIndex иначе возможно вылетит
   if(role==answerObjectName)
     return QVariant::fromValue(m_dropItemsList[rowIndex].answerObjectName);
   return QVariant::fromValue(m_dropItemsList[rowIndex].dropItemImageSource);
@@ -69,14 +67,10 @@ QVariant DropGridModel::data(const QModelIndex &index, int role) const
 bool DropGridModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
   Q_UNUSED(value)
-  /*
-   * Cannot assign to return value because function 'operator[]' returns a const value
-   * m_epochList[rowIndex].checkValue=false;
 
-   * */
   if (index.isValid() && role == answerObjectName) {
     int rowIndex=index.row();
-    m_dropItemsList[rowIndex].answerObjectName=value.toString();
+    m_dropItemsList[rowIndex].answerObjectName = value.toString();
     emit dataChanged(index,index,{answerObjectName});
     return true;
   }
@@ -86,12 +80,11 @@ bool DropGridModel::setData(const QModelIndex &index, const QVariant &value, int
 bool DropGridModel::insertRows(int row, int count, const QModelIndex &parent)
 {
   if(count>0){
-    //вставка 4 элементов с 0 по 3
     beginInsertRows(QModelIndex(),0,3);
     std::vector<DropGridItem>::iterator it=m_fillingList.begin();
     if(it == m_fillingList.end())
     {
-      //TESTMANAGER
+      return false;
     }
     for(int i=0;i<4;i++)
     {

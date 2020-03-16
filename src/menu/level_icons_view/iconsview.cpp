@@ -81,21 +81,6 @@ void IconsView::scrollContentsBy(int dx, int dy)
     setProxyItems();
 
   QGraphicsView::scrollContentsBy(dx,dy);
-
-  //  auto test = m_icons.begin();
-  //  test.value()->pixmap().width();
-
-  //  dXX+=dx;
-
-  //  QGraphicsView::scrollContentsBy(dx,dy);
-
-  //  qDebug()<<"СДВИГ ОТ НАЧАЛА"+QString::number(abs(dXX));
-
-  //  qDebug()<<"ПРАВЫЙ КОНЕЦ"+QString::number(abs(dXX)+width());
-
-  //  //QGraphicsView::items();
-
-  //  qDebug()<<"WINDOW WIDTH="+QString::number(width());
 }
 
 void IconsView::setProxyItems()
@@ -225,13 +210,7 @@ void IconsView::loadArts(Era era) {
     m_icons.push_back(proxy);
     m_scene.addItem(proxy->getItem());
   }
-
-
-  timer.start();
   disposeIcons();
-
-  int ms=timer.elapsed();
-  qDebug()<<"MS"+QString::number(ms);
 }
 
 

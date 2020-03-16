@@ -59,6 +59,7 @@ public:
   void updateStatistic(const StatisticRecord &statisticRecord);
 
   StatisticRecord getStatisticRecord(const QString artName, const QString mode);
+  std::vector<StatisticsTableItem> getAllStatistic();
 
 protected:
   QSqlRelationalTableModel *m_arts_model;

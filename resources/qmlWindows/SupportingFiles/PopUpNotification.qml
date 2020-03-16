@@ -6,11 +6,16 @@ ToolTip {
     delay: 200
     timeout: 3000
     x: (parent.width - width) / 2
-    y: (parent.height - 100)
+    y: parent.height*0.8
 
+    Text {
+        anchors.fill: parent
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+    }
     background: Rectangle {
         color: "gray"
-        radius: 15
+        radius: parent.width*0.03
     }
 }
 

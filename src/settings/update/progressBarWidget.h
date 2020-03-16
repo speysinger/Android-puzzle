@@ -1,12 +1,8 @@
 #ifndef PROGRESSBARWIDGET_H
 #define PROGRESSBARWIDGET_H
 
-#include <QWidget>
-#include <QEventLoop>
-#include <QTimer>
-
-#include <QQuickWidget>
 #include <QQmlContext>
+#include "qmlwidget.h"
 
 
 class LoadHandler:public QObject
@@ -25,7 +21,6 @@ public:
     if(currentProgress >= numberOfUpdatedItems)
     {
       stopLoad();
-      qDebug()<<"COUNT"+QString::number(currentProgress)+"ZASHLI";
     }
   }
 
@@ -33,6 +28,7 @@ public:
   {
     return currentProgress;
   }
+
   Q_INVOKABLE void stopLoad()
   {
     currentProgress=0;
@@ -49,8 +45,7 @@ private:
 
 };
 
-
-class ProgressBarWidget:public QQuickWidget
+class ProgressBarWidget:public QmlWidget
 {
   Q_OBJECT
 public:
@@ -59,7 +54,7 @@ public:
 signals:
     void backButtonPressed();
 private:
-    LoadHandler *loadHandler=new LoadHandler();
+    LoadHandler *loadHandler = new LoadHandler();
 };
 
 

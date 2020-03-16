@@ -1,11 +1,11 @@
 #ifndef TESTSETTINGSWIDGET_H
 #define TESTSETTINGSWIDGET_H
 
-#include <QQuickWidget>
 #include <QQmlContext>
 #include "settings/update/qmlbuttonshandler.h"
+#include "settings/update/qmlwidget.h"
 
-class TestSettingsWidget: public QQuickWidget
+class TestSettingsWidget: public QmlWidget
 {
   Q_OBJECT
 public:
@@ -13,9 +13,6 @@ public:
 signals:
   void backButtonPressed();
   void startTestingButtonPressed();
-
-private:
-  QmlButtonsHandler *buttonsHandler=new QmlButtonsHandler();
 };
 
 #endif // TESTSETTINGSWIDGET_H

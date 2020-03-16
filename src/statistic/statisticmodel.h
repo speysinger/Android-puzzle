@@ -2,6 +2,7 @@
 #define STATISTICMODEL_H
 
 #include <QAbstractTableModel>
+#include "database/levelstructures.h"
 #include <vector>
 #include <QObject>
 #include <QHash>
@@ -20,23 +21,9 @@ public:
     BestTime
   };
 
-  struct statisticsTableItem
-  {
-    QString eraName;
-    QString assembledPuzzleArts;
-    QString worstTime;
-    QString bestTime;
-    QString mode;
-
-    statisticsTableItem(QString eraName_, QString assembledPuzzleArts_, QString worstTime_, QString bestTime_,
-                        QString mode_):
-      eraName(eraName_), assembledPuzzleArts(assembledPuzzleArts_), worstTime(worstTime_), bestTime(bestTime_),
-    mode(mode_){}
-  };
-
-
   Q_INVOKABLE void modeChanged(QString mode);
   Q_INVOKABLE int count();
+  Q_INVOKABLE void loadData();
   int columnCount(const QModelIndex &parent = QModelIndex()) const override;
   int rowCount(const QModelIndex& parent=QModelIndex{}) const override;
   QVariant data(const QModelIndex& index, int role=Qt::DisplayRole) const override;
@@ -47,11 +34,12 @@ public:
 
 private:
   void clearList();
+  void fillItemsBuffer(QString mode);
 
   //было бы лучше использовать multimap. сначала вектор затестить
-  std::vector<statisticsTableItem> tableItems;
-  std::vector<statisticsTableItem> tableItemsBuffer;
-  std::vector<statisticsTableItem> allItems;
+  std::vector<StatisticsTableItem> tableItems;
+  std::vector<StatisticsTableItem> tableItemsBuffer;
+  std::vector<StatisticsTableItem> allItems;
 
 };
 

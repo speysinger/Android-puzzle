@@ -1,12 +1,11 @@
 #ifndef UPDATEWIDGET_H
 #define UPDATEWIDGET_H
 
-#include <QtWidgets>
 #include <QQmlContext>
-#include <QQuickView>
 #include "qmlbuttonshandler.h"
+#include "qmlwidget.h"
 
-class UpdateWidget : public QWidget
+class UpdateWidget : public QmlWidget
 {
     Q_OBJECT
 public:
@@ -14,8 +13,6 @@ public:
 signals:
     void backButtonPressed();
     void loadButtonPressed();
-private:
-    QmlButtonsHandler *buttonsHandler=new QmlButtonsHandler();
 };
 
 #endif // UPDATEWIDGET_H

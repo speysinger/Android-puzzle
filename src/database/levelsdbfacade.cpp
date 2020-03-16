@@ -130,6 +130,7 @@ Art LevelsDBFacade::randomArt(Author& author_) {
   return Art(era, path, info, name, domestic, lastUpdate, authors);
 }
 
+
 std::set<Author> LevelsDBFacade::getAllAuthors()
 {
   std::set<Author> authors;
@@ -137,9 +138,9 @@ std::set<Author> LevelsDBFacade::getAllAuthors()
   m_authors_model->select();
   while (m_query->next()) {
     authors.insert(Author(m_query->value(0).toString(),
-                             m_query->value(1).toString(),
-                             m_query->value(2).toString(),
-                             m_query->value(3).toDate()));
+                          m_query->value(1).toString(),
+                          m_query->value(2).toString(),
+                          m_query->value(3).toDate()));
   }
 
   return authors;
@@ -429,12 +430,12 @@ void LevelsDBFacade::checkStatistic(StatisticRecord &statisticRecord)
   {
     worstTime = m_query->value(2).toString();
     bestTime = m_query->value(3).toString();
-    if(worstTime<statisticRecord.worstTime)
+    if(worstTime < statisticRecord.worstTime)
     {
       statisticRecord.bestTime = bestTime;
       updateStatistic(statisticRecord);
     }
-    if(bestTime>statisticRecord.bestTime)
+    if(bestTime > statisticRecord.bestTime)
     {
       statisticRecord.worstTime = bestTime;
       updateStatistic(statisticRecord);
@@ -484,6 +485,28 @@ StatisticRecord LevelsDBFacade::getStatisticRecord(const QString artName, const 
       mode_ = m_query->value(4).toString();
 
   return StatisticRecord(eraName_, artName_, worstTime_, bestTime_, mode_);
+}
+
+std::vector<StatisticsTableItem> LevelsDBFacade::getAllStatistic()
+{
+  std::vector<StatisticsTableItem> records;
+
+  exec(tr("SELECT eraname, MAX(worsttime), MIN(besttime), COUNT(eraname), "
+          "mode FROM statistic GROUP by eraname, mode;"));
+  m_statistic_model->select();
+
+  while(m_query->next())
+  {
+    QString eraName_ = m_query->value(0).toString(),
+        worstTime_ = m_query->value(1).toString(),
+        bestTime_ = m_query->value(2).toString(),
+        count_ = m_query->value(3).toString(),
+        mode_ = m_query->value(4).toString();
+
+    StatisticsTableItem record(eraName_, count_, worstTime_, bestTime_, mode_);
+    records.push_back(record);
+  }
+  return records;
 }
 
 
@@ -544,8 +567,6 @@ void LevelsDBFacade::updateEra(const Era &era)
 
 void LevelsDBFacade::updateArt(Art &art)
 {
-  //artAuthors update TODO
-
   exec(tr("SELECT path FROM arts WHERE name=") +
        qs(art.imgName) + tr(";"));
   m_arts_model->select();
@@ -570,8 +591,6 @@ void LevelsDBFacade::updateArt(Art &art)
 
 void LevelsDBFacade::updateAuthor(Author &author)
 {
-  //artAuthors update TODO
-
   exec(tr("SELECT authorImagePath FROM authors WHERE authorName=") +
        qs(author.authorName) + tr(";"));
   m_authors_model->select();

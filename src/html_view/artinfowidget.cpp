@@ -26,19 +26,17 @@ void ArtInfoWidget::load(Art art) {
   m_text->setHtml(tr("<b>")+"Авторы:"+"</b><br>");
   std::vector<Author> authors = art.artAuthors;
 
-  for(unsigned int i=0;i<authors.size();i++)
+  for(auto author : authors)
   {
-    QImage authorImage(authors[i].imgPath);
-    QImage artImage(art.imgPath);
+    QImage authorImage(author.imgPath);
 
-    //m_text->setHtml(tr("<b>")+authors[i].authorName+"</b><br>");
     m_text->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
     c = m_text->textCursor();
     c.insertImage(authorImage.scaled(350, authorImage.height(), Qt::KeepAspectRatio));
 
     m_text->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
     c = m_text->textCursor();
-    c.insertHtml(tr("<br>") + authors[i].authorInfo + "<br><br>");// + tr("<b>")+art.imgName + "</b><br>");
+    c.insertHtml(tr("<br>") + author.authorInfo + "<br><br>");
   }
   c.insertHtml(tr("<b>")+art.imgName + "</b><br>");
   QImage artImage(art.imgPath);
