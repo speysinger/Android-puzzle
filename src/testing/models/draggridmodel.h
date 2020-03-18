@@ -3,6 +3,10 @@
 #include <QAbstractListModel>
 #include "database/levelstructures.h"
 
+///
+/// \brief The DragGridModel class
+/// Данный класс является моделью для DragGridView
+/// Реализует редактирование содержимого DragGridView
 class DragGridModel: public QAbstractListModel
 {
   Q_OBJECT
@@ -12,7 +16,6 @@ public:
     itemType=Qt::UserRole+1,
     dragItemName,
     dragItemImageSource,
-    answerIndex
   };
 
   void fillDragGrid();
@@ -25,7 +28,7 @@ public:
   QHash<int,QByteArray> roleNames() const override;
 
 private:
-  std::vector<DragGridItem> m_DragItemsList ;
+  std::vector<DragGridItem> m_dragItemsList ;
   std::vector<DragGridItem> m_fillingList;
 
 };

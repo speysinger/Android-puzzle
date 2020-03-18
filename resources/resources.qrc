@@ -99,8 +99,8 @@
         <file>sounds/pets/hen.ogg</file>
         <file>sounds/pets/mouse.ogg</file>
         <file>qmlWindows/UpdateWindow/ChooseEpochType.qml</file>
-        <file>qmlWindows/UpdateWindow/EpochList.qml</file>
-        <file>qmlWindows/UpdateWindow/EpochListItem.qml</file>
+        <file>qmlWindows/UpdateWindow/EraList.qml</file>
+        <file>qmlWindows/UpdateWindow/UpdateListItem.qml</file>
         <file>qmlWindows/UpdateWindow/ProgressBarImagesFromServer.qml</file>
         <file>qmlWindows/UpdateWindow/ProgressBarWindow.qml</file>
         <file>qmlWindows/UpdateWindow/UpdateWindow.qml</file>
@@ -117,5 +117,6 @@
         <file>qmlWindows/SupportingFiles/PopUpNotification.qml</file>
         <file>qmlWindows/Statistic/StatisticWindow.qml</file>
         <file>qmlWindows/Statistic/StatisticTable.qml</file>
+        <file>qmlWindows/SupportingFiles/DataListView.qml</file>
     </qresource>
 </RCC>

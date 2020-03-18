@@ -7,11 +7,14 @@
 #include <QList>
 #include "database/levelstructures.h"
 
-
+///
+/// \brief The EraListModel class
+/// Данный является моделью для qml listView
+/// Реализует редактирование содержимого listView
 class EraListModel: public QAbstractListModel
 {
   Q_OBJECT
-  Q_PROPERTY(bool isTestingModule_ READ isTestingModule CONSTANT)
+  //Q_PROPERTY(bool isTestingModule_ READ isTestingModule CONSTANT)
 public slots:
   void fillEras(std::vector<EraListModelItem> vec, bool isTestingModule);
 signals:
@@ -24,16 +27,10 @@ signals:
 public:
   EraListModel(QObject*parent=nullptr);
 
-  bool isTestingModule()
-  {
-    return isTestingModule_;
-  }
-
-
   enum listItemsType{
-    NameRole=Qt::UserRole+1,
-    CountRole,
-    CheckRole
+    nameRole=Qt::UserRole+1,
+    countRole,
+    checkRole
   };
 
   int rowCount(const QModelIndex& parent=QModelIndex{}) const override;
@@ -46,20 +43,22 @@ public:
   Q_INVOKABLE void getSelectedElements(bool isTestingRequest, int buttonNumber);
   Q_INVOKABLE void changeListOfTheSelectedEpoch(bool domesticArt,bool foreigntArt);
   Q_INVOKABLE void clearList();
+  Q_INVOKABLE bool isTestingModule();
 
   QHash<int,QByteArray> roleNames() const override;
   QString BoolToString(bool b) const;
 
 private:
 
-  bool isTestingModule_ = false;
   int getTotalEraFilesCount(const EraListModelItem &eraItem) const;
-  std::vector<EraListModelItem> allErasForLoading;
+  std::vector<EraListModelItem> m_allErasForLoading;
   std::vector<EraListModelItem> m_eraListModel;
   std::vector<EraListModelItem> m_fillingList;
 
-  bool domesticArtSwitchButton=false;
-  bool internationalArtSwitchButton=false;
+  bool m_isTestingModule = false;
+
+  bool m_domesticArtSwitchButton=false;
+  bool m_internationalArtSwitchButton=false;
 };
 
 #endif // ERALISTMODEL_H

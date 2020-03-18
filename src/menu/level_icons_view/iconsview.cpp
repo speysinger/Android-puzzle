@@ -45,8 +45,6 @@ void IconsView::disposeIcons() {
   }
   scrollContentsBy(0, 0);
   fitInView(0, 0, IconSize*NColumn, IconSize*NColumn, Qt::KeepAspectRatio);
-
-  qDebug()<<m_icons.capacity()<<"CAPACITY";
 }
 
 void IconsView::scrollContentsBy(int dx, int dy)
@@ -55,8 +53,6 @@ void IconsView::scrollContentsBy(int dx, int dy)
   int itemsPairs = 0;
 
   QRectF visibleSceneRect = mapToScene(viewport()->rect()).boundingRect();
-
-  qDebug()<<visibleSceneRect.x();
 
     if(width()>height())
     {
@@ -75,8 +71,6 @@ void IconsView::scrollContentsBy(int dx, int dy)
     firstLoadableItemIndex = size_t(axis/IconSize)*NColumn;
     lastLoadableItemIndex = firstLoadableItemIndex + (size/IconSize + NColumn)*NColumn;
     lastLoadableItemIndex = qMin(lastLoadableItemIndex, m_icons.size());
-
-    qDebug() << visibleSceneRect << firstLoadableItemIndex << " -> " << lastLoadableItemIndex;
 
     setProxyItems();
 

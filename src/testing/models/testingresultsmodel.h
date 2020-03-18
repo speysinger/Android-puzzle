@@ -4,6 +4,9 @@
 #include <QAbstractListModel>
 #include "database/levelstructures.h"
 
+///
+/// \brief The TestingResultsModel class
+/// Данный класс является моделью для ListView, отображающего результаты тестирования
 class TestingResultsModel: public QAbstractListModel
 {
   Q_OBJECT
@@ -12,9 +15,9 @@ public:
   void fillResults(std::vector<TestResultsItem> vec);
 
   enum listItemsType{
-    Question=Qt::UserRole+1,
-    UserAnswer,
-    CorrectAnswer
+    question=Qt::UserRole+1,
+    userAnswer,
+    correctAnswer
   };
 
   int rowCount(const QModelIndex& parent = QModelIndex{}) const override;
@@ -27,8 +30,8 @@ public:
   QString BoolToString(bool b) const;
 
 private:
-  std::vector<TestResultsItem> testingResults;
-  std::vector<TestResultsItem> testResultsBuffer;
+  std::vector<TestResultsItem> m_testingResults;
+  std::vector<TestResultsItem> m_testResultsBuffer;
 
 };
 

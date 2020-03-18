@@ -14,50 +14,52 @@ TestingResultsModel::TestingResultsModel(QObject *parent)
 
 void TestingResultsModel::fillResults(std::vector<TestResultsItem> vec)
 {
-  removeRows(0,testingResults.size(), QModelIndex());
-  testResultsBuffer=vec;
-  insertRows(0,testResultsBuffer.size(), QModelIndex());
+  removeRows(0,m_testingResults.size(), QModelIndex());
+  m_testResultsBuffer=vec;
+  insertRows(0,m_testResultsBuffer.size(), QModelIndex());
 }
 
 
 int TestingResultsModel::rowCount(const QModelIndex &parent) const
 {
-  return testingResults.size();
+  Q_UNUSED(parent)
+  return m_testingResults.size();
 }
 
 QHash<int, QByteArray> TestingResultsModel::roleNames() const
 {
   QHash<int, QByteArray> roles;
-  roles[Question] = "question";
-  roles[UserAnswer] = "userAnswer";
-  roles[CorrectAnswer] = "correctAnswer";
+  roles[question] = "question";
+  roles[userAnswer] = "userAnswer";
+  roles[correctAnswer] = "correctAnswer";
   return roles;
 }
 
 QVariant TestingResultsModel::data(const QModelIndex &index, int role) const
 {
-  if(!index.isValid() || (role!=Question && role!=UserAnswer && role!=CorrectAnswer))
+  if(!index.isValid() || (role!=question && role!=userAnswer && role!=correctAnswer))
     return QVariant {};
   int rowIndex=index.row();
 
-  if(role == Question)
-    return QVariant::fromValue(testingResults[rowIndex].question);
+  if(role == question)
+    return QVariant::fromValue(m_testingResults[rowIndex].question);
 
-  if(role == UserAnswer)
-    return QVariant::fromValue(testingResults[rowIndex].userAnswer);
+  if(role == userAnswer)
+    return QVariant::fromValue(m_testingResults[rowIndex].userAnswer);
 
-  if(role == CorrectAnswer)
-    return QVariant::fromValue(testingResults[rowIndex].correctAnswer);
+  if(role == correctAnswer)
+    return QVariant::fromValue(m_testingResults[rowIndex].correctAnswer);
 
   return QVariant {};
 }
 
 bool TestingResultsModel::insertRows(int column, int count, const QModelIndex &parent)
 {
+  Q_UNUSED(column)
   Q_UNUSED(parent)
   if(count>0){
     beginInsertRows(QModelIndex(), 0, count-1);
-    testingResults = testResultsBuffer;
+    m_testingResults = m_testResultsBuffer;
     endInsertRows();
   }
   return true;
@@ -69,7 +71,7 @@ bool TestingResultsModel::removeRows(int row, int count, const QModelIndex &pare
   if(count>0)
   {
     beginRemoveRows(QModelIndex(), row, count-1);
-    testingResults.clear();
+    m_testingResults.clear();
     endRemoveRows();
   }
   return true;

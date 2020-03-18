@@ -14,7 +14,7 @@ TableView {
         onLoadData: sourceModel.loadData()
     }
 
-    Connections  {
+    Connections {
         target: _chooseNumberOfQuestions
         onAnyButtonPressed: sourceModel.modeChanged(buttonText)
     }

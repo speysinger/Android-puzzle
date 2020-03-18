@@ -4,7 +4,7 @@
 TestResultsWidget::TestResultsWidget(QWidget *parent):
   QmlWidget(parent)
 {
-  pathToQmlFile = "qrc:/qmlWindows/DragAndDropWindow/TestResults.qml";
-  this->setSource(QUrl(pathToQmlFile));
-  connect(buttonsHandler,&QmlButtonsHandler::back,[=] {emit backToMainMenuButtonPressed();});
+  m_pathToQmlFile = "qrc:/qmlWindows/DragAndDropWindow/TestResults.qml";
+  this->setSource(QUrl(m_pathToQmlFile));
+  connect(m_buttonsHandler,&QmlButtonsHandler::back,[=] {emit backToMainMenuButtonPressed();});
 }

@@ -4,7 +4,9 @@
 #include <QQmlContext>
 #include "settings/update/qmlbuttonshandler.h"
 #include "settings/update/qmlwidget.h"
-
+///
+/// \brief The StatisticWidget class
+/// Данный класс реализует создание qml окна, отображающего игровую статистику
 class StatisticWidget: public QmlWidget
 {
   Q_OBJECT

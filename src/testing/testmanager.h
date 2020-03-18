@@ -7,6 +7,17 @@
 #include "database/levelstructures.h"
 #include "singleton.h"
 
+///
+/// \brief The TestManager class
+/// Данный класс реализует:
+/// созданием вопросов для тестирования
+/// отправкой их в модели GridView
+/// обработкой результата теста
+///
+/// Предоставляет интерфейс, позволяющий:
+/// составить список, доступных для тестирования, эпох и вопросов по ним
+/// начинать тестирование по указанному списку эпох
+/// получить результаты тестирования и обработать их
 class TestManager:public QObject
 {
   Q_OBJECT
@@ -30,7 +41,7 @@ signals:
 
   void questionsIsOver();
 
-  void testResultsReady(std::vector<TestResultsItem> &testResults);
+  void testResultsReady(std::vector<TestResultsItem> &m_testResults);
 
 private:
   struct QuestionWrapper;
@@ -58,6 +69,7 @@ private:
 
   /// \brief
   ///  Обёртка над вопросом
+  /// Содержит dragItem(вопрос), dropGridItem(ответ), принадлежность к типу вопроса
   struct QuestionWrapper{
 
     DragGridItem dragGridItem;
@@ -85,15 +97,14 @@ private:
 
   };
 
-  std::vector<eraModuleQuestionsWrapper> eraModule;
+  std::vector<eraModuleQuestionsWrapper> m_eraModule;
 
-  ///Элемент
-  std::vector<QuestionWrapper> eraForTestQuestions;
-  std::vector<QuestionWrapper> authorForTestQuestions;
+  std::vector<QuestionWrapper> m_eraForTestQuestions;
+  std::vector<QuestionWrapper> m_authorForTestQuestions;
 
-  std::vector<TestResultsItem> testResults;
+  std::vector<TestResultsItem> m_testResults;
 
-  bool currentTypeOfQuestionIsEra=false;
+  bool m_currentTypeOfQuestionIsEra = false;
 };
 
 

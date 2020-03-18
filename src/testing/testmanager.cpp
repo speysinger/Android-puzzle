@@ -24,10 +24,10 @@ int TestManager::convertButtonNumberToNumberQuestions(int buttonNumber)
 
 void TestManager::loadAvailableEras()
 {
-  eraModule.clear();
-  testResults.clear();
-  eraForTestQuestions.clear();
-  authorForTestQuestions.clear();
+  m_eraModule.clear();
+  m_testResults.clear();
+  m_eraForTestQuestions.clear();
+  m_authorForTestQuestions.clear();
 
   std::vector<EraListModelItem> availableForTestingEras;
   std::vector<Era> allEras;
@@ -76,9 +76,9 @@ void TestManager::loadAvailableEras()
       if(hasInternationalArts)
         internationalFilesCount=2;
 
-      availableForTestingEras.push_back(EraListModelItem(erasIt->name, domesticFilesCount, hasInternationalArts, false,
+      availableForTestingEras.push_back(EraListModelItem(erasIt->name, domesticFilesCount, internationalFilesCount, false,
                                                          false, hasDomesticArts, hasInternationalArts));
-      eraModule.push_back(eraModuleQuestionsWrapper(*erasIt, questionsAndAnswers));
+      m_eraModule.push_back(eraModuleQuestionsWrapper(*erasIt, questionsAndAnswers));
     }
   }
   emit erasReady(availableForTestingEras,true);
@@ -91,7 +91,7 @@ void TestManager::getNumberOfQuestions(int &eraQuestions, int &authorQuestions,
 {
   for(auto& selectedEra : selectedEras)
   {
-    auto foundedEra = std::find(eraModule.begin(), eraModule.end(), selectedEra.eraName);
+    auto foundedEra = std::find(m_eraModule.begin(), m_eraModule.end(), selectedEra.eraName);
     for(auto& question : foundedEra->questionsAndAnswers)
     {
       if(selectedEra.domesticSelected && question.isDomestic)
@@ -132,14 +132,14 @@ void TestManager::startTesting(std::vector<EraListModelItem> selectedEras, int b
   {
     size_t randomEra = getBetween(0, selectedEras.size()-1);
 
-    auto it = find(eraModule.begin(), eraModule.end(), selectedEras[randomEra].eraName);
+    auto it = find(m_eraModule.begin(), m_eraModule.end(), selectedEras[randomEra].eraName);
     auto &eraQuestions = *it;
 
     int questionsSize=eraQuestions.questionsAndAnswers.size();
 
     if(questionsSize == 0)
     {
-      eraModule.erase(it);
+      m_eraModule.erase(it);
       selectedEras.erase(selectedEras.begin()+randomEra);
       continue;
     }
@@ -158,14 +158,14 @@ void TestManager::startTesting(std::vector<EraListModelItem> selectedEras, int b
 
     if(eraQuestionsQuad_.size() == 4)
     {
-      eraForTestQuestions.insert(eraForTestQuestions.end(), eraQuestionsQuad_.begin(), eraQuestionsQuad_.end());
+      m_eraForTestQuestions.insert(m_eraForTestQuestions.end(), eraQuestionsQuad_.begin(), eraQuestionsQuad_.end());
       eraQuestionsQuad_.clear();
       countOfQuestions-=4;
     }
 
     if(authorQuestionsQuad_.size() == 4)
     {
-      authorForTestQuestions.insert(authorForTestQuestions.end(), authorQuestionsQuad_.begin(), authorQuestionsQuad_.end());
+      m_authorForTestQuestions.insert(m_authorForTestQuestions.end(), authorQuestionsQuad_.begin(), authorQuestionsQuad_.end());
       authorQuestionsQuad_.clear();
       countOfQuestions-=4;
     }
@@ -199,7 +199,7 @@ void TestManager::findCorrectAnswers(std::vector<DropGridItem> &results, int &re
       if((dropIt->answerObjectName == questionsIt->dragGridItem.dragItemName)
          &&dropIt->dropItemName == questionsIt->dropGridItem.dropItemName)
       {
-        testResults.push_back(TestResultsItem(questionsIt->dropGridItem.dropItemName, dropIt->answerObjectName,
+        m_testResults.push_back(TestResultsItem(questionsIt->dropGridItem.dropItemName, dropIt->answerObjectName,
                                               questionsIt->dragGridItem.dragItemName));
         dropIt=results.erase(dropIt--);
         residueCount--;
@@ -223,7 +223,7 @@ void TestManager::findWrongAnswers(std::vector<DropGridItem> &results, int &resi
       //если найден вопрос пользователя
       if(dropIt->dropItemName == questionsIt->dropGridItem.dropItemName)
       {
-        testResults.push_back(TestResultsItem(questionsIt->dropGridItem.dropItemName, dropIt->answerObjectName,
+        m_testResults.push_back(TestResultsItem(questionsIt->dropGridItem.dropItemName, dropIt->answerObjectName,
                                               questionsIt->dragGridItem.dragItemName));
         dropIt=results.erase(dropIt);
         residueCount--;
@@ -238,10 +238,10 @@ void TestManager::sendQuadToDndModels()
 {
   int questionType;
 
-  if(eraForTestQuestions.size() == 0 && authorForTestQuestions.size() == 0)
+  if(m_eraForTestQuestions.size() == 0 && m_authorForTestQuestions.size() == 0)
   {
     emit questionsIsOver();
-    emit testResultsReady(testResults);
+    emit testResultsReady(m_testResults);
     return;
   }
 
@@ -249,9 +249,9 @@ void TestManager::sendQuadToDndModels()
   std::vector<DropGridItem> dropGridItems;
 
   //рандомный выбор вопроса или из оставшихся
-  if(eraForTestQuestions.size() == 0)
+  if(m_eraForTestQuestions.size() == 0)
     questionType=0;//вопрос из authorQuadQuestions
-  else if(authorForTestQuestions.size() == 0)
+  else if(m_authorForTestQuestions.size() == 0)
     questionType=1;//вопрос из eraQuadQuestions
   else
     questionType=getBetween(0,1);
@@ -262,15 +262,15 @@ void TestManager::sendQuadToDndModels()
     //вопросы картина+эпоха
     if(questionType)
     {
-      dragGridItems.push_back(eraForTestQuestions[index].dragGridItem);
-      dropGridItems.push_back(eraForTestQuestions[index].dropGridItem);
-      currentTypeOfQuestionIsEra=true;
+      dragGridItems.push_back(m_eraForTestQuestions[index].dragGridItem);
+      dropGridItems.push_back(m_eraForTestQuestions[index].dropGridItem);
+      m_currentTypeOfQuestionIsEra=true;
     }
     else //вопросы картина+автор
     {
-      dragGridItems.push_back(authorForTestQuestions[index].dragGridItem);
-      dropGridItems.push_back(authorForTestQuestions[index].dropGridItem);
-      currentTypeOfQuestionIsEra=false;
+      dragGridItems.push_back(m_authorForTestQuestions[index].dragGridItem);
+      dropGridItems.push_back(m_authorForTestQuestions[index].dropGridItem);
+      m_currentTypeOfQuestionIsEra=false;
     }
   }
 
@@ -281,7 +281,7 @@ void TestManager::sendQuadToDndModels()
   std::shuffle(dragGridItems.begin(),dragGridItems.end(),g);
   std::shuffle(dropGridItems.begin(),dropGridItems.end(),g);
 
-  if(currentTypeOfQuestionIsEra)
+  if(m_currentTypeOfQuestionIsEra)
     emit newQuestionsHaveEraType();
   else
     emit newQuestionsHaveAuthorType();
@@ -292,7 +292,7 @@ void TestManager::sendQuadToDndModels()
 
 DragGridItem TestManager::createDragItem(Art art)
 {
-  DragGridItem dragItem("Picture", art.imgName, art.imgPath, -1);
+  DragGridItem dragItem("Picture", art.imgName, art.imgPath);
   return dragItem;
 }
 
@@ -318,17 +318,17 @@ void TestManager::increaseQuestionCounter(bool isEraQuestion, int &eraQuestionsC
 
 void TestManager::pointToRightVector(std::vector<QuestionWrapper>::iterator &it)
 {
-  if(currentTypeOfQuestionIsEra)
-    it = eraForTestQuestions.begin();
+  if(m_currentTypeOfQuestionIsEra)
+    it = m_eraForTestQuestions.begin();
   else
-    it = authorForTestQuestions.begin();
+    it = m_authorForTestQuestions.begin();
 }
 
 void TestManager::deleteItemFromRightVector(std::vector<QuestionWrapper>::iterator &it)
 {
-  if(currentTypeOfQuestionIsEra)
-    eraForTestQuestions.erase(it);
+  if(m_currentTypeOfQuestionIsEra)
+    m_eraForTestQuestions.erase(it);
   else
-    authorForTestQuestions.erase(it);
+    m_authorForTestQuestions.erase(it);
 }
 

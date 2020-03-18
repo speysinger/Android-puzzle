@@ -12,12 +12,13 @@ Item {
         Text {
             id: _firstText
             anchors.verticalCenter: _firstColumnId.verticalCenter
-            text: _listModel.isTestingModule_?(eraName):(eraName + ' Файлов '+ filesCount)
-            font{
+            text: _listModel.isTestingModule()?(eraName):(eraName + ' Файлов '+ filesCount)
+            font {
                 pointSize: Math.min(_currentItem.width===0?6:_currentItem.width,
-                                    _currentItem.height===0?6:_currentItem.height)/6
+                                    _currentItem.height===0?6:_currentItem.height)/6.7
                 bold:true
             }
+            wrapMode: Text.WrapAnywhere
         }
     }
     Rectangle
@@ -31,7 +32,7 @@ Item {
             id: control
             checked: checkValue==="false" ? false:true
             anchors.right: _secondColumnItem.right
-            anchors.rightMargin: _secondColumnItem.width*0.05
+            anchors.rightMargin: _secondColumnItem.width*0.03
 
             indicator: Rectangle {
                 anchors.top: control.top

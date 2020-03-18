@@ -37,6 +37,7 @@ void DropGridModel::setNextDropQuad()
 
 int DropGridModel::rowCount(const QModelIndex &parent) const
 {
+  Q_UNUSED(parent)
   return m_dropItemsList.size();
 }
 
@@ -55,13 +56,18 @@ QVariant DropGridModel::data(const QModelIndex &index, int role) const
   if(!index.isValid() || (role!=itemType && role!=dropItemName && role!=dropItemImageSource))
     return QVariant {};
   int rowIndex=index.row();
+  DropGridItem dropItemAtIndex = m_dropItemsList[rowIndex];
+
   if(role==itemType)
-    return QVariant::fromValue(m_dropItemsList[rowIndex].itemType);
+    return QVariant::fromValue(dropItemAtIndex.itemType);
+
   if(role==dropItemName)
-    return QVariant::fromValue(m_dropItemsList[rowIndex].dropItemName);
+    return QVariant::fromValue(dropItemAtIndex.dropItemName);
+
   if(role==answerObjectName)
-    return QVariant::fromValue(m_dropItemsList[rowIndex].answerObjectName);
-  return QVariant::fromValue(m_dropItemsList[rowIndex].dropItemImageSource);
+    return QVariant::fromValue(dropItemAtIndex.answerObjectName);
+
+  return QVariant::fromValue(dropItemAtIndex.dropItemImageSource);
 }
 
 bool DropGridModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -79,18 +85,18 @@ bool DropGridModel::setData(const QModelIndex &index, const QVariant &value, int
 
 bool DropGridModel::insertRows(int row, int count, const QModelIndex &parent)
 {
+  Q_UNUSED(row)
+
   if(count>0){
     beginInsertRows(QModelIndex(),0,3);
     std::vector<DropGridItem>::iterator it=m_fillingList.begin();
-    if(it == m_fillingList.end())
-    {
+    if(m_fillingList.size() == 0)
       return false;
-    }
-    for(int i=0;i<4;i++)
-    {
-      m_dropItemsList.push_back(*it);
-      it=m_fillingList.erase(it);
-    }
+
+    for(auto dropItem : m_fillingList)
+      m_dropItemsList.push_back(dropItem);
+
+    m_fillingList.clear();
     endInsertRows();
   }
   return true;

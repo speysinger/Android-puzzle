@@ -50,7 +50,7 @@ std::set<Author> JsonDocument::getAuthors()
 void JsonDocument::prepareErasArray()
 {
   QJsonArray erasArray;
-  erasArray=QJsonValue(jsonDoc.object().value("eras")).toArray();
+  erasArray=QJsonValue(m_jsonDoc.object().value("eras")).toArray();
   for(int index=0;index<erasArray.size();index++)
   {
     Era era(erasArray.at(index).toObject().value("eraName").toString(),
@@ -63,7 +63,7 @@ void JsonDocument::prepareErasArray()
 void JsonDocument::prepareArtsArray()
 {
   QJsonArray artsArray;
-  artsArray=QJsonValue(jsonDoc.object().value("arts")).toArray();
+  artsArray=QJsonValue(m_jsonDoc.object().value("arts")).toArray();
   for(int index=0;index<artsArray.size();index++)
   {
     QJsonArray m_artAuthorsNames = artsArray.at(index).toObject().value("artAuthors").toArray();
@@ -83,7 +83,7 @@ void JsonDocument::prepareArtsArray()
 void JsonDocument::prepareAuthorsArray()
 {
   QJsonArray authorsArray;
-  authorsArray=QJsonValue(jsonDoc.object().value("authors")).toArray();
+  authorsArray=QJsonValue(m_jsonDoc.object().value("authors")).toArray();
   for(int index=0;index<authorsArray.size();index++)
   {
       Author author(authorsArray.at(index).toObject().value("authorName").toString(),
@@ -98,7 +98,7 @@ void JsonDocument::prepareAuthorsArray()
 void JsonDocument::readJson(const QByteArray &jsonData)
 {
   QJsonParseError docError;
-  jsonDoc = QJsonDocument::fromJson(jsonData, &docError);
+  m_jsonDoc = QJsonDocument::fromJson(jsonData, &docError);
   if (docError.error != QJsonParseError::NoError) {
     throw docError.errorString();
   }
@@ -112,7 +112,7 @@ void JsonDocument::readJson(const QByteArray &jsonData)
 Author JsonDocument::getAuthor(QString authorName)
 {
   QJsonArray authorsArray;
-  authorsArray=QJsonValue(jsonDoc.object().value("authors")).toArray();
+  authorsArray=QJsonValue(m_jsonDoc.object().value("authors")).toArray();
   for(int index=0;index<authorsArray.size();index++)
   {
     if(authorsArray.at(index).toObject().value("authorName").toString() == authorName)

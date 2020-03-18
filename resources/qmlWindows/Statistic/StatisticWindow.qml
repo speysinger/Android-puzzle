@@ -123,7 +123,7 @@ Rectangle {
             id: searchBox
             height: _chooseNumberOfQuestions.height
             placeholderText: "Поиск..."
-            font.pointSize: _toolBar.height*0.7
+            font.pointSize: Math.min(_toolBar.width*0.2, _toolBar.height*0.5)
 
             inputMethodHints: Qt.ImhNoPredictiveText
 

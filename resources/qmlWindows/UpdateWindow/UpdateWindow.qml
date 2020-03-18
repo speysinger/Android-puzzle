@@ -16,7 +16,7 @@ Rectangle {
         width: _updateWindow.width
     }
 
-    EpochList {
+    EraList {
         id: _epochList
         anchors.top: _switchPanel.bottom
         anchors.topMargin: _updateWindow.width*0.03
@@ -26,8 +26,7 @@ Rectangle {
         anchors.bottomMargin: _updateWindow.height*0.15
         anchors.rightMargin: _updateWindow.width*0.05
         width: _updateWindow.width*0.9
-        height: _updateWindow.height*0.88, _epochList.children.item
-        isTestingResultsWindow: false
+        height: _updateWindow.height*0.88
     }
 
     Rectangle {

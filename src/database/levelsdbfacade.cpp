@@ -1,5 +1,4 @@
 #include "levelsdbfacade.h"
-#include "settings/update/pixmaploader.h"
 #include <QDate>
 #include <QString>
 

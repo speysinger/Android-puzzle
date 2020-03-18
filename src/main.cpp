@@ -6,14 +6,9 @@
 
 #include <map>
 #include <iostream>
-#include <settings/update/indexloader.h>
 
 int main(int argc, char *argv[]) {
   QApplication a(argc, argv);
-
-  QThread *thread=new QThread;
-  LOADER.moveToThread(thread);
-  thread->start();
 
   /*QFile levels(":/pictures_db/levels.json");
   if (levels.open(QIODevice::ReadOnly | QFile::Text)) {

@@ -62,7 +62,6 @@ Rectangle {
     EraListView {
         id: _eraListView
         anchors.top: _tablesTitles.bottom
-        //anchors.bottom: _backToTestSettingsWindow.top
         anchors.left: parent.left
         anchors.leftMargin: _testResultsWindow.width*0.01
         anchors.bottomMargin: _testResultsWindow.height*0.2

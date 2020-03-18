@@ -7,7 +7,10 @@
 #include <QObject>
 #include <QHash>
 
-
+///
+/// \brief The StatisticModel class
+/// Данный класс является моделью для qml StatisticTable
+/// Реализует редактирование содержимого TableView
 class StatisticModel: public QAbstractTableModel
 {
   Q_OBJECT
@@ -36,10 +39,10 @@ private:
   void clearList();
   void fillItemsBuffer(QString mode);
 
-  //было бы лучше использовать multimap. сначала вектор затестить
-  std::vector<StatisticsTableItem> tableItems;
-  std::vector<StatisticsTableItem> tableItemsBuffer;
-  std::vector<StatisticsTableItem> allItems;
+  std::vector<StatisticsTableItem> m_tableItems;
+  std::vector<StatisticsTableItem> m_tableItemsBuffer;
+  std::vector<StatisticsTableItem> m_allItems;
+  const int m_columnCount = 4;
 
 };
 

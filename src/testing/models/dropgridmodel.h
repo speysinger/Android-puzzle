@@ -4,7 +4,10 @@
 #include <QAbstractListModel>
 #include "database/levelstructures.h"
 
-
+///
+/// \brief The DropGridModel class
+/// Данный класс является моделью для DropGridModel
+/// Реализует редактирование содержимого DropGridModel
 class DropGridModel:public QAbstractListModel
 {
   Q_OBJECT

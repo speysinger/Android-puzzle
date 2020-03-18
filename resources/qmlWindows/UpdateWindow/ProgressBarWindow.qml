@@ -8,13 +8,11 @@ Rectangle {
     width: Screen.width/4
     height: Screen.height/4
     color:"lemonchiffon"
-    //Получение нового значения прогрессбара
     Connections {
         target: progressInd
-        onProgressChanged: _progressBar.value=progress
+        onProgressChanged: _progressBar.value = progress
     }
 
-    //Обнуление прогресса по окончанию загрузки
     Connections
     {
         target: progressInd

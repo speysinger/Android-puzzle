@@ -8,13 +8,19 @@
 #include <vector>
 #include <set>
 #include <QTime>
+#include "loader.h"
 
+///
+/// \brief The Updater class
+/// Данный класс реализует обновление базы данных(Эпохи/Картины/Авторы)
+/// Предоставляет интерфейс, позволяющий загрузить json и обновить указанный список эпох
 class Updater:public QObject
 {
   Q_OBJECT
 public:
   Updater();
   void UploadSelectedItems(std::vector<EraListModelItem> &selectedEras);
+  void loadJson();
 public slots:
   void fillUpdatableLists(const QByteArray &jsonData);
 
@@ -40,6 +46,8 @@ private:
     }
   };
 
+  QString getUpdatableItemPath(QString url);
+
   void fillListOfUpdatableEras(JsonDocument &loadedJson);
   void fillListOfUpdatableArts(JsonDocument &loadedJson);
   void fillListOfUpdatableAuthors(JsonDocument &loadedJson);
@@ -51,11 +59,14 @@ private:
   void downloadArt(UpdatableItemWrapper<Art> art);
   void downloadAuthor(UpdatableItemWrapper<Author> author);
 
-  std::set<UpdatableItemWrapper<Era>> updatableEras;
-  std::set<UpdatableItemWrapper<Art>> updatableArts;
-  std::set<UpdatableItemWrapper<Author>> updatableAuthors;
+  std::set<UpdatableItemWrapper<Era>> m_updatableEras;
+  std::set<UpdatableItemWrapper<Art>> m_updatableArts;
+  std::set<UpdatableItemWrapper<Author>> m_updatableAuthors;
 
-  QTime timer;
+  Loader *pixmapLoader = new Loader();
+  Loader *jsonLoader = new Loader();
+
+  QString const jsonPath = "https://pro-prof.com/artists-puzzle/load_1/levels.json";
 
 signals:
   void itemsLoaded(std::vector<EraListModelItem> vec, bool isTestingModule);

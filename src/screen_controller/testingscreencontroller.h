@@ -11,6 +11,9 @@ class TestSettingsWidget;
 class WidgetOfTesting;
 class TestResultsWidget;
 
+///
+/// \brief The TestingScreenController class
+/// Данный класс реализует управление показом окон, связанных с тестированием
 class TestingScreenController : public ScreensStack {
   Q_OBJECT
 public:

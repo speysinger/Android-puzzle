@@ -48,8 +48,7 @@ SOURCES += \
     database/settingsdbfacade.cpp \
     html_view/scrolledtextbrowser.cpp \
     settings/update/eralistmodel.cpp \
-    settings/update/pixmaploader.cpp \
-    settings/update/indexloader.cpp \
+    settings/update/loader.cpp \
     settings/update/progressbarwidget.cpp \
     settings/update/updater.cpp \
     settings/update/updatewidget.cpp \
@@ -102,6 +101,7 @@ HEADERS += \
     screen_controller/settingsscreencontroller.h \
     screen_controller/testingscreencontroller.h \
     settings/update/eralistmodel.h \
+    settings/update/loader.h \
     settings/update/progressbarwidget.h \
     settings/update/qmlbuttonshandler.h \
     settings/update/qmlwidget.h \
@@ -113,8 +113,6 @@ HEADERS += \
     html_view/helpviewer.h \
     html_view/scrolledtextbrowser.h \
     settings/settingwidget.h \
-    settings/update/pixmaploader.h \
-    settings/update/indexloader.h \
     sound_controller/media.h \
     sound_controller/soundcontroller.h \
     sound_controller/universalmodebutton.h \

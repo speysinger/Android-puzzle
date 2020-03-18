@@ -4,10 +4,10 @@
 WidgetOfTesting::WidgetOfTesting(QWidget *parent):
   QmlWidget(parent)
 {
-  pathToQmlFile = "qrc:/qmlWindows/DragAndDropWindow/TestingWindow.qml";
+  m_pathToQmlFile = "qrc:/qmlWindows/DragAndDropWindow/TestingWindow.qml";
 
-  this->rootContext()->setContextProperty("titles", testingTitles);
-  this->setSource(QUrl(pathToQmlFile));
-  connect(&TESTMANAGER,&TestManager::newQuestionsHaveEraType, [=]{emit testingTitles->newQuestionsHaveEraType();});
-  connect(&TESTMANAGER,&TestManager::newQuestionsHaveAuthorType, [=]{emit testingTitles->newQuestionsHaveAuthorType();});
+  this->rootContext()->setContextProperty("titles", m_testingTitles);
+  this->setSource(QUrl(m_pathToQmlFile));
+  connect(&TESTMANAGER,&TestManager::newQuestionsHaveEraType, [=]{emit m_testingTitles->newQuestionsHaveEraType();});
+  connect(&TESTMANAGER,&TestManager::newQuestionsHaveAuthorType, [=]{emit m_testingTitles->newQuestionsHaveAuthorType();});
 }

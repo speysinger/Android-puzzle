@@ -17,10 +17,7 @@ struct Era {
   friend uint qHash(const Era &era){
     return qHash(era.name);
   }
-  /*bool operator==(const Era &other) const
-  {
-    return other.name==name;
-  }*/
+
   bool operator<(const Era &other) const
   {
     return other.name<name;
@@ -143,19 +140,16 @@ struct StatisticsTableItem
 };
 
 
-
-
-struct DropGridItem{
+struct DropGridItem {
   QString itemType;
   QString dropItemName;
   QString dropItemImageSource;
   QString answerObjectName;
-  //Возможно поле parent, если нужна реализация возврата в тестах
 
   DropGridItem(QString itemType_, QString dropItemName_, QString dropItemImageSource_, QString answerObjectName_):
     itemType(itemType_), dropItemName(dropItemName_), dropItemImageSource(dropItemImageSource_), answerObjectName(answerObjectName_){}
 
-  DropGridItem& operator=(const QString newValue){
+  DropGridItem& operator=(const QString newValue) {
     this->answerObjectName = newValue;
     return *this;
   }
@@ -165,14 +159,10 @@ struct DragGridItem{
   QString itemType;
   QString dragItemName;
   QString dragItemImageSource;
-  int answerIndex;
 
-  DragGridItem(QString itemType_, QString dragItemName_, QString dragItemImageSource_, int answerIndex_):
-    itemType(itemType_),dragItemName(dragItemName_), dragItemImageSource(dragItemImageSource_), answerIndex(answerIndex_){}
-  DragGridItem& operator=(const size_t newValue){
-    this->answerIndex = newValue;
-    return *this;
-  }
+  DragGridItem(QString itemType_, QString dragItemName_, QString dragItemImageSource_):
+    itemType(itemType_),dragItemName(dragItemName_), dragItemImageSource(dragItemImageSource_){}
+
 };
 
 #endif // LEVELSTRUCTURES_H

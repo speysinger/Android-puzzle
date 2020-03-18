@@ -6,7 +6,6 @@
 #include <QDebug>
 
 #include "buttons/styledbutton.h"
-#include "update/indexloader.h"
 
 SettingWidget::SettingWidget(QWidget* parent): QWidget(parent),
   m_line_path(this),
@@ -68,8 +67,3 @@ void SettingWidget::setSound() {
   Settings mySetting("sound", m_combo_sound.currentText());
   DBSettings.set(mySetting);
 }
-
-/*void SettingWidget::loadSelected() {
-  //push(m_update);
-  //QQmlApplicationEngine engine("qrc:/qmlWindows/UpdateWindow/UpdateWindow.qml");
-}*/

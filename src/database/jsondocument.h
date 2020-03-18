@@ -9,10 +9,13 @@
 #include <QJsonValue>
 #include <QJsonObject>
 #include <database/levelstructures.h>
-#include "settings/update/pixmaploader.h"
 #include <QDate>
 #include <set>
 
+
+///
+/// \brief The JsonDocument class
+/// Данный класс реализует парсер Json документа под структуры(Era, Art, Author)
 class JsonDocument:public QObject
 {
   Q_OBJECT
@@ -32,16 +35,12 @@ public:
 
 
   Author getAuthor(QString authorName);
-  //<For update
-  //std::vector<Author> getArtAuthors(const QString &authorName);
   std::vector<Author> getArtAuthors(const QJsonArray &artAuthorsNames);
-  //maybe no need of this function
   Author &getAuthorByName(QString &authorName);
-  //For update>
 
 private:
 
-  QJsonDocument jsonDoc;
+  QJsonDocument m_jsonDoc;
 
   std::set<Era> m_erasArray;
   std::set<Art> m_artsArray;

@@ -48,8 +48,8 @@ MainMenuScreenController::  MainMenuScreenController(QWidget* parent)
     push(m_game);
   });
   connect(m_menu,&MainMenuScreen::statisticSelected, [=]{
-    m_statistic->loadStatistic();
     push(m_statistic);
+    m_statistic->loadStatistic();
   });
 
 

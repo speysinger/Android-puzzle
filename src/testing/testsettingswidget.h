@@ -5,6 +5,9 @@
 #include "settings/update/qmlbuttonshandler.h"
 #include "settings/update/qmlwidget.h"
 
+///
+/// \brief The TestSettingsWidget class
+/// Данный класс реализует создание окна настроек тестирования
 class TestSettingsWidget: public QmlWidget
 {
   Q_OBJECT

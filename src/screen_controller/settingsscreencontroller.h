@@ -11,6 +11,9 @@ class SettingWidget;
 class UpdateWidget;
 class UpdateProgressBar;
 
+///
+/// \brief The SettingsScreenController class
+/// Данный класс реализует управление показом окон, связанных с тестированием и настройками(путь до файла, звук)
 class SettingsScreenController : public ScreensStack {
   Q_OBJECT
 public:

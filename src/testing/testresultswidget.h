@@ -5,6 +5,9 @@
 #include "settings/update/qmlbuttonshandler.h"
 #include "settings/update/qmlwidget.h"
 
+///
+/// \brief The TestResultsWidget class
+/// Данный класс реализует создание окна вывода статистики тестирования
 class TestResultsWidget: public QmlWidget
 {
   Q_OBJECT

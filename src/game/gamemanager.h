@@ -8,6 +8,11 @@
 class PuzzleGame;
 class Art;
 
+
+///
+/// \brief The GameManager class
+/// Данный класс реализует: создание игры(PuzzleGame) по входящим данным
+/// Сбор и запись в бд игровой статистики
 class GameManager: public QObject
 {
   Q_OBJECT
@@ -21,11 +26,10 @@ public:
 
   Art getArt();
 
-
   void addStatisticRecord(int puzzleCollectionTime);
 
   private:
-  void getGame(PuzzleGame *puzzleGame, Art art, Mode mode);
+  void setGame(PuzzleGame *puzzleGame, Art art, Mode mode);
 
   template<typename T, typename... Args>
   std::unique_ptr<T> make_unique(Args&&... args) {
@@ -33,7 +37,7 @@ public:
   }
 
    std::unique_ptr<Art> m_currentArt;
-   Mode artPuzzleMode;
+   Mode m_artPuzzleMode;
 };
 
 #endif // GAMEMANAGER_H

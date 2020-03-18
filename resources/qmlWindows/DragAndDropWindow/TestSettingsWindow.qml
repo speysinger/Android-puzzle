@@ -25,7 +25,7 @@ Rectangle {
         width: _testSettingsWindow.width
     }
 
-    EpochList {
+    EraList {
         id: _epochList
         anchors.top: _switchPanel.bottom
         anchors.topMargin: _testSettingsWindow.height*0.01
@@ -34,7 +34,6 @@ Rectangle {
         anchors.rightMargin: _testSettingsWindow.width*0.05
         width: _testSettingsWindow.width*0.9
         height: _testSettingsWindow.height*0.68
-        isTestingResultsWindow: false
     }
 
     TabBar {
@@ -168,10 +167,6 @@ Rectangle {
             onClicked:{
                 _epochList.chooseCorrectModelData("testSettings")
             }
-            /*Connections {
-                    target: _epochList
-                    onSomethingSelected: buttonsHandler.loadButtonPressed()
-                }*/
         }
     }
     PopUpNotification{
