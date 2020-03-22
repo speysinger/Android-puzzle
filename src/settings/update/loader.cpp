@@ -9,8 +9,8 @@
 Loader::Loader() : QObject(){
 }
 
-QNetworkReply *Loader::load(QString url) {
-
+QNetworkReply *Loader::load(QString url)
+{
   QEventLoop loop;
   QNetworkReply *loadedFile;
   connect(&m_manager,SIGNAL(finished(QNetworkReply*)),&loop,SLOT(quit()));
@@ -18,6 +18,10 @@ QNetworkReply *Loader::load(QString url) {
   loop.exec();
 
   if(loadedFile->error() != QNetworkReply::NoError) {
+    qDebug()<<"error";
+    loadedFile->abort();
+    loadedFile->deleteLater();
+    m_manager.clearAccessCache();
     throw NetworkReplyException("in DataLoader: " + loadedFile->errorString().toStdString());
   }
 
@@ -26,7 +30,13 @@ QNetworkReply *Loader::load(QString url) {
 
 void Loader::loadPixmap(QString url, QString imagePath)
 {
-  QNetworkReply *reply = load(url);
+  QNetworkReply *reply;
+  try {
+    reply = load(url);
+  } catch(NetworkReplyException error) {
+    throw std::runtime_error("Network error");
+  }
+
   QPixmap pixmap;
   pixmap.loadFromData(reply->readAll());
   pixmap.save(imagePath, "JPG");
@@ -35,7 +45,12 @@ void Loader::loadPixmap(QString url, QString imagePath)
 
 void Loader::loadJSON(QString url)
 {
-  QNetworkReply *reply = load(url);
+  QNetworkReply *reply;
+  try {
+    reply = load(url);
+  } catch(NetworkReplyException error) {
+    throw std::runtime_error("Network error");
+  }
   QByteArray JSONdoc = reply->readAll();
 
   emit loaded(JSONdoc);

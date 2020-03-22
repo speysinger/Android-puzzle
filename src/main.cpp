@@ -10,6 +10,7 @@
 int main(int argc, char *argv[]) {
   QApplication a(argc, argv);
 
+
   /*QFile levels(":/pictures_db/levels.json");
   if (levels.open(QIODevice::ReadOnly | QFile::Text)) {
     DB.loadLevels(levels.readAll());

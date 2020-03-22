@@ -66,6 +66,8 @@ private:
   void pointToRightVector(std::vector<QuestionWrapper>::iterator &it);
   void deleteItemFromRightVector(std::vector<QuestionWrapper>::iterator &it);
 
+  int getQuestionType();
+
 
   /// \brief
   ///  Обёртка над вопросом
@@ -92,7 +94,7 @@ private:
       era(era_), questionsAndAnswers(questionsAndAnswers_){}
 
     bool operator==(const QString &findEraName) const {
-      return era.name==findEraName;
+      return era.name == findEraName;
     }
 
   };

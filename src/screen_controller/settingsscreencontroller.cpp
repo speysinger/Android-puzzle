@@ -27,10 +27,10 @@ SettingsScreenController::SettingsScreenController(QWidget *parent)
   });
 
   connect(m_settings, SIGNAL(back()), SIGNAL(back()));
-
   connect(m_progressBar,&ProgressBarWidget::backButtonPressed,[=]{
+    pop();
     UPDATER.loadJson();
-   pop();});
+   });
 
   push(m_settings);
 }

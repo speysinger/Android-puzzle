@@ -33,12 +33,10 @@ void TestManager::loadAvailableEras()
   std::vector<Era> allEras;
 
   allEras=DB.eras();
-  std::vector<Era>::iterator erasIt=allEras.begin();
 
-  for(;erasIt!=allEras.end();erasIt++)
+  for(auto& era : allEras)
   {
-    std::vector<Art> eraArts=DB.arts(*erasIt);
-    std::vector<Art>::iterator artsIt=eraArts.begin();
+    std::vector<Art> eraArts=DB.arts(era);
     if(eraArts.size()>0)
     {
       bool hasDomesticArts=false;
@@ -46,21 +44,20 @@ void TestManager::loadAvailableEras()
 
       std::vector<QuestionWrapper> questionsAndAnswers;
 
-      for(;artsIt!=eraArts.end();artsIt++)
+      for(auto& eraArt : eraArts)
       {
+        DragGridItem dragItem = createDragItem(eraArt);
+        DropGridItem eraDropItem = createDropItem(era);
 
-        DragGridItem dragItem = createDragItem(*artsIt);
-        DropGridItem eraDropItem = createDropItem(*erasIt);
-
-        bool isDomestic = artsIt->domestic;
+        bool isDomestic = eraArt.domestic;
         questionsAndAnswers.push_back(QuestionWrapper(dragItem, eraDropItem, true, isDomestic));
 
-        if(artsIt->domestic && !hasDomesticArts)
+        if(eraArt.domestic && !hasDomesticArts)
           hasDomesticArts=true;
-        else if(!artsIt->domestic && !hasInternationalArts)
+        else if(!eraArt.domestic && !hasInternationalArts)
           hasInternationalArts=true;
 
-        std::vector<Author> artAuthors=DB.getAuthorsOfArt(artsIt->imgName);
+        std::vector<Author> artAuthors=DB.getAuthorsOfArt(eraArt.imgName);
         std::vector<Author>::iterator authorsIt=artAuthors.begin();
 
         for(;authorsIt!=artAuthors.end();authorsIt++)
@@ -76,9 +73,9 @@ void TestManager::loadAvailableEras()
       if(hasInternationalArts)
         internationalFilesCount=2;
 
-      availableForTestingEras.push_back(EraListModelItem(erasIt->name, domesticFilesCount, internationalFilesCount, false,
+      availableForTestingEras.push_back(EraListModelItem(era.name, domesticFilesCount, internationalFilesCount, false,
                                                          false, hasDomesticArts, hasInternationalArts));
-      m_eraModule.push_back(eraModuleQuestionsWrapper(*erasIt, questionsAndAnswers));
+      m_eraModule.push_back(eraModuleQuestionsWrapper(era, questionsAndAnswers));
     }
   }
   emit erasReady(availableForTestingEras,true);
@@ -109,10 +106,10 @@ void TestManager::startTesting(std::vector<EraListModelItem> selectedEras, int b
   std::random_device rd;
   std::mt19937 g(rd());
 
-  int eraQuestions=0, artQuestions=0,countOfQuestions=0;
+  int eraQuestions = 0, artQuestions = 0, countOfQuestions = 0;
   getNumberOfQuestions(eraQuestions, artQuestions, selectedEras);
 
-  countOfQuestions=convertButtonNumberToNumberQuestions(buttonNumber);
+  countOfQuestions = convertButtonNumberToNumberQuestions(buttonNumber);
 
   if((eraQuestions/questionItems + artQuestions/questionItems) < countOfQuestions)
   {
@@ -123,28 +120,28 @@ void TestManager::startTesting(std::vector<EraListModelItem> selectedEras, int b
     emit possibleToStartTesting();
 
   ///Приведение счётчика вопросов к модулю размерностью в 4 вопроса
-  countOfQuestions*=questionItems;
+  countOfQuestions *= questionItems;
 
   std::vector<QuestionWrapper> eraQuestionsQuad_;
   std::vector<QuestionWrapper> authorQuestionsQuad_;
 
-  for(int index=0; countOfQuestions!=0; index++)
+  while(countOfQuestions != 0)
   {
-    size_t randomEra = getBetween(0, selectedEras.size()-1);
+    size_t randomEra = getBetween(0, selectedEras.size() - 1);
 
     auto it = find(m_eraModule.begin(), m_eraModule.end(), selectedEras[randomEra].eraName);
     auto &eraQuestions = *it;
 
-    int questionsSize=eraQuestions.questionsAndAnswers.size();
+    int eraQuestionsSize = eraQuestions.questionsAndAnswers.size();
 
-    if(questionsSize == 0)
+    if(eraQuestionsSize == 0)
     {
       m_eraModule.erase(it);
-      selectedEras.erase(selectedEras.begin()+randomEra);
+      selectedEras.erase(selectedEras.begin() + randomEra);
       continue;
     }
 
-    size_t questionsRandomShift = getBetween(0, (questionsSize-1));
+    size_t questionsRandomShift = getBetween(0, (eraQuestionsSize - 1));
 
     auto randomItemIterator = (it->questionsAndAnswers.begin() + questionsRandomShift);
     QuestionWrapper &randomItemForInsert = *randomItemIterator;
@@ -156,18 +153,18 @@ void TestManager::startTesting(std::vector<EraListModelItem> selectedEras, int b
 
     it->questionsAndAnswers.erase(randomItemIterator);
 
-    if(eraQuestionsQuad_.size() == 4)
+    if(eraQuestionsQuad_.size() == questionItems)
     {
       m_eraForTestQuestions.insert(m_eraForTestQuestions.end(), eraQuestionsQuad_.begin(), eraQuestionsQuad_.end());
       eraQuestionsQuad_.clear();
-      countOfQuestions-=4;
+      countOfQuestions -= questionItems;
     }
 
-    if(authorQuestionsQuad_.size() == 4)
+    if(authorQuestionsQuad_.size() == questionItems)
     {
       m_authorForTestQuestions.insert(m_authorForTestQuestions.end(), authorQuestionsQuad_.begin(), authorQuestionsQuad_.end());
       authorQuestionsQuad_.clear();
-      countOfQuestions-=4;
+      countOfQuestions -= questionItems;
     }
   }
   sendQuadToDndModels();
@@ -186,21 +183,21 @@ void TestManager::takeResultsFromDropModel(std::vector<DropGridItem> results)
 
 void TestManager::findCorrectAnswers(std::vector<DropGridItem> &results, int &residueCount)
 {
-  std::vector<DropGridItem>::iterator dropIt=results.begin();
+  std::vector<DropGridItem>::iterator dropIt = results.begin();
   for(int dropItemsIndex = 0; dropItemsIndex < residueCount; dropItemsIndex++, dropIt++)
   {
     std::vector<QuestionWrapper>::iterator questionsIt;
 
     pointToRightVector(questionsIt);
 
-    for(int quadQuestionsIndex=0; quadQuestionsIndex<residueCount; quadQuestionsIndex++, questionsIt++)
+    for(int quadQuestionsIndex = 0; quadQuestionsIndex < residueCount; quadQuestionsIndex++, questionsIt++)
     {
       //если найдена пара вопрос+ответ как дал пользователь
       if((dropIt->answerObjectName == questionsIt->dragGridItem.dragItemName)
-         &&dropIt->dropItemName == questionsIt->dropGridItem.dropItemName)
+         && dropIt->dropItemName == questionsIt->dropGridItem.dropItemName)
       {
         m_testResults.push_back(TestResultsItem(questionsIt->dropGridItem.dropItemName, dropIt->answerObjectName,
-                                              questionsIt->dragGridItem.dragItemName));
+                                                questionsIt->dragGridItem.dragItemName));
         dropIt=results.erase(dropIt--);
         residueCount--;
         deleteItemFromRightVector(questionsIt);
@@ -213,7 +210,7 @@ void TestManager::findCorrectAnswers(std::vector<DropGridItem> &results, int &re
 void TestManager::findWrongAnswers(std::vector<DropGridItem> &results, int &residueCount)
 {
   std::vector<DropGridItem>::iterator dropIt=results.begin();
-  while(residueCount!=0)
+  while(residueCount != 0)
   {
     std::vector<QuestionWrapper>::iterator questionsIt;
     pointToRightVector(questionsIt);
@@ -224,7 +221,7 @@ void TestManager::findWrongAnswers(std::vector<DropGridItem> &results, int &resi
       if(dropIt->dropItemName == questionsIt->dropGridItem.dropItemName)
       {
         m_testResults.push_back(TestResultsItem(questionsIt->dropGridItem.dropItemName, dropIt->answerObjectName,
-                                              questionsIt->dragGridItem.dragItemName));
+                                                questionsIt->dragGridItem.dragItemName));
         dropIt=results.erase(dropIt);
         residueCount--;
         deleteItemFromRightVector(questionsIt);
@@ -238,6 +235,9 @@ void TestManager::sendQuadToDndModels()
 {
   int questionType;
 
+  std::vector<DragGridItem> dragGridItems;
+  std::vector<DropGridItem> dropGridItems;
+
   if(m_eraForTestQuestions.size() == 0 && m_authorForTestQuestions.size() == 0)
   {
     emit questionsIsOver();
@@ -245,33 +245,17 @@ void TestManager::sendQuadToDndModels()
     return;
   }
 
-  std::vector<DragGridItem> dragGridItems;
-  std::vector<DropGridItem> dropGridItems;
+  questionType = getQuestionType();
 
-  //рандомный выбор вопроса или из оставшихся
-  if(m_eraForTestQuestions.size() == 0)
-    questionType=0;//вопрос из authorQuadQuestions
-  else if(m_authorForTestQuestions.size() == 0)
-    questionType=1;//вопрос из eraQuadQuestions
-  else
-    questionType=getBetween(0,1);
-
-
-  for(int index=0;index<4;index++)
+  for(size_t index = 0; index < questionItems; index++)
   {
-    //вопросы картина+эпоха
-    if(questionType)
-    {
-      dragGridItems.push_back(m_eraForTestQuestions[index].dragGridItem);
-      dropGridItems.push_back(m_eraForTestQuestions[index].dropGridItem);
-      m_currentTypeOfQuestionIsEra=true;
-    }
-    else //вопросы картина+автор
-    {
-      dragGridItems.push_back(m_authorForTestQuestions[index].dragGridItem);
-      dropGridItems.push_back(m_authorForTestQuestions[index].dropGridItem);
-      m_currentTypeOfQuestionIsEra=false;
-    }
+    QuestionWrapper questionWrapper = questionType ?
+          m_eraForTestQuestions[index] : m_authorForTestQuestions[index];
+    //questionType ==1 (eratype) else author
+    m_currentTypeOfQuestionIsEra = questionType;
+
+    dragGridItems.push_back(questionWrapper.dragGridItem);
+    dropGridItems.push_back(questionWrapper.dropGridItem);
   }
 
   ///псевдо-генератор для std::shuffle
@@ -330,5 +314,15 @@ void TestManager::deleteItemFromRightVector(std::vector<QuestionWrapper>::iterat
     m_eraForTestQuestions.erase(it);
   else
     m_authorForTestQuestions.erase(it);
+}
+
+int TestManager::getQuestionType()
+{
+  if(m_eraForTestQuestions.size() == 0)
+    return 0;//вопрос из authorQuadQuestions
+  else if(m_authorForTestQuestions.size() == 0)
+    return 1;//вопрос из eraQuadQuestions
+  else
+    return getBetween(0,1);//рандом между 0 и 1
 }
 

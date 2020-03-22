@@ -6,15 +6,15 @@
 
 Updater::Updater()
 {
-  QThread *thread=new QThread;
-  jsonLoader->moveToThread(thread);
-  thread->start();
-
   connect(jsonLoader, SIGNAL(loaded(const QByteArray &)), this, SLOT(fillUpdatableLists(const QByteArray&)), Qt::AutoConnection);
 }
 
 void Updater::fillUpdatableLists(const QByteArray &jsonData)
 {
+  m_updatableEras.clear();
+  m_updatableArts.clear();
+  m_updatableAuthors.clear();
+
   JsonDocument loadedJson;
   loadedJson.readJson(jsonData);
 
@@ -211,7 +211,12 @@ int Updater::countSelectedForUpdateItems(std::vector<EraListModelItem> &selected
 void Updater::downloadEra(UpdatableItemWrapper<Era> era)
 {
   QString pixmapPath = getUpdatableItemPath(era.object.imgPath);
-  pixmapLoader->loadPixmap(era.object.imgPath, pixmapPath);
+  try {
+    pixmapLoader->loadPixmap(era.object.imgPath, pixmapPath);
+  } catch (const std::runtime_error& error) {
+    qDebug()<<error.what();
+    return;
+  }
 
   era.object.imgPath = pixmapPath;
   if(era.updateFiles == LOAD)
@@ -224,8 +229,12 @@ void Updater::downloadEra(UpdatableItemWrapper<Era> era)
 void Updater::downloadArt(UpdatableItemWrapper<Art> art)
 {
   QString pixmapPath = getUpdatableItemPath(art.object.imgPath);
-  pixmapLoader->loadPixmap(art.object.imgPath, pixmapPath);
-
+  try {
+    pixmapLoader->loadPixmap(art.object.imgPath, pixmapPath);
+  } catch(const std::runtime_error& error) {
+    qDebug()<<error.what();
+    return;
+  }
   art.object.imgPath= pixmapPath;
   if(art.updateFiles == LOAD)
   {
@@ -241,8 +250,12 @@ void Updater::downloadArt(UpdatableItemWrapper<Art> art)
 void Updater::downloadAuthor(UpdatableItemWrapper<Author> author)
 {
   QString pixmapPath = getUpdatableItemPath(author.object.imgPath);
-  pixmapLoader->loadPixmap(author.object.imgPath, pixmapPath);
-
+  try {
+    pixmapLoader->loadPixmap(author.object.imgPath, pixmapPath);
+  } catch(const std::runtime_error& error) {
+    qDebug()<<error.what();
+    return;
+  }
   author.object.imgPath = pixmapPath;
   if(author.updateFiles == LOAD)
     DB.addAuthor(author.object);
@@ -261,8 +274,6 @@ void Updater::UploadSelectedItems(std::vector<EraListModelItem> &selectedEras)
   int itemsForUpdateCount = countSelectedForUpdateItems(selectedEras);
 
   emit maxValueCalculated(itemsForUpdateCount);
-  std::vector<EraListModelItem> eraListModelItems;
-
 
   for(auto& art : m_updatableArts)
   {
@@ -310,7 +321,11 @@ void Updater::UploadSelectedItems(std::vector<EraListModelItem> &selectedEras)
 
 void Updater::loadJson()
 {
-  jsonLoader->loadJSON(jsonPath);
+  try {
+    jsonLoader->loadJSON(jsonPath);
+  } catch(const std::runtime_error& error) {
+    qDebug()<<error.what();
+  }
 }
 
 
