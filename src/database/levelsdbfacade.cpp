@@ -510,7 +510,7 @@ std::vector<StatisticsTableItem> LevelsDBFacade::getAllStatistic()
 
 
 void LevelsDBFacade::loadLevels(const QByteArray &jsonData) {
-  JsonDocument jsonDoc;
+  JsonParser jsonDoc;
 
   std::set<Era>eras;
   std::set<Art>arts;

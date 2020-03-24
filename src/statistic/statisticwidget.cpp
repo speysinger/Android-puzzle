@@ -1,6 +1,5 @@
 #include "statisticwidget.h"
 
-#include <QtQuick>
 #include <QQuickItem>
 
 #include "statisticmodel.h"

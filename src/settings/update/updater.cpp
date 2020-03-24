@@ -1,21 +1,21 @@
 #include "updater.h"
 #include "QDate"
-#include <set>
 #include <algorithm>
 #include "progressbarwidget.h"
 
 Updater::Updater()
 {
-  connect(jsonLoader, SIGNAL(loaded(const QByteArray &)), this, SLOT(fillUpdatableLists(const QByteArray&)), Qt::AutoConnection);
+  connect(jsonLoader, SIGNAL(loaded(const QByteArray &)), this, SLOT(fillUpdatableLists(const QByteArray&)));
 }
 
 void Updater::fillUpdatableLists(const QByteArray &jsonData)
 {
+  qDebug()<<"FILL";
   m_updatableEras.clear();
   m_updatableArts.clear();
   m_updatableAuthors.clear();
 
-  JsonDocument loadedJson;
+  JsonParser loadedJson;
   loadedJson.readJson(jsonData);
 
   fillListOfUpdatableEras(loadedJson);
@@ -37,7 +37,7 @@ QString Updater::getUpdatableItemPath(QString url)
   return path;
 }
 
-void Updater::fillListOfUpdatableEras(JsonDocument &loadedJson)
+void Updater::fillListOfUpdatableEras(JsonParser &loadedJson)
 {
   m_updatableEras.clear();
   std::set<Era> erasFromDB,erasFromLoadedFile;
@@ -63,7 +63,7 @@ void Updater::fillListOfUpdatableEras(JsonDocument &loadedJson)
   }
 }
 
-void Updater::fillListOfUpdatableArts(JsonDocument &loadedJson)
+void Updater::fillListOfUpdatableArts(JsonParser &loadedJson)
 {
   m_updatableArts.clear();
   std::set<Art> artsFromDB,artsFromLoadedFile;
@@ -88,7 +88,7 @@ void Updater::fillListOfUpdatableArts(JsonDocument &loadedJson)
   }
 }
 
-void Updater::fillListOfUpdatableAuthors(JsonDocument &loadedJson)
+void Updater::fillListOfUpdatableAuthors(JsonParser &loadedJson)
 {
   m_updatableAuthors.clear();
   std::set<Author> authorsFromDB, authorsFromLoadedFile;
@@ -309,7 +309,6 @@ void Updater::UploadSelectedItems(std::vector<EraListModelItem> &selectedEras)
             if(foundedAuthor->updateFiles != NOTHING)
             {
               downloadAuthor(*foundedAuthor);
-              foundedAuthor->updateFiles = NOTHING;
               m_updatableAuthors.erase(foundedAuthor);
             }
           }

@@ -4,7 +4,6 @@
 #include "testing/models/testingresultsmodel.h"
 #include "testing/models/draggridmodel.h"
 #include "testing/models/dropgridmodel.h"
-#include <QQmlEngine>
 
 TestingScreenController::TestingScreenController(QWidget *parent)
   :ScreensStack(parent)

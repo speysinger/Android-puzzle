@@ -2,12 +2,12 @@
 # define LEVELSDBFACADE_H
 
 #include "dbfacade.h"
-#include <QSqlRelationalTableModel>
-#include <map>
 #include "singleton.h"
 #include "levelstructures.h"
 #include "settingsdbfacade.h"
-#include "jsondocument.h"
+#include "jsonparser.h"
+
+#include <QSqlRelationalTableModel>
 #include <vector>
 
 class LevelsDBFacade : public DBFacade {

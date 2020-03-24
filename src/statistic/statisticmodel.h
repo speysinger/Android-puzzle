@@ -4,7 +4,6 @@
 #include <QAbstractTableModel>
 #include "database/levelstructures.h"
 #include <vector>
-#include <QObject>
 #include <QHash>
 
 ///

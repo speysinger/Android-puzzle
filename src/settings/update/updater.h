@@ -3,11 +3,9 @@
 
 #include <database/levelsdbfacade.h>
 #include <database/levelstructures.h>
-#include <database/jsondocument.h>
-#include <QObject>
+#include <database/jsonparser.h>
 #include <vector>
 #include <set>
-#include <QTime>
 #include "loader.h"
 
 ///
@@ -48,9 +46,9 @@ private:
 
   QString getUpdatableItemPath(QString url);
 
-  void fillListOfUpdatableEras(JsonDocument &loadedJson);
-  void fillListOfUpdatableArts(JsonDocument &loadedJson);
-  void fillListOfUpdatableAuthors(JsonDocument &loadedJson);
+  void fillListOfUpdatableEras(JsonParser &loadedJson);
+  void fillListOfUpdatableArts(JsonParser &loadedJson);
+  void fillListOfUpdatableAuthors(JsonParser &loadedJson);
 
   void sendUpdatableInfoToQml();
   int countSelectedForUpdateItems(std::vector<EraListModelItem> &selectedEras);

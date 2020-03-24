@@ -3,25 +3,26 @@
 
 #include <QQmlContext>
 #include "qmlwidget.h"
+#include <cmath>
 
 ///
 /// \brief The LoadHandler class
 /// Данный класс реализует взаимодействие с прогресс баром QML
 /// Класс устанавливает пиковое значение, изменяет прогресс загрузки и уведомляет об этом
-class LoadHandler:public QObject
+class LoadHandler: public QObject
 {
   Q_OBJECT
   Q_PROPERTY(float progress READ progress NOTIFY progressChanged)
 public:
   void setMaxValue(int value){
-    m_numberOfUpdatedItems=value;
+    m_numberOfUpdatedItems = value;
   }
   void incValue()
   {
     m_currentProgress++;
     emit progressChanged(ceil((float(m_currentProgress)/float(m_numberOfUpdatedItems))*100));
 
-    if(m_currentProgress >= m_numberOfUpdatedItems)
+    if(m_currentProgress == m_numberOfUpdatedItems)
     {
       stopLoad();
     }
@@ -58,9 +59,9 @@ public:
   ProgressBarWidget(QWidget *parent=nullptr);
   void startUp();
 signals:
-    void backButtonPressed();
+  void backButtonPressed();
 private:
-    LoadHandler *m_loadHandler = new LoadHandler();
+  LoadHandler *m_loadHandler = new LoadHandler();
 };
 
 

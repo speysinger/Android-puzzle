@@ -1,7 +1,7 @@
 #include "puzzlegame.h"
 #include "itemground.h"
 #include "random_points.h"
-#include "buttons/styledbutton.h"
+#include "ui/buttons/styledbutton.h"
 #include "game/puzzleitem/puzzlematrix.h"
 #include "game/puzzleitem/settableitem.h"
 #include <QGridLayout>

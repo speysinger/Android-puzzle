@@ -1,7 +1,7 @@
 #include "mainmenuscreencontroller.h"
 #include "menu/mainmenuscreen.h"
 #include "gamescreencontroller.h"
-#include "html_view/helpviewer.h"
+#include "ui/html_view/helpviewer.h"
 #include "levelmenuscreencontroller.h"
 #include "settingsscreencontroller.h"
 #include "testingscreencontroller.h"

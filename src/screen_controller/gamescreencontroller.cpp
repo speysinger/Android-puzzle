@@ -1,6 +1,6 @@
 #include "gamescreencontroller.h"
 #include "game/puzzlegame.h"
-#include "html_view/artinfowidget.h"
+#include "ui/html_view/artinfowidget.h"
 #include "database/levelstructures.h"
 #include <memory>
 

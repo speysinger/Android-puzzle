@@ -1,8 +1,8 @@
 #include "levelmenuscreen.h"
 #include <QGridLayout>
-#include "buttons/levelmodewidget.h"
-#include "buttons/styledbutton.h"
-#include "html_view/helpviewer.h"
+#include "ui/buttons/levelmodewidget.h"
+#include "ui/buttons/styledbutton.h"
+#include "ui/html_view/helpviewer.h"
 #include "menu/level_icons_view/iconsview.h"
 
 LevelMenuScreen::LevelMenuScreen(QWidget* parent):

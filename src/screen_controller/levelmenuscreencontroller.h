@@ -4,7 +4,7 @@
 #include "screensstack.h"
 #include "mode.h"
 #include "database/levelstructures.h"
-#include "game/gamemanager.h"
+
 #include <memory>
 
 class GameScreenController;

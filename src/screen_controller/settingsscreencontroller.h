@@ -1,13 +1,12 @@
 #ifndef SETTINGSSCREENCONTROLLER_H
 #define SETTINGSSCREENCONTROLLER_H
 
-
 #include "screensstack.h"
-#include "settings/settingwidget.h"
+#include "settings/optionswidget.h"
 #include "settings/update/updatewidget.h"
 #include "settings/update/progressbarwidget.h"
 
-class SettingWidget;
+class OptionsWidget;
 class UpdateWidget;
 class UpdateProgressBar;
 
@@ -19,7 +18,7 @@ class SettingsScreenController : public ScreensStack {
 public:
   explicit SettingsScreenController(QWidget *parent = nullptr);
 protected:
-   SettingWidget *m_settings;
+   OptionsWidget *m_options;
    UpdateWidget *m_update;
    ProgressBarWidget *m_progressBar;
 };

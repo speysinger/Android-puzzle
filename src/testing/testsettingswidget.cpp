@@ -1,7 +1,6 @@
 #include "testsettingswidget.h"
 #include "testmanager.h"
 
-#include <QtQuick>
 #include <QQuickItem>
 
 

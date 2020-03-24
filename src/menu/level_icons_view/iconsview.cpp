@@ -50,7 +50,6 @@ void IconsView::disposeIcons() {
 void IconsView::scrollContentsBy(int dx, int dy)
 {
   qreal axis, size;
-  int itemsPairs = 0;
 
   QRectF visibleSceneRect = mapToScene(viewport()->rect()).boundingRect();
 

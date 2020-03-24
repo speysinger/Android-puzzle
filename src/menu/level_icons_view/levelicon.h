@@ -1,7 +1,6 @@
 #ifndef LEVELICON_H
 #define LEVELICON_H
 
-#include <QLabel>
 #include <QGraphicsPixmapItem>
 #include "database/levelstructures.h"
 

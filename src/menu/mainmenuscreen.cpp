@@ -1,7 +1,7 @@
 #include "mainmenuscreen.h"
 #include <QGridLayout>
 #include <QPushButton>
-#include "buttons/styledbutton.h"
+#include "ui/buttons/styledbutton.h"
 
 MainMenuScreen::MainMenuScreen(QWidget* parent) : QWidget(parent),
   m_modeWidget(new LevelModeWidget(this)) {

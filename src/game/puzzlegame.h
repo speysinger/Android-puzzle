@@ -28,15 +28,16 @@ signals:
   void back();
 
 protected:
+  const int GroundLayer = 0;
+  int m_selectionLayer;
+  int m_unsetted;
+  bool m_image_orientation;
+
   QGraphicsScene m_scene;
   PuzzleView m_view;
   SoundController m_sound;
   QLabel m_label;
 
-  const int GroundLayer = 0;
-  int m_selectionLayer;
-  int m_unsetted;
-  bool m_image_orientation;
 };
 
 #endif // PUZZLEGAME_H

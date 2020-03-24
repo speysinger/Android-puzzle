@@ -10,15 +10,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 DEFINES += "_GLIBCXX_USE_CXX11_ABI=0"
 
 SOURCES += \
-    buttons/modebutton.cpp \
-    buttons/pickedbutton.cpp \
-    buttons/styledbutton.cpp \
+    database/jsonparser.cpp \
+    settings/optionswidget.cpp \
+    ui/buttons/modebutton.cpp \
+    ui/buttons/pickedbutton.cpp \
+    ui/buttons/styledbutton.cpp \
     database/dbfacade.cpp \
-    database/jsondocument.cpp \
     database/levelsdbfacade.cpp \
-    buttons/levelmodewidget.cpp \
+    ui/buttons/levelmodewidget.cpp \
     game/gamemanager.cpp \
-    html_view/artinfowidget.cpp \
+    ui/html_view/artinfowidget.cpp \
     main.cpp \
     game/pathpoints.cpp \
     game/puzzlepath.cpp \
@@ -41,12 +42,11 @@ SOURCES += \
     game/puzzleitem/movableitem.cpp \
     game/puzzleitem/settableitem.cpp \
     game/puzzleitem/puzzlematrix.cpp \
-    html_view/helpviewer.cpp \
+    ui/html_view/helpviewer.cpp \
     screen_controller/settingsscreencontroller.cpp \
     screen_controller/testingscreencontroller.cpp \
-    settings/settingwidget.cpp \
     database/settingsdbfacade.cpp \
-    html_view/scrolledtextbrowser.cpp \
+    ui/html_view/scrolledtextbrowser.cpp \
     settings/update/eralistmodel.cpp \
     settings/update/loader.cpp \
     settings/update/progressbarwidget.cpp \
@@ -67,11 +67,12 @@ SOURCES += \
     testing/widgetoftesting.cpp
 
 HEADERS += \
-    buttons/modebutton.h \
-    buttons/pickedbutton.h \
-    buttons/styledbutton.h \
+    database/jsonparser.h \
+    settings/optionswidget.h \
+    ui/buttons/modebutton.h \
+    ui/buttons/pickedbutton.h \
+    ui/buttons/styledbutton.h \
     database/dbfacade.h \
-    database/jsondocument.h \
     database/levelsdbfacade.h \
     database/levelstructures.h \
     database/settingsdbfacade.h \
@@ -88,8 +89,8 @@ HEADERS += \
     game/puzzleitem/movableitem.h \
     game/puzzleitem/settableitem.h \
     game/puzzleitem/puzzlematrix.h \
-    buttons/levelmodewidget.h \
-    html_view/artinfowidget.h \
+    ui/buttons/levelmodewidget.h \
+    ui/html_view/artinfowidget.h \
     menu/level_icons_view/iconsview.h \
     menu/level_icons_view/levelicon.h \
     menu/level_icons_view/menuitemproxy.h \
@@ -110,9 +111,8 @@ HEADERS += \
     singleton.h \
     mode.h \
     screen_controller/screensstack.h \
-    html_view/helpviewer.h \
-    html_view/scrolledtextbrowser.h \
-    settings/settingwidget.h \
+    ui/html_view/helpviewer.h \
+    ui/html_view/scrolledtextbrowser.h \
     sound_controller/media.h \
     sound_controller/soundcontroller.h \
     sound_controller/universalmodebutton.h \

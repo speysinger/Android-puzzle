@@ -1,11 +1,12 @@
 #ifndef ERALISTMODEL_H
 #define ERALISTMODEL_H
+
+#include "database/levelstructures.h"
+
 #include <QAbstractListModel>
 #include <vector>
-#include <QObject>
 #include <QHash>
-#include <QList>
-#include "database/levelstructures.h"
+
 
 ///
 /// \brief The EraListModel class

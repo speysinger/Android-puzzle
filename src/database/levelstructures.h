@@ -1,6 +1,6 @@
 #ifndef LEVELSTRUCTURES_H
 #define LEVELSTRUCTURES_H
-#include <QString>
+
 #include <QVariant>
 #include <QDate>
 #include <vector>

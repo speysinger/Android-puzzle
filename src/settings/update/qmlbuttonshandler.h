@@ -1,5 +1,6 @@
 #ifndef QMLBUTTONSHANDLER_H
 #define QMLBUTTONSHANDLER_H
+
 #include <QObject>
 ///
 /// \brief The QmlButtonsHandler class

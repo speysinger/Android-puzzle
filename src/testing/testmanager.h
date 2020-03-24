@@ -1,8 +1,6 @@
 #ifndef TESTMANAGER_H
 #define TESTMANAGER_H
 
-#include <QSet>
-#include <QMap>
 #include <random>
 #include "database/levelstructures.h"
 #include "singleton.h"

@@ -1,5 +1,5 @@
 
-*.png
+/recources/pictures_db
 
 ### C++ ###
 # Prerequisites

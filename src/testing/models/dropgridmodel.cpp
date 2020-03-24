@@ -1,6 +1,5 @@
 #include "dropgridmodel.h"
 #include "testing/testmanager.h"
-#include <QDebug>
 
 DropGridModel::DropGridModel(QObject*parent)
   :QAbstractListModel(parent)
@@ -26,7 +25,7 @@ void DropGridModel::fillDropGrid()
 
 void DropGridModel::clearGrid()
 {
-  removeRows(0,m_dropItemsList.size(),QModelIndex());
+  removeRows(0, m_dropItemsList.size(),QModelIndex());
 }
 
 void DropGridModel::setNextDropQuad()
@@ -86,6 +85,7 @@ bool DropGridModel::setData(const QModelIndex &index, const QVariant &value, int
 bool DropGridModel::insertRows(int row, int count, const QModelIndex &parent)
 {
   Q_UNUSED(row)
+  Q_UNUSED(parent)
 
   if(count>0){
     beginInsertRows(QModelIndex(),0,3);

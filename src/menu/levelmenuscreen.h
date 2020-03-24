@@ -1,8 +1,6 @@
 #ifndef CATEGORYWIDGET_H
 #define CATEGORYWIDGET_H
 
-#include <QWidget>
-#include "database/levelsdbfacade.h"
 #include "mode.h"
 #include "level_icons_view/iconsview.h"
 

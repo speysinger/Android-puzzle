@@ -3,8 +3,6 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QtNetwork>
-#include "database/levelsdbfacade.h"
-#include "database/settingsdbfacade.h"
 
 Loader::Loader() : QObject(){
 }
@@ -45,6 +43,7 @@ void Loader::loadPixmap(QString url, QString imagePath)
 
 void Loader::loadJSON(QString url)
 {
+  qDebug()<<"STart json load";
   QNetworkReply *reply;
   try {
     reply = load(url);
@@ -55,4 +54,5 @@ void Loader::loadJSON(QString url)
 
   emit loaded(JSONdoc);
   reply->deleteLater();
+  qDebug()<<"EndJSONLOAD";
 }

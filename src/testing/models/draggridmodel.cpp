@@ -59,7 +59,7 @@ QVariant DragGridModel::data(const QModelIndex &index, int role) const
 
   if(role==dragItemImageSource)
     return QVariant::fromValue(dragItemAtIndex.dragItemImageSource);
-
+  return QVariant{};
 }
 
 bool DragGridModel::insertRows(int column, int count, const QModelIndex &parent)

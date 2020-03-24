@@ -3,7 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QMap>
+
 #include "menuitemproxy.h"
 
 class IconsView : public QGraphicsView {

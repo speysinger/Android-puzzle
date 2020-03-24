@@ -1,7 +1,6 @@
 #include "eralistmodel.h"
 #include "updater.h"
 #include "testing/testmanager.h"
-#include <QDebug>
 
 EraListModel::EraListModel(QObject *parent)
   :QAbstractListModel(parent)

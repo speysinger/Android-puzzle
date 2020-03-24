@@ -1,5 +1,6 @@
 #ifndef DRAGGRIDMODEL_H
 #define DRAGGRIDMODEL_H
+
 #include <QAbstractListModel>
 #include "database/levelstructures.h"
 
