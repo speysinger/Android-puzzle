@@ -8,36 +8,28 @@
 class PuzzleGame;
 class Art;
 
-
 ///
 /// \brief The GameManager class
 /// Данный класс реализует: создание игры(PuzzleGame) по входящим данным
 /// Сбор и запись в бд игровой статистики
-class GameManager: public QObject
+class GameManager
 {
-  Q_OBJECT
 public:
   GameManager();
 
-  void createGame(PuzzleGame *puzzleGame, Mode mode);
-  void createGame(PuzzleGame *puzzleGame, Author author, Mode mode);
-  void createGame(PuzzleGame *puzzleGame, Era era, Mode mode);
-  void createGame(PuzzleGame *puzzleGame, Art art, Mode mode);
+  void createGame(PuzzleGame* puzzleGame, Mode mode);
+  void createGame(PuzzleGame* puzzleGame, Author author, Mode mode);
+  void createGame(PuzzleGame* puzzleGame, Era era, Mode mode);
+  void createGame(PuzzleGame* puzzleGame, Art art, Mode mode);
 
   Art getArt();
-
   void addStatisticRecord(int puzzleCollectionTime);
 
-  private:
-  void setGame(PuzzleGame *puzzleGame, Art art, Mode mode);
+private:
+  void setGame(PuzzleGame* puzzleGame, Art art, Mode mode);
 
-  template<typename T, typename... Args>
-  std::unique_ptr<T> make_unique(Args&&... args) {
-      return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
-  }
-
-   std::unique_ptr<Art> m_currentArt;
-   Mode m_artPuzzleMode;
+  std::unique_ptr<Art> m_currentArt;
+  Mode m_artPuzzleMode;
 };
 
-#endif // GAMEMANAGER_H
+#endif  // GAMEMANAGER_H

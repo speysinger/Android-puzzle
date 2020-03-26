@@ -5,16 +5,14 @@
 #include "ui/html_view/helpviewer.h"
 #include "menu/level_icons_view/iconsview.h"
 
-LevelMenuScreen::LevelMenuScreen(QWidget* parent):
-  QWidget(parent),
-  m_modeWidget(new LevelModeWidget(this)),
-  m_iconView(new IconsView(this)) {
-
-  QGridLayout *layer = new QGridLayout(this);
+LevelMenuScreen::LevelMenuScreen(QWidget* parent)
+  : QWidget(parent), m_modeWidget(new LevelModeWidget(this)), m_iconView(new IconsView(this))
+{
+  QGridLayout* layer = new QGridLayout(this);
   setLayout(layer);
 
-  StyledButton *randomButton = new StyledButton("Случайный старт", this);
-  StyledButton *backButton = new StyledButton("Назад", this);
+  StyledButton* randomButton = new StyledButton("Случайный старт", this);
+  StyledButton* backButton = new StyledButton("Назад", this);
 
   randomButton->setIcon(QIcon(":/icon/play.ico"));
   backButton->setIcon(QIcon(":/icon/back.ico"));
@@ -33,24 +31,27 @@ LevelMenuScreen::LevelMenuScreen(QWidget* parent):
   connect(randomButton, SIGNAL(clicked()), this, SIGNAL(randomSelected()));
 }
 
-Mode LevelMenuScreen::mode() {
+Mode LevelMenuScreen::mode()
+{
   return m_modeWidget->mode();
 }
 
-void LevelMenuScreen::loadAuthors() {
+void LevelMenuScreen::loadAuthors()
+{
   m_iconView->loadAuthors();
 }
 
-void LevelMenuScreen::loadEras() {
+void LevelMenuScreen::loadEras()
+{
   m_iconView->loadEras();
 }
 
-void LevelMenuScreen::loadArts(Author author) {
+void LevelMenuScreen::loadArts(Author author)
+{
   m_iconView->loadArts(author);
 };
 
-void LevelMenuScreen::loadArts(Era era) {
+void LevelMenuScreen::loadArts(Era era)
+{
   m_iconView->loadArts(era);
 }
-
-

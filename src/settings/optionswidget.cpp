@@ -5,21 +5,20 @@
 #include <QFileDialog>
 #include "ui/buttons/styledbutton.h"
 
-OptionsWidget::OptionsWidget(QWidget* parent): QWidget(parent),
-  m_line_path(this),
-  m_combo_sound(this), m_sounds({"Cat", "Cow", "Frog", "Mouse", "none"}) {
-  QGridLayout *layer = new QGridLayout(this);
+OptionsWidget::OptionsWidget(QWidget* parent)
+  : QWidget(parent), m_line_path(this), m_combo_sound(this), m_sounds({ "Cat", "Cow", "Frog", "Mouse", "none" })
+{
+  QGridLayout* layer = new QGridLayout(this);
   setLayout(layer);
-  QLabel *store = new QLabel("Сохранить в:", this);
-
+  QLabel* store = new QLabel("Сохранить в:", this);
 
   m_line_path.setText("path");
   m_line_path.setStyleSheet("QLineEdit { background: rgb(153, 255, 153);}");
-  StyledButton *choose = new StyledButton("Choose", this);
-  QLabel *sound = new QLabel("Sound:", this);
+  StyledButton* choose = new StyledButton("Choose", this);
+  QLabel* sound = new QLabel("Sound:", this);
 
-  StyledButton *load = new StyledButton("Обновить", this);
-  StyledButton *back = new StyledButton("Назад", this);
+  StyledButton* load = new StyledButton("Обновить", this);
+  StyledButton* back = new StyledButton("Назад", this);
 
   choose->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   m_combo_sound.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -29,7 +28,8 @@ OptionsWidget::OptionsWidget(QWidget* parent): QWidget(parent),
   back->setIcon(QIcon(":/icon/back.ico"));
   load->setIcon(QIcon(":/icon/loading.ico"));
 
-  for (auto soundValue : m_sounds) {
+  for (auto soundValue : m_sounds)
+  {
     m_combo_sound.addItem(soundValue);
   }
 
@@ -50,7 +50,7 @@ OptionsWidget::OptionsWidget(QWidget* parent): QWidget(parent),
 
   m_combo_sound.setStyleSheet(" border-radius: 8px; padding: 6px; "
                               " background-color: #ccdd39;"
-                              " selection-background-color: #f26665;" );
+                              " selection-background-color: #f26665;");
   QString soundValue = DBSettings.getValue("sound");
   QString pathValue = DBSettings.getValue("path");
 
@@ -58,14 +58,16 @@ OptionsWidget::OptionsWidget(QWidget* parent): QWidget(parent),
   m_line_path.setText(pathValue);
 }
 
-void OptionsWidget::createOpenDialog() {
+void OptionsWidget::createOpenDialog()
+{
   QString path = QFileDialog::getExistingDirectory(nullptr, "Directory Dialog", "");
   m_line_path.setText(path);
   Settings mySetting("path", m_line_path.text());
   DBSettings.set(mySetting);
 }
 
-void OptionsWidget::setSound() {
+void OptionsWidget::setSound()
+{
   Settings mySetting("sound", m_combo_sound.currentText());
   DBSettings.set(mySetting);
 }

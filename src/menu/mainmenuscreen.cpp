@@ -3,20 +3,19 @@
 #include <QPushButton>
 #include "ui/buttons/styledbutton.h"
 
-MainMenuScreen::MainMenuScreen(QWidget* parent) : QWidget(parent),
-  m_modeWidget(new LevelModeWidget(this)) {
-
-  QGridLayout *layer = new QGridLayout(this);
+MainMenuScreen::MainMenuScreen(QWidget* parent) : QWidget(parent), m_modeWidget(new LevelModeWidget(this))
+{
+  QGridLayout* layer = new QGridLayout(this);
   setLayout(layer);
 
-  StyledButton *randomPictures = new StyledButton("Случайная картинка", this);
-  StyledButton *authors = new StyledButton("Выбрать автора", this);
-  StyledButton *eras = new StyledButton("Выбрать эпоху", this);
-  StyledButton *testing = new StyledButton("Тестирование",this);
-  StyledButton *statictic = new StyledButton("Статистика", this);
-  StyledButton *settings = new StyledButton("Настройки", this);
-  StyledButton *aboutProgram = new StyledButton("О программе", this);
-  StyledButton *exit = new StyledButton("Выход", this);
+  StyledButton* randomPictures = new StyledButton("Случайная картинка", this);
+  StyledButton* authors = new StyledButton("Выбрать автора", this);
+  StyledButton* eras = new StyledButton("Выбрать эпоху", this);
+  StyledButton* testing = new StyledButton("Тестирование", this);
+  StyledButton* statictic = new StyledButton("Статистика", this);
+  StyledButton* settings = new StyledButton("Настройки", this);
+  StyledButton* aboutProgram = new StyledButton("О программе", this);
+  StyledButton* exit = new StyledButton("Выход", this);
 
   settings->setIcon(QIcon(":/icon/settings.ico"));
 
@@ -41,7 +40,7 @@ MainMenuScreen::MainMenuScreen(QWidget* parent) : QWidget(parent),
 
   layer->setSpacing(10);
 
-  connect(testing, SIGNAL(clicked()),this, SIGNAL(testingSelected()));
+  connect(testing, SIGNAL(clicked()), this, SIGNAL(testingSelected()));
   connect(settings, SIGNAL(clicked()), this, SIGNAL(settingsSelected()));
   connect(eras, SIGNAL(clicked()), this, SIGNAL(erasSelected()));
   connect(authors, SIGNAL(clicked()), this, SIGNAL(authorsSelected()));
@@ -51,6 +50,7 @@ MainMenuScreen::MainMenuScreen(QWidget* parent) : QWidget(parent),
   connect(exit, SIGNAL(clicked()), this, SIGNAL(exit()));
 }
 
-Mode MainMenuScreen::mode() {
+Mode MainMenuScreen::mode()
+{
   return m_modeWidget->mode();
 }

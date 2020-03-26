@@ -4,14 +4,13 @@
 #include "scrolledtextbrowser.h"
 #include "helpviewer.h"
 
-HelpViewer::HelpViewer(QWidget *parent)
-  : QWidget(parent) {
-
-  QGridLayout *layer = new QGridLayout(this);
+HelpViewer::HelpViewer(QWidget* parent) : QWidget(parent)
+{
+  QGridLayout* layer = new QGridLayout(this);
   setLayout(layer);
 
-  ScrolledTextBrowser *helpViewer = new ScrolledTextBrowser;
-  StyledButton *backButton = new StyledButton("back", this);
+  ScrolledTextBrowser* helpViewer = new ScrolledTextBrowser;
+  StyledButton* backButton = new StyledButton("back", this);
 
   helpViewer->setSource(QUrl("qrc:/help.html"));
   backButton->setIcon(QIcon(":/icon/back.ico"));
@@ -21,5 +20,3 @@ HelpViewer::HelpViewer(QWidget *parent)
 
   connect(backButton, SIGNAL(clicked(bool)), SIGNAL(back()));
 }
-
-

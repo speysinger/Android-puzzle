@@ -5,7 +5,7 @@
 ///
 /// \brief The QmlButtonsHandler class
 /// Данный класс является обработчиком кнопок(OK/CANCEL) qml
-class QmlButtonsHandler: public QObject
+class QmlButtonsHandler : public QObject
 {
   Q_OBJECT
 public:
@@ -21,8 +21,6 @@ public:
 signals:
   void load();
   void back();
-  void selectedLevel(int buttonNumber);
 };
 
-
-#endif // QMLBUTTONSHANDLER_H
+#endif  // QMLBUTTONSHANDLER_H

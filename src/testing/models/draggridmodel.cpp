@@ -1,35 +1,31 @@
 #include "draggridmodel.h"
 #include "testing/testmanager.h"
 
-DragGridModel::DragGridModel(QObject*parent)
-  :QAbstractListModel(parent)
+DragGridModel::DragGridModel(QObject* parent) : QAbstractListModel(parent)
 {
   m_dragItemsList.clear();
   m_fillingList.clear();
 
-  connect(&TESTMANAGER,&TestManager::dragModelListReady,[=](std::vector<DragGridItem> dragItems){
-    m_fillingList=dragItems;
+  connect(&TESTMANAGER, &TestManager::dragModelListReady, [=](std::vector<DragGridItem> dragItems) {
+    m_fillingList = dragItems;
     fillDragGrid();
   });
 
-  connect(&TESTMANAGER, &TestManager::questionsIsOver, [=] {
-    clearGrid();
-  });
+  connect(&TESTMANAGER, &TestManager::questionsIsOver, [=] { clearGrid(); });
 }
 
 void DragGridModel::fillDragGrid()
 {
   clearGrid();
-  insertRows(0,4,QModelIndex());
+  insertRows(0, 4, QModelIndex());
 }
 
 void DragGridModel::clearGrid()
 {
-  removeRows(0,m_dragItemsList.size(),QModelIndex());
+  removeRows(0, m_dragItemsList.size(), QModelIndex());
 }
 
-
-int DragGridModel::rowCount(const QModelIndex &parent) const
+int DragGridModel::rowCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
   return m_dragItemsList.size();
@@ -44,36 +40,37 @@ QHash<int, QByteArray> DragGridModel::roleNames() const
   return roles;
 }
 
-QVariant DragGridModel::data(const QModelIndex &index, int role) const
+QVariant DragGridModel::data(const QModelIndex& index, int role) const
 {
-  if(!index.isValid() || (role!=itemType && role!=dragItemName && role!=dragItemImageSource))
-    return QVariant {};
-  int rowIndex=index.row();
+  if (!index.isValid() || (role != itemType && role != dragItemName && role != dragItemImageSource))
+    return QVariant{};
+  int rowIndex = index.row();
   DragGridItem dragItemAtIndex = m_dragItemsList[rowIndex];
 
-  if(role==itemType)
+  if (role == itemType)
     return QVariant::fromValue(dragItemAtIndex.itemType);
 
-  if(role==dragItemName)
+  if (role == dragItemName)
     return QVariant::fromValue(dragItemAtIndex.dragItemName);
 
-  if(role==dragItemImageSource)
+  if (role == dragItemImageSource)
     return QVariant::fromValue(dragItemAtIndex.dragItemImageSource);
   return QVariant{};
 }
 
-bool DragGridModel::insertRows(int column, int count, const QModelIndex &parent)
+bool DragGridModel::insertRows(int column, int count, const QModelIndex& parent)
 {
   Q_UNUSED(parent)
   Q_UNUSED(column)
 
-  if(count>0){
-    beginInsertRows(QModelIndex(),0,3);
+  if (count > 0)
+  {
+    beginInsertRows(QModelIndex(), 0, 3);
 
-    if(m_fillingList.size() == 0)
+    if (m_fillingList.size() == 0)
       return false;
 
-    for(auto dragItem : m_fillingList)
+    for (auto dragItem : m_fillingList)
       m_dragItemsList.push_back(dragItem);
 
     m_fillingList.clear();
@@ -82,12 +79,12 @@ bool DragGridModel::insertRows(int column, int count, const QModelIndex &parent)
   return true;
 }
 
-bool DragGridModel::removeRows(int row, int count, const QModelIndex &parent)
+bool DragGridModel::removeRows(int row, int count, const QModelIndex& parent)
 {
   Q_UNUSED(parent)
-  if(count>0)
+  if (count > 0)
   {
-    beginRemoveRows(QModelIndex(), row, count);
+    beginRemoveRows(QModelIndex(), row, count - 1);
     m_dragItemsList.clear();
     endRemoveRows();
   }

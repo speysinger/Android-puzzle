@@ -7,15 +7,15 @@
 ///
 /// \brief The StatisticWidget class
 /// Данный класс реализует создание qml окна, отображающего игровую статистику
-class StatisticWidget: public QmlWidget
+class StatisticWidget : public QmlWidget
 {
   Q_OBJECT
 public:
-  StatisticWidget(QWidget *parent = nullptr);
+  StatisticWidget(QWidget* parent = nullptr);
   void loadStatistic();
 signals:
   void back();
   void loadData();
 };
 
-#endif // STATISTICWIDGET_H
+#endif  // STATISTICWIDGET_H

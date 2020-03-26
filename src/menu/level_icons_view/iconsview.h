@@ -6,29 +6,32 @@
 
 #include "menuitemproxy.h"
 
-class IconsView : public QGraphicsView {
+class IconsView : public QGraphicsView
+{
   Q_OBJECT
 public:
-  IconsView(QWidget *parent = nullptr);
+  IconsView(QWidget* parent = nullptr);
 
   void loadAuthors();
   void loadEras();
   void loadArts(Author author);
   void loadArts(Era era);
+
 protected:
-  void resizeEvent(QResizeEvent *event) override;
+  void resizeEvent(QResizeEvent* event) override;
   void disposeIcons();
 
   void scrollContentsBy(int dx, int dy) override;
 
   void setProxyItems();
 
-  void mousePressEvent(QMouseEvent *event) override;
-  void mouseReleaseEvent(QMouseEvent *event) override;
+  void mousePressEvent(QMouseEvent* event) override;
+  void mouseReleaseEvent(QMouseEvent* event) override;
 signals:
   void authorSelected(Author data);
   void eraSelected(Era data);
   void artSelected(Art data);
+
 protected:
   QGraphicsScene m_scene;
   QPoint m_clickPos;
@@ -41,4 +44,4 @@ protected:
   size_t lastLoadableItemIndex = 0;
 };
 
-#endif // ICONSVIEW_H
+#endif  // ICONSVIEW_H

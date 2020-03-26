@@ -4,12 +4,14 @@
 #include <QPushButton>
 
 //! базовая кнопка с установленными стилями приложения
-class StyledButton : public QPushButton {
-     Q_OBJECT
+class StyledButton : public QPushButton
+{
+  Q_OBJECT
 public:
-  explicit StyledButton(const QString& text, QWidget *parent = nullptr);
+  explicit StyledButton(const QString& text, QWidget* parent = nullptr);
+
 protected:
-  void resizeEvent(QResizeEvent *) override;
+  void resizeEvent(QResizeEvent*) override;
 };
 
-#endif // STYLEDBUTTON_H
+#endif  // STYLEDBUTTON_H

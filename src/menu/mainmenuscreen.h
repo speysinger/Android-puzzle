@@ -5,7 +5,8 @@
 #include "level_icons_view/iconsview.h"
 #include "ui/buttons/levelmodewidget.h"
 
-class MainMenuScreen: public QWidget {
+class MainMenuScreen : public QWidget
+{
   Q_OBJECT
 public:
   MainMenuScreen(QWidget* parent = nullptr);
@@ -20,8 +21,9 @@ signals:
   void statisticSelected();
   void exit();
   void aboutProgramSelected();
+
 protected:
-   LevelModeWidget* m_modeWidget;
+  LevelModeWidget* m_modeWidget;
 };
 
-#endif // MAINMENUSCREEN_H
+#endif  // MAINMENUSCREEN_H

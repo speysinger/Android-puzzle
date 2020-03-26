@@ -12,6 +12,10 @@ ToolTip {
         anchors.fill: parent
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
+        font{
+            pointSize: Math.min((toast.height===0?1:toast.height),
+                                (toast.width===0?1:toast.width))/2
+        }
     }
     background: Rectangle {
         color: "gray"

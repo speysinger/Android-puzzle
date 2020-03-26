@@ -2,8 +2,7 @@
 #include "updater.h"
 #include "testing/testmanager.h"
 
-EraListModel::EraListModel(QObject *parent)
-  :QAbstractListModel(parent)
+EraListModel::EraListModel(QObject* parent) : QAbstractListModel(parent)
 {
   clearList();
   connect(&UPDATER, SIGNAL(itemsLoaded(std::vector<EraListModelItem>, bool)), this,
@@ -16,10 +15,10 @@ void EraListModel::fillEras(std::vector<EraListModelItem> vec, bool isTestingMod
 {
   clearList();
 
-  if(isTestingModule)
-    m_isTestingModule=true;
+  if (isTestingModule)
+    m_isTestingModule = true;
   else
-    m_isTestingModule=false;
+    m_isTestingModule = false;
 
   emit listViewWindowOpened();
   m_allErasForLoading = vec;
@@ -31,12 +30,12 @@ QString EraListModel::BoolToString(bool b) const
   return b ? "true" : "false";
 }
 
-int EraListModel::getTotalEraFilesCount(const EraListModelItem &eraItem) const
+int EraListModel::getTotalEraFilesCount(const EraListModelItem& eraItem) const
 {
   return eraItem.domesticFilesCount + eraItem.internationalFilesCount;
 }
 
-int EraListModel::rowCount(const QModelIndex &parent) const
+int EraListModel::rowCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
   return m_eraListModel.size();
@@ -47,27 +46,27 @@ bool EraListModel::isPositionValid(int rowIndex) const
   return rowIndex < m_eraListModel.size();
 }
 
-void EraListModel::getSelectedElements(bool isTestingRequest,int buttonNumber)
+void EraListModel::getSelectedElements(bool isTestingRequest, int buttonNumber)
 {
   std::vector<EraListModelItem> selectedEras;
   selectedEras.clear();
-  for(auto& era : m_eraListModel)
+  for (auto& era : m_eraListModel)
   {
     //если эпоха выбрана пользователем
-    if(era.checkValue)
+    if (era.checkValue)
     {
-      if(m_domesticArtSwitchButton)
-        era.domesticSelected=true;
+      if (m_domesticArtSwitchButton)
+        era.domesticSelected = true;
 
-      if(m_internationalArtSwitchButton)
-        era.internationalSelected=true;
+      if (m_internationalArtSwitchButton)
+        era.internationalSelected = true;
 
       selectedEras.push_back(era);
     }
   }
 
   //если ничего не было выбрано, но кнопка вызова следующего окна была нажата
-  if(selectedEras.size() <= 0)
+  if (selectedEras.size() <= 0)
     emit nothingIsSelected();
   else
   {
@@ -75,9 +74,9 @@ void EraListModel::getSelectedElements(bool isTestingRequest,int buttonNumber)
     emit somethingSelected();
 
     //если данные изначально получены из окна тестирования, то testmanager будет обрабатывать результат
-    if(isTestingRequest)
+    if (isTestingRequest)
       TESTMANAGER.startTesting(selectedEras, buttonNumber);
-    else //иначе данные присылал апдейтер и данные ему отослать
+    else  //иначе данные присылал апдейтер и данные ему отослать
       UPDATER.UploadSelectedItems(selectedEras);
   }
 }
@@ -88,31 +87,30 @@ void EraListModel::changeListOfTheSelectedEpoch(bool domesticArt, bool foreigntA
   m_internationalArtSwitchButton = foreigntArt;
 
   m_fillingList.clear();
-  removeRows(0,m_eraListModel.size(),QModelIndex());
+  removeRows(0, m_eraListModel.size(), QModelIndex());
 
-  for(auto era : m_allErasForLoading)
+  for (auto era : m_allErasForLoading)
   {
     //если выбрано отображение 2-х типов искусства
-    if(m_domesticArtSwitchButton && m_internationalArtSwitchButton && (era.domesticFilesCount>0
-                                                                       || era.internationalFilesCount>0))
+    if (m_domesticArtSwitchButton && m_internationalArtSwitchButton &&
+        (era.domesticFilesCount > 0 || era.internationalFilesCount > 0))
     {
       m_fillingList.push_back(era);
     }
     //если выбрано отображение только отечественных эпох
-    else if(m_domesticArtSwitchButton && era.domesticFilesCount>0)
+    else if (m_domesticArtSwitchButton && era.domesticFilesCount > 0)
       m_fillingList.push_back(era);
 
     //если выбрано отображение только зарубежных эпох
-    else if(m_internationalArtSwitchButton &&  era.internationalFilesCount>0)
+    else if (m_internationalArtSwitchButton && era.internationalFilesCount > 0)
       m_fillingList.push_back(era);
-
   }
   insertRows(0, m_fillingList.size(), QModelIndex());
 }
 
 void EraListModel::clearList()
 {
-  removeRows(0,m_eraListModel.size(),QModelIndex());
+  removeRows(0, m_eraListModel.size(), QModelIndex());
   m_eraListModel.clear();
   m_fillingList.clear();
 }
@@ -131,82 +129,81 @@ QHash<int, QByteArray> EraListModel::roleNames() const
   return roles;
 }
 
-QVariant EraListModel::data(const QModelIndex &index, int role) const
+QVariant EraListModel::data(const QModelIndex& index, int role) const
 {
-  if(!index.isValid() || (role!=nameRole && role!=checkRole && role!=countRole))
-    return QVariant {};
+  if (!index.isValid() || (role != nameRole && role != checkRole && role != countRole))
+    return QVariant{};
 
-  int rowIndex=index.row();
+  int rowIndex = index.row();
   EraListModelItem eraItemAtIndex = m_eraListModel[rowIndex];
 
-  if(!isPositionValid(rowIndex))
-    return QVariant {};
+  if (!isPositionValid(rowIndex))
+    return QVariant{};
 
-  if(role == countRole)
+  if (role == countRole)
   {
-    int addEraToNumber=0;
-    if(eraItemAtIndex.eraNeedToUpdate)
-      addEraToNumber=1;
+    int addEraToNumber = 0;
+    if (eraItemAtIndex.eraNeedToUpdate)
+      addEraToNumber = 1;
 
-    if(m_domesticArtSwitchButton && m_internationalArtSwitchButton)
+    if (m_domesticArtSwitchButton && m_internationalArtSwitchButton)
     {
-      if(eraItemAtIndex.eraNeedToUpdate)
+      if (eraItemAtIndex.eraNeedToUpdate)
         return QVariant::fromValue(QString::number(getTotalEraFilesCount(eraItemAtIndex) + addEraToNumber));
       else
         return QVariant::fromValue(QString::number(getTotalEraFilesCount(eraItemAtIndex)));
     }
 
-    else if(m_domesticArtSwitchButton & (eraItemAtIndex.domesticFilesCount > 0))
+    else if (m_domesticArtSwitchButton & (eraItemAtIndex.domesticFilesCount > 0))
       return QVariant::fromValue(QString::number(eraItemAtIndex.domesticFilesCount + addEraToNumber));
 
     else
-      return QVariant::fromValue(QString::number(eraItemAtIndex.internationalFilesCount+addEraToNumber));
+      return QVariant::fromValue(QString::number(eraItemAtIndex.internationalFilesCount + addEraToNumber));
   }
-  if(role == checkRole)
+  if (role == checkRole)
     return QVariant::fromValue(BoolToString(eraItemAtIndex.checkValue));
   return QVariant::fromValue(eraItemAtIndex.eraName);
 }
 
-bool EraListModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool EraListModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
   Q_UNUSED(value)
 
-  if (index.isValid() && role == checkRole) {
-    int rowIndex=index.row();
-    if(!isPositionValid(rowIndex))
+  if (index.isValid() && role == checkRole)
+  {
+    int rowIndex = index.row();
+    if (!isPositionValid(rowIndex))
       return false;
     m_eraListModel[rowIndex].checkValue = !m_eraListModel[rowIndex].checkValue;
-    emit dataChanged(index,index,{checkRole});
+    emit dataChanged(index, index, { checkRole });
     return true;
   }
   return false;
 }
 
-bool EraListModel::removeRows(int row, int count, const QModelIndex &parent)
+bool EraListModel::removeRows(int row, int count, const QModelIndex& parent)
 {
   Q_UNUSED(parent)
-  if(count>0)
+  if (count > 0)
   {
-    beginRemoveRows(QModelIndex(), row, count);
-    m_eraListModel.erase(m_eraListModel.begin(),m_eraListModel.end());
+    beginRemoveRows(QModelIndex(), row, count - 1);
+    m_eraListModel.erase(m_eraListModel.begin(), m_eraListModel.end());
     endRemoveRows();
   }
   return true;
 }
 
-bool EraListModel::insertRows(int row, int count, const QModelIndex &parent)
+bool EraListModel::insertRows(int row, int count, const QModelIndex& parent)
 {
   Q_UNUSED(row)
   Q_UNUSED(parent)
 
-  if(count>0){
-    beginInsertRows(QModelIndex(),0,count-1);
-    m_eraListModel=m_fillingList;
+  if (count > 0)
+  {
+    beginInsertRows(QModelIndex(), 0, count - 1);
+    m_eraListModel = m_fillingList;
     m_fillingList.clear();
     endInsertRows();
   }
   return true;
 }
-
-
-

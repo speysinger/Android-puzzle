@@ -2,26 +2,27 @@
 #include "media.h"
 #include <QGridLayout>
 
-AnimalButton::AnimalButton(const Animal &animal, QWidget* parent)
-  : UniversalModeButton(" ", parent), m_selectedAnimal(animal) {
-
+AnimalButton::AnimalButton(const Animal& animal, QWidget* parent)
+  : UniversalModeButton(" ", parent), m_selectedAnimal(animal)
+{
   QIcon icon(QString::fromStdString(animal.picture_path));
   setIcon(icon);
 }
 
-Animal AnimalButton::selectedAnimal() {
+Animal AnimalButton::selectedAnimal()
+{
   return m_selectedAnimal;
 }
 
-SoundController::SoundController(std::vector<Animal> &&animals, QWidget *parent) :
-  QWidget(parent) {
-
-  QGridLayout *layout = new QGridLayout(this);
+SoundController::SoundController(std::vector<Animal>&& animals, QWidget* parent) : QWidget(parent)
+{
+  QGridLayout* layout = new QGridLayout(this);
   setLayout(layout);
 
   // create buttons
-  std::vector<AnimalButton* > buttons(animals.size());
-  for (size_t i = 0; i < animals.size(); ++i) {
+  std::vector<AnimalButton*> buttons(animals.size());
+  for (size_t i = 0; i < animals.size(); ++i)
+  {
     buttons[i] = new AnimalButton(animals[i], this);
     buttons[i]->setMinimumSize(60, 60);
     buttons[i]->unpick();
@@ -30,8 +31,10 @@ SoundController::SoundController(std::vector<Animal> &&animals, QWidget *parent)
   }
 
   // connect buttons
-  for (size_t i = 0; i < animals.size(); ++i) {
-    for (size_t j = 0; j < buttons.size(); ++j) {
+  for (size_t i = 0; i < animals.size(); ++i)
+  {
+    for (size_t j = 0; j < buttons.size(); ++j)
+    {
       if (i == j)
         continue;
       connect(buttons[i], SIGNAL(picked_true()), buttons[j], SLOT(unpick()));
@@ -43,12 +46,13 @@ SoundController::SoundController(std::vector<Animal> &&animals, QWidget *parent)
   m_pickedButton->pick();
 }
 
-
-void SoundController::onPick() {
+void SoundController::onPick()
+{
   m_pickedButton = static_cast<AnimalButton*>(sender());
 }
 
-void SoundController::play() {
+void SoundController::play()
+{
   std::string path = m_pickedButton->selectedAnimal().sound_path;
 
   media::play(path);

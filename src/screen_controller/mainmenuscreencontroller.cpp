@@ -7,8 +7,13 @@
 #include "testingscreencontroller.h"
 #include "statistic/statisticwidget.h"
 
-MainMenuScreenController::  MainMenuScreenController(QWidget* parent)
-  : ScreensStack(parent) {
+#include "statistic/statisticmodel.h"
+#include "statistic/sortfilterproxymodel.h"
+
+MainMenuScreenController::MainMenuScreenController(QWidget* parent) : ScreensStack(parent)
+{
+  qmlRegisterType<StatisticModel>("StatisticModel", 1, 0, "StatisticModel");
+  qmlRegisterType<SortFilterProxyModel>("SortFilter", 1, 0, "SortFilterProxyModel");
 
   m_menu = new MainMenuScreen(this);
   m_settings = new SettingsScreenController(this);
@@ -26,9 +31,7 @@ MainMenuScreenController::  MainMenuScreenController(QWidget* parent)
   m_testing->hide();
   m_statistic->hide();
 
-  connect(m_menu, &MainMenuScreen::settingsSelected, [=] {
-    push(m_settings);
-  });
+  connect(m_menu, &MainMenuScreen::settingsSelected, [=] { push(m_settings); });
   connect(m_menu, &MainMenuScreen::testingSelected, [=] {
     push(m_testing);
     m_testing->pushTestingWindow();
@@ -47,18 +50,17 @@ MainMenuScreenController::  MainMenuScreenController(QWidget* parent)
     m_game->startRandomGame(m_menu->mode());
     push(m_game);
   });
-  connect(m_menu,&MainMenuScreen::statisticSelected, [=]{
+  connect(m_menu, &MainMenuScreen::statisticSelected, [=] {
     push(m_statistic);
     m_statistic->loadStatistic();
   });
 
-
   connect(m_game, &GameScreenController::back, [=] { pop(); });
   connect(m_settings, SIGNAL(back()), SLOT(pop()));
-  connect(m_testing,&TestingScreenController::back, [=] {pop();});
+  connect(m_testing, &TestingScreenController::back, [=] { pop(); });
   connect(m_aboutProgram, SIGNAL(back()), SLOT(pop()));
   connect(m_level_menu, &LevelMenuScreenController::back, [=] { pop(); });
-  connect(m_statistic, &StatisticWidget::back, [=] {pop();});
+  connect(m_statistic, &StatisticWidget::back, [=] { pop(); });
 
   push(m_menu);
 }

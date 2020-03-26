@@ -13,14 +13,16 @@ class UpdateProgressBar;
 ///
 /// \brief The SettingsScreenController class
 /// Данный класс реализует управление показом окон, связанных с тестированием и настройками(путь до файла, звук)
-class SettingsScreenController : public ScreensStack {
+class SettingsScreenController : public ScreensStack
+{
   Q_OBJECT
 public:
-  explicit SettingsScreenController(QWidget *parent = nullptr);
+  explicit SettingsScreenController(QWidget* parent = nullptr);
+
 protected:
-   OptionsWidget *m_options;
-   UpdateWidget *m_update;
-   ProgressBarWidget *m_progressBar;
+  OptionsWidget* m_options;
+  UpdateWidget* m_update;
+  ProgressBarWidget* m_progressBar;
 };
 
-#endif // SETTINGSSCREENCONTROLLER_H
+#endif  // SETTINGSSCREENCONTROLLER_H

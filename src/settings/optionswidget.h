@@ -8,7 +8,8 @@
 #include "update/updatewidget.h"
 #include "screen_controller/screensstack.h"
 
-class OptionsWidget : public QWidget{
+class OptionsWidget : public QWidget
+{
   Q_OBJECT
 public:
   OptionsWidget(QWidget* parent = nullptr);
@@ -18,12 +19,11 @@ signals:
 private slots:
   void createOpenDialog();
   void setSound();
-  //void onLoad();
-private:
 
+private:
   QLineEdit m_line_path;
   QComboBox m_combo_sound;
   std::vector<QString> m_sounds;
 };
 
-#endif // SETTINGWIDGET_H
+#endif  // SETTINGWIDGET_H

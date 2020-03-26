@@ -1,26 +1,20 @@
 #include "testingresultsmodel.h"
 #include "testing/testmanager.h"
 
-
-TestingResultsModel::TestingResultsModel(QObject *parent)
-  :QAbstractListModel(parent)
+TestingResultsModel::TestingResultsModel(QObject* parent) : QAbstractListModel(parent)
 {
-
-  connect(&TESTMANAGER, &TestManager::testResultsReady, [=](std::vector<TestResultsItem> testResultsVec)
-  {
-    fillResults(testResultsVec);
-  });
+  connect(&TESTMANAGER, &TestManager::testResultsReady,
+          [=](std::vector<TestResultsItem> testResultsVec) { fillResults(testResultsVec); });
 }
 
 void TestingResultsModel::fillResults(std::vector<TestResultsItem> vec)
 {
-  removeRows(0,m_testingResults.size(), QModelIndex());
-  m_testResultsBuffer=vec;
-  insertRows(0,m_testResultsBuffer.size(), QModelIndex());
+  removeRows(0, m_testingResults.size(), QModelIndex());
+  m_testResultsBuffer = vec;
+  insertRows(0, m_testResultsBuffer.size(), QModelIndex());
 }
 
-
-int TestingResultsModel::rowCount(const QModelIndex &parent) const
+int TestingResultsModel::rowCount(const QModelIndex& parent) const
 {
   Q_UNUSED(parent)
   return m_testingResults.size();
@@ -35,42 +29,43 @@ QHash<int, QByteArray> TestingResultsModel::roleNames() const
   return roles;
 }
 
-QVariant TestingResultsModel::data(const QModelIndex &index, int role) const
+QVariant TestingResultsModel::data(const QModelIndex& index, int role) const
 {
-  if(!index.isValid() || (role!=question && role!=userAnswer && role!=correctAnswer))
-    return QVariant {};
-  int rowIndex=index.row();
+  if (!index.isValid() || (role != question && role != userAnswer && role != correctAnswer))
+    return QVariant{};
+  int rowIndex = index.row();
 
-  if(role == question)
+  if (role == question)
     return QVariant::fromValue(m_testingResults[rowIndex].question);
 
-  if(role == userAnswer)
+  if (role == userAnswer)
     return QVariant::fromValue(m_testingResults[rowIndex].userAnswer);
 
-  if(role == correctAnswer)
+  if (role == correctAnswer)
     return QVariant::fromValue(m_testingResults[rowIndex].correctAnswer);
 
-  return QVariant {};
+  return QVariant{};
 }
 
-bool TestingResultsModel::insertRows(int column, int count, const QModelIndex &parent)
+bool TestingResultsModel::insertRows(int column, int count, const QModelIndex& parent)
 {
   Q_UNUSED(column)
   Q_UNUSED(parent)
-  if(count>0){
-    beginInsertRows(QModelIndex(), 0, count-1);
+  if (count > 0)
+  {
+    beginInsertRows(QModelIndex(), 0, count - 1);
     m_testingResults = m_testResultsBuffer;
     endInsertRows();
   }
   return true;
 }
 
-bool TestingResultsModel::removeRows(int row, int count, const QModelIndex &parent)
+bool TestingResultsModel::removeRows(int row, int count, const QModelIndex& parent)
 {
   Q_UNUSED(parent)
-  if(count>0)
+  if (count > 0)
   {
-    beginRemoveRows(QModelIndex(), row, count-1);
+    beginRemoveRows(QModelIndex(), row, count - 1);
     m_testingResults.clear();
     endRemoveRows();
   }

@@ -6,7 +6,8 @@
 
 class LevelModeWidget;
 
-class LevelMenuScreen : public QWidget {
+class LevelMenuScreen : public QWidget
+{
   Q_OBJECT
 public:
   LevelMenuScreen(QWidget* parent = nullptr);
@@ -26,8 +27,8 @@ signals:
   void artSelected(Art data);
 
 protected:
-   LevelModeWidget* m_modeWidget;
-   IconsView *m_iconView;
+  LevelModeWidget* m_modeWidget;
+  IconsView* m_iconView;
 };
 
-#endif // CATEGORYWIDGET_H
+#endif  // CATEGORYWIDGET_H

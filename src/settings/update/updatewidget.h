@@ -10,12 +10,12 @@
 /// Данный класс реализует создание qml окна обновления базы данных
 class UpdateWidget : public QmlWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 public:
-    UpdateWidget(QWidget* parent = nullptr);
+  UpdateWidget(QWidget* parent = nullptr);
 signals:
-    void backButtonPressed();
-    void loadButtonPressed();
+  void backButtonPressed();
+  void loadButtonPressed();
 };
 
-#endif // UPDATEWIDGET_H
+#endif  // UPDATEWIDGET_H

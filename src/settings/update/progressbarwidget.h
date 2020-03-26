@@ -9,20 +9,22 @@
 /// \brief The LoadHandler class
 /// Данный класс реализует взаимодействие с прогресс баром QML
 /// Класс устанавливает пиковое значение, изменяет прогресс загрузки и уведомляет об этом
-class LoadHandler: public QObject
+class LoadHandler : public QObject
 {
   Q_OBJECT
   Q_PROPERTY(float progress READ progress NOTIFY progressChanged)
 public:
-  void setMaxValue(int value){
+  void setMaxValue(int value)
+  {
     m_numberOfUpdatedItems = value;
   }
   void incValue()
   {
     m_currentProgress++;
-    emit progressChanged(ceil((float(m_currentProgress)/float(m_numberOfUpdatedItems))*100));
+    qDebug() << m_currentProgress;
+    emit progressChanged(ceil((float(m_currentProgress) / float(m_numberOfUpdatedItems)) * 100));
 
-    if(m_currentProgress == m_numberOfUpdatedItems)
+    if (m_currentProgress == m_numberOfUpdatedItems)
     {
       stopLoad();
     }
@@ -35,35 +37,34 @@ public:
 
   Q_INVOKABLE void stopLoad()
   {
-    m_currentProgress=0;
-    m_numberOfUpdatedItems=0;
+    m_currentProgress = 0;
+    m_numberOfUpdatedItems = 0;
     emit back();
   }
 signals:
   void progressChanged(float progress);
   void back();
   void loaded();
-private:
-  int m_currentProgress=0;
-  int m_numberOfUpdatedItems=0;
 
+private:
+  int m_currentProgress = 0;
+  int m_numberOfUpdatedItems = 0;
 };
 
 ///
 /// \brief The ProgressBarWidget class
 /// Данный класс реализует создание qml окна progressBar
-class ProgressBarWidget:public QmlWidget
+class ProgressBarWidget : public QmlWidget
 {
   Q_OBJECT
 public:
-  ProgressBarWidget(QWidget *parent=nullptr);
-  void startUp();
+  ProgressBarWidget(QWidget* parent = nullptr);
 signals:
   void backButtonPressed();
+
 private:
-  LoadHandler *m_loadHandler = new LoadHandler();
+  LoadHandler* m_loadHandler = new LoadHandler();
 };
 
-
 #define PROGRESSBAR Singleton<LoadHandler>::instance()
-#endif // PROGRESSBARWIDGET_H
+#endif  // PROGRESSBARWIDGET_H

@@ -6,10 +6,11 @@
 
 #include <map>
 #include <iostream>
+#include <QSslSocket>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[])
+{
   QApplication a(argc, argv);
-
 
   /*QFile levels(":/pictures_db/levels.json");
   if (levels.open(QIODevice::ReadOnly | QFile::Text)) {
@@ -21,8 +22,6 @@ int main(int argc, char *argv[]) {
   MainMenuScreenController controller;
   controller.show();
 
-  controller.setStyleSheet(
-        "QWidget { background-color:#FFFFE0; border: 0px; width: 40; height:30}"
-  );
+  controller.setStyleSheet("QWidget { background-color:#FFFFE0; border: 0px; width: 40; height:30}");
   return a.exec();
 }

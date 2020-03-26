@@ -3,43 +3,42 @@ import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.2
 
-
 import "../SupportingFiles"
 
 Rectangle {
-    id:_updateWindow
+  id:_updateWindow
+  color: "transparent"
+  signal updateModuleLoadButtonPressed()
+
+  ChooseEpochType {
+    id:_switchPanel
+    width: _updateWindow.width
+  }
+
+  EraList {
+    id: _epochList
+    anchors.top: _switchPanel.bottom
+    anchors.topMargin: _updateWindow.width*0.03
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.leftMargin: _updateWindow.width*0.05
+    anchors.bottomMargin: _updateWindow.height*0.15
+    anchors.rightMargin: _updateWindow.width*0.05
+    width: _updateWindow.width*0.9
+    height: _updateWindow.height*0.88
+  }
+
+  Rectangle {
+    id:_rowLayout
     color: "transparent"
-    signal updateModuleLoadButtonPressed()
-
-    ChooseEpochType {
-        id:_switchPanel
-        width: _updateWindow.width
-    }
-
-    EraList {
-        id: _epochList
-        anchors.top: _switchPanel.bottom
-        anchors.topMargin: _updateWindow.width*0.03
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.leftMargin: _updateWindow.width*0.05
-        anchors.bottomMargin: _updateWindow.height*0.15
-        anchors.rightMargin: _updateWindow.width*0.05
-        width: _updateWindow.width*0.9
-        height: _updateWindow.height*0.88
-    }
-
-    Rectangle {
-        id:_rowLayout
-        color: "transparent"
-        anchors.top: _epochList.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.leftMargin: _updateWindow.width*0.05
-        anchors.rightMargin: _updateWindow.width*0.05
-        height: _updateWindow.height*0.11
-        width: _updateWindow.width*0.90
-        Button {
+    anchors.top: _epochList.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.leftMargin: _updateWindow.width*0.05
+    anchors.rightMargin: _updateWindow.width*0.05
+    height: _updateWindow.height*0.11
+    width: _updateWindow.width*0.90
+    Button {
             id:_backButton
             anchors.left: _rowLayout.left
             width: _rowLayout.width*0.45
@@ -94,17 +93,17 @@ Rectangle {
                 onSomethingSelected: buttonsHandler.loadButtonPressed()
             }
         }
-    }
-    PopUpNotification {
-        id: _popUpNotification
+  }
+  PopUpNotification {
+    id: _popUpNotification
 
-        Connections {
-            target: _epochList
-            onNothingIsSelected:
-            {
-                _popUpNotification.visible = true;
-                _popUpNotification.text = qsTr("Список обновления пуст")
-            }
-        }
+    Connections {
+      target: _epochList
+      onNothingIsSelected:
+      {
+        _popUpNotification.visible = true;
+        _popUpNotification.text = qsTr("Список обновления пуст")
+      }
     }
+  }
 }

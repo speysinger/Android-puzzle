@@ -16,14 +16,13 @@
 /// составить список, доступных для тестирования, эпох и вопросов по ним
 /// начинать тестирование по указанному списку эпох
 /// получить результаты тестирования и обработать их
-class TestManager:public QObject
+class TestManager : public QObject
 {
   Q_OBJECT
 public:
-  TestManager();
   void loadAvailableEras();
 
-  void startTesting( std::vector<EraListModelItem>, int requiredCountOfQuestions);
+  void startTesting(std::vector<EraListModelItem>, int requiredCountOfQuestions);
   void takeResultsFromDropModel(std::vector<DropGridItem> results);
 signals:
   void erasReady(std::vector<EraListModelItem> vec, bool isTestingModule);
@@ -39,19 +38,17 @@ signals:
 
   void questionsIsOver();
 
-  void testResultsReady(std::vector<TestResultsItem> &m_testResults);
+  void testResultsReady(std::vector<TestResultsItem>& m_testResults);
 
 private:
   struct QuestionWrapper;
 
   int convertButtonNumberToNumberQuestions(int buttonNumber);
 
-  std::vector<EraListModelItem> getAvailablesForTestingEras();
+  void getNumberOfEraQuestions(int& eraQuestions, int& artQuestions, std::vector<EraListModelItem>& selectedEras);
 
-  void getNumberOfQuestions(int &eraQuestions, int &artQuestions, std::vector<EraListModelItem> &selectedEras);
-
-  void findCorrectAnswers(std::vector<DropGridItem> &results, int &quadResidue);
-  void findWrongAnswers(std::vector<DropGridItem> &results, int &quadResidue);
+  void findCorrectAnswers(std::vector<DropGridItem>& results, int& quadResidue);
+  void findWrongAnswers(std::vector<DropGridItem>& results, int& quadResidue);
 
   void sendQuadToDndModels();
 
@@ -59,42 +56,45 @@ private:
   DropGridItem createDropItem(Era era);
   DropGridItem createDropItem(Author author);
 
-  void increaseQuestionCounter(bool isEraQuestion, int &eraQuestionsCount, int &authorQuestionsCount);
+  void increaseQuestionCounter(bool isEraQuestion, int& eraQuestionsCount, int& authorQuestionsCount);
 
-  void pointToRightVector(std::vector<QuestionWrapper>::iterator &it);
-  void deleteItemFromRightVector(std::vector<QuestionWrapper>::iterator &it);
+  void pointToRightVector(std::vector<QuestionWrapper>::iterator& it);
+  void deleteItemFromRightVector(std::vector<QuestionWrapper>::iterator& it);
 
   int getQuestionType();
-
 
   /// \brief
   ///  Обёртка над вопросом
   /// Содержит dragItem(вопрос), dropGridItem(ответ), принадлежность к типу вопроса
-  struct QuestionWrapper{
-
+  struct QuestionWrapper
+  {
     DragGridItem dragGridItem;
     DropGridItem dropGridItem;
     bool isEraQuestion;
     bool isDomestic;
 
-    QuestionWrapper(DragGridItem dragGridItem_, DropGridItem dropGridItem_, bool isEraQuestion_, bool isDomestic_):
-      dragGridItem(dragGridItem_), dropGridItem(dropGridItem_), isEraQuestion(isEraQuestion_),
-      isDomestic(isDomestic_){}
+    QuestionWrapper(DragGridItem dragGridItem_, DropGridItem dropGridItem_, bool isEraQuestion_, bool isDomestic_)
+      : dragGridItem(dragGridItem_), dropGridItem(dropGridItem_), isEraQuestion(isEraQuestion_), isDomestic(isDomestic_)
+    {
+    }
   };
 
   /// \brief
   /// Обёртка над эпохой и вопросами по ней
-  struct eraModuleQuestionsWrapper{
+  struct eraModuleQuestionsWrapper
+  {
     Era era;
     std::vector<QuestionWrapper> questionsAndAnswers;
 
-    eraModuleQuestionsWrapper(Era era_,std::vector<QuestionWrapper> questionsAndAnswers_):
-      era(era_), questionsAndAnswers(questionsAndAnswers_){}
-
-    bool operator==(const QString &findEraName) const {
-      return era.name == findEraName;
+    eraModuleQuestionsWrapper(Era era_, std::vector<QuestionWrapper> questionsAndAnswers_)
+      : era(era_), questionsAndAnswers(questionsAndAnswers_)
+    {
     }
 
+    bool operator==(const QString& findEraName) const
+    {
+      return era.name == findEraName;
+    }
   };
 
   std::vector<eraModuleQuestionsWrapper> m_eraModule;
@@ -105,9 +105,9 @@ private:
   std::vector<TestResultsItem> m_testResults;
 
   bool m_currentTypeOfQuestionIsEra = false;
+  const int questionItems = 4;
 };
-
 
 #define TESTMANAGER Singleton<TestManager>::instance()
 
-#endif // TESTMANAGER_H
+#endif  // TESTMANAGER_H

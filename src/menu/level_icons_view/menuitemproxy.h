@@ -6,16 +6,15 @@
 class MenuItemProxy
 {
 public:
-  MenuItemProxy(LevelGraphicsIcon *icon_);
-  LevelGraphicsIcon *getItem();
+  MenuItemProxy(LevelGraphicsIcon* icon_);
+  LevelGraphicsIcon* getItem();
   void setLabelSize(const int w, const int h);
   void setPos(qreal ax, qreal ay);
   void disableItem(const int w, const int h);
 
-
 private:
   bool pixmapCreated = false;
-  LevelGraphicsIcon *m_icon;
+  LevelGraphicsIcon* m_icon;
 };
 
-#endif // MENUITEMPROXY_H
+#endif  // MENUITEMPROXY_H

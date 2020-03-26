@@ -8,14 +8,14 @@
 ///
 /// \brief The TestSettingsWidget class
 /// Данный класс реализует создание окна настроек тестирования
-class TestSettingsWidget: public QmlWidget
+class TestSettingsWidget : public QmlWidget
 {
   Q_OBJECT
 public:
-  TestSettingsWidget(QWidget *parent = nullptr);
+  TestSettingsWidget(QWidget* parent = nullptr);
 signals:
   void backButtonPressed();
   void startTestingButtonPressed();
 };
 
-#endif // TESTSETTINGSWIDGET_H
+#endif  // TESTSETTINGSWIDGET_H

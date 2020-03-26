@@ -3,15 +3,18 @@
 #include "scrolledtextbrowser.h"
 
 ScrolledTextBrowser::ScrolledTextBrowser(QWidget* parent)
-   : QTextBrowser(parent), m_cursorPos_y(0), m_isMouseButtonPressed(false) {
+  : QTextBrowser(parent), m_cursorPos_y(0), m_isMouseButtonPressed(false)
+{
 }
 
-void ScrolledTextBrowser::mousePressEvent(QMouseEvent* event) {
+void ScrolledTextBrowser::mousePressEvent(QMouseEvent* event)
+{
   m_cursorPos_y = event->pos().y();
   m_isMouseButtonPressed = true;
 }
 
-void ScrolledTextBrowser::mouseMoveEvent(QMouseEvent* event) {
+void ScrolledTextBrowser::mouseMoveEvent(QMouseEvent* event)
+{
   if (m_isMouseButtonPressed == false)
     return;
 
@@ -27,6 +30,7 @@ void ScrolledTextBrowser::mouseMoveEvent(QMouseEvent* event) {
   m_cursorPos_y = event->pos().y();
 }
 
-void ScrolledTextBrowser::mouseReleaseEvent(QMouseEvent* ) {
+void ScrolledTextBrowser::mouseReleaseEvent(QMouseEvent*)
+{
   m_isMouseButtonPressed = false;
 }

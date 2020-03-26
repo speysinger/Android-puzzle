@@ -12,46 +12,53 @@
 /// \brief The Updater class
 /// Данный класс реализует обновление базы данных(Эпохи/Картины/Авторы)
 /// Предоставляет интерфейс, позволяющий загрузить json и обновить указанный список эпох
-class Updater:public QObject
+class Updater : public QObject
 {
   Q_OBJECT
 public:
   Updater();
-  void UploadSelectedItems(std::vector<EraListModelItem> &selectedEras);
+  void UploadSelectedItems(const std::vector<EraListModelItem>& selectedEras);
   void loadJson();
 public slots:
-  void fillUpdatableLists(const QByteArray &jsonData);
+  void fillUpdatableLists(const QByteArray& jsonData);
 
 private:
-  enum UpdateFileStatus { LOAD, UPDATE, NOTHING };
+  enum UpdateFileStatus
+  {
+    LOAD,
+    UPDATE,
+    NOTHING
+  };
 
-  template<class T>
+  template <class T>
   class UpdatableItemWrapper
   {
   public:
-    UpdatableItemWrapper(T object_, UpdateFileStatus updateFiles_):
-      object(object_), updateFiles(updateFiles_){}
+    UpdatableItemWrapper(T object_, UpdateFileStatus updateFiles_) : object(object_), updateFiles(updateFiles_)
+    {
+    }
     T object;
     mutable UpdateFileStatus updateFiles;
 
     bool operator<(const UpdatableItemWrapper<T>& other) const
     {
-     return object<other.object;
+      return object < other.object;
     }
 
-    bool operator==(const UpdatableItemWrapper<T>& other) const{
+    bool operator==(const UpdatableItemWrapper<T>& other) const
+    {
       return object == other.object;
     }
   };
 
   QString getUpdatableItemPath(QString url);
 
-  void fillListOfUpdatableEras(JsonParser &loadedJson);
-  void fillListOfUpdatableArts(JsonParser &loadedJson);
-  void fillListOfUpdatableAuthors(JsonParser &loadedJson);
+  void fillListOfUpdatableEras(const JsonParser& loadedJson);
+  void fillListOfUpdatableArts(const JsonParser& loadedJson);
+  void fillListOfUpdatableAuthors(const JsonParser& loadedJson);
 
   void sendUpdatableInfoToQml();
-  int countSelectedForUpdateItems(std::vector<EraListModelItem> &selectedEras);
+  int countSelectedForUpdateItems(const std::vector<EraListModelItem>& selectedEras);
 
   void downloadEra(UpdatableItemWrapper<Era> era);
   void downloadArt(UpdatableItemWrapper<Art> art);
@@ -61,8 +68,8 @@ private:
   std::set<UpdatableItemWrapper<Art>> m_updatableArts;
   std::set<UpdatableItemWrapper<Author>> m_updatableAuthors;
 
-  Loader *pixmapLoader = new Loader();
-  Loader *jsonLoader = new Loader();
+  Loader* pixmapLoader = new Loader();
+  Loader* jsonLoader = new Loader();
 
   QString const jsonPath = "https://pro-prof.com/artists-puzzle/load_1/levels.json";
 
@@ -74,4 +81,4 @@ signals:
 
 #define UPDATER Singleton<Updater>::instance()
 
-#endif // UPDATER_H
+#endif  // UPDATER_H

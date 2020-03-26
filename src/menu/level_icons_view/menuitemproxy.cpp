@@ -1,11 +1,10 @@
 #include "menuitemproxy.h"
 
-MenuItemProxy::MenuItemProxy(LevelGraphicsIcon *icon_):
-  m_icon(icon_)
+MenuItemProxy::MenuItemProxy(LevelGraphicsIcon* icon_) : m_icon(icon_)
 {
 }
 
-LevelGraphicsIcon *MenuItemProxy::getItem()
+LevelGraphicsIcon* MenuItemProxy::getItem()
 {
   return m_icon;
 }
@@ -17,7 +16,7 @@ void MenuItemProxy::setPos(qreal ax, qreal ay)
 
 void MenuItemProxy::setLabelSize(const int w, const int h)
 {
-  if(!pixmapCreated)
+  if (!pixmapCreated)
   {
     pixmapCreated = true;
     m_icon->setLabelSize(w, h);
@@ -26,7 +25,7 @@ void MenuItemProxy::setLabelSize(const int w, const int h)
 
 void MenuItemProxy::disableItem(const int w, const int h)
 {
-  if(pixmapCreated)
+  if (pixmapCreated)
   {
     pixmapCreated = false;
     m_icon->disableItem(w, h);

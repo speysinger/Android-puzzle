@@ -1,23 +1,22 @@
 #include "pickedbutton.h"
 #include <QStyle>
 
-PickedButton::PickedButton(const QString& text, QWidget *parent):
-  QPushButton(text, parent), m_picked(false) {
-
+PickedButton::PickedButton(const QString& text, QWidget* parent) : QPushButton(text, parent), m_picked(false)
+{
   connect(this, SIGNAL(clicked()), SLOT(invert()));
-  setStyleSheet(
-    " QPushButton {border-radius: 8px; padding: 6px;}"
-    " QPushButton[picked=true] { background-color: #f26665;}"
-    " QPushButton[picked=false] { background-color: #f6d70a;}"
-    " QPushButton { font-family: hAndy;}"
-  );
+  setStyleSheet(" QPushButton {border-radius: 8px; padding: 6px;}"
+                " QPushButton[picked=true] { background-color: #f26665;}"
+                " QPushButton[picked=false] { background-color: #f6d70a;}"
+                " QPushButton { font-family: hAndy;}");
 }
 
-bool PickedButton::picked() {
+bool PickedButton::picked()
+{
   return m_picked;
 }
 
-void PickedButton::pick(bool is_picked) {
+void PickedButton::pick(bool is_picked)
+{
   if (m_picked == is_picked)
     return;
 
@@ -28,8 +27,7 @@ void PickedButton::pick(bool is_picked) {
   emit picked(m_picked);
 }
 
-void PickedButton::invert() {
+void PickedButton::invert()
+{
   pick(!m_picked);
 }
-
-

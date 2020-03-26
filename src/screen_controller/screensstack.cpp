@@ -1,14 +1,16 @@
-  #include "screensstack.h"
+#include "screensstack.h"
 
-ScreensStack::ScreensStack(QWidget *parent)
-  : QWidget(parent), m_layout(this) {
+ScreensStack::ScreensStack(QWidget* parent) : QWidget(parent), m_layout(this)
+{
   setLayout(&m_layout);
   m_layout.setMargin(0);
 }
 
-void ScreensStack::push(QWidget *widget) {
-  if (false == m_widgets.empty()) {
-    QWidget *top = m_widgets.front();
+void ScreensStack::push(QWidget* widget)
+{
+  if (false == m_widgets.empty())
+  {
+    QWidget* top = m_widgets.front();
     top->hide();
   }
   m_layout.addWidget(widget);
@@ -16,7 +18,8 @@ void ScreensStack::push(QWidget *widget) {
   widget->show();
 }
 
-bool ScreensStack::check_empty() {
+bool ScreensStack::check_empty()
+{
   if (false == m_widgets.empty())
     return false;
 
@@ -24,7 +27,8 @@ bool ScreensStack::check_empty() {
   return true;
 }
 
-void ScreensStack::pop() {
+void ScreensStack::pop()
+{
   if (check_empty())
     return;
 
@@ -37,6 +41,7 @@ void ScreensStack::pop() {
   m_widgets.front()->show();
 }
 
-int ScreensStack::lenght() {
+int ScreensStack::lenght()
+{
   return m_widgets.length();
 }

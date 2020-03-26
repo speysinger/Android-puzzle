@@ -8,13 +8,13 @@
 ///
 /// \brief The TestResultsWidget class
 /// Данный класс реализует создание окна вывода статистики тестирования
-class TestResultsWidget: public QmlWidget
+class TestResultsWidget : public QmlWidget
 {
   Q_OBJECT
 public:
-  TestResultsWidget(QWidget *parent=nullptr);
+  TestResultsWidget(QWidget* parent = nullptr);
 signals:
   void backToMainMenuButtonPressed();
 };
 
-#endif // TESTRESULTSWIDGET_H
+#endif  // TESTRESULTSWIDGET_H
