@@ -15,7 +15,7 @@ void ScreensStack::push(QWidget* widget)
   }
   m_layout.addWidget(widget);
   m_widgets.push_front(widget);
-  widget->show();
+  widget->showFullScreen();
 }
 
 bool ScreensStack::check_empty()
@@ -38,7 +38,7 @@ void ScreensStack::pop()
   if (check_empty())
     return;
 
-  m_widgets.front()->show();
+  m_widgets.front()->showFullScreen();
 }
 
 int ScreensStack::lenght()

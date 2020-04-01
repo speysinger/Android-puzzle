@@ -20,13 +20,12 @@ public:
   }
   void incValue()
   {
-    m_currentProgress++;
-    qDebug() << m_currentProgress;
+    m_currentProgress++;;
     emit progressChanged(ceil((float(m_currentProgress) / float(m_numberOfUpdatedItems)) * 100));
 
     if (m_currentProgress == m_numberOfUpdatedItems)
     {
-      stopLoad();
+      resetValues();
     }
   }
 
@@ -37,8 +36,7 @@ public:
 
   Q_INVOKABLE void stopLoad()
   {
-    m_currentProgress = 0;
-    m_numberOfUpdatedItems = 0;
+    resetValues();
     emit back();
   }
 signals:
@@ -47,6 +45,11 @@ signals:
   void loaded();
 
 private:
+  void resetValues()
+  {
+      m_currentProgress = 0;
+      m_numberOfUpdatedItems = 0;
+  }
   int m_currentProgress = 0;
   int m_numberOfUpdatedItems = 0;
 };

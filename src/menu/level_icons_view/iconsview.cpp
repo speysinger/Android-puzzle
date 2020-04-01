@@ -1,6 +1,6 @@
 #include "iconsview.h"
-#include "database/levelsdbfacade.h"
-#include "menuitemproxy.h"
+#include "src/database/levelsdbfacade.h"
+#include "menuiconproxy.h"
 
 #include <QVBoxLayout>
 #include <QScrollBar>
@@ -161,7 +161,7 @@ void IconsView::loadAuthors()
   {
     AuthorIcon* authorIcon = new AuthorIcon(std::move(author));
 
-    MenuItemProxy* proxy = new MenuItemProxy(authorIcon);
+    MenuIconProxy* proxy = new MenuIconProxy(authorIcon);
 
     m_icons.push_back(proxy);
     m_scene.addItem(proxy->getItem());
@@ -179,7 +179,7 @@ void IconsView::loadEras()
   {
     EraIcon* eraIcon = new EraIcon(std::move(era));
 
-    MenuItemProxy* proxy = new MenuItemProxy(eraIcon);
+    MenuIconProxy* proxy = new MenuIconProxy(eraIcon);
 
     m_icons.push_back(proxy);
 
@@ -197,7 +197,7 @@ void IconsView::loadArts(Author author)
   {
     ArtIcon* artIcon = new ArtIcon(std::move(art));
 
-    MenuItemProxy* proxy = new MenuItemProxy(artIcon);
+    MenuIconProxy* proxy = new MenuIconProxy(artIcon);
 
     m_icons.push_back(proxy);
     m_scene.addItem(proxy->getItem());
@@ -218,7 +218,7 @@ void IconsView::loadArts(Era era)
   {
     ArtIcon* artIcon = new ArtIcon(std::move(art));
 
-    MenuItemProxy* proxy = new MenuItemProxy(artIcon);
+    MenuIconProxy* proxy = new MenuIconProxy(artIcon);
 
     m_icons.push_back(proxy);
     m_scene.addItem(proxy->getItem());

@@ -1,5 +1,5 @@
 #include "draggridmodel.h"
-#include "testing/testmanager.h"
+#include "src/testing/testmanager.h"
 
 DragGridModel::DragGridModel(QObject* parent) : QAbstractListModel(parent)
 {
@@ -47,15 +47,21 @@ QVariant DragGridModel::data(const QModelIndex& index, int role) const
   int rowIndex = index.row();
   DragGridItem dragItemAtIndex = m_dragItemsList[rowIndex];
 
-  if (role == itemType)
-    return QVariant::fromValue(dragItemAtIndex.itemType);
-
-  if (role == dragItemName)
-    return QVariant::fromValue(dragItemAtIndex.dragItemName);
-
-  if (role == dragItemImageSource)
-    return QVariant::fromValue(dragItemAtIndex.dragItemImageSource);
-  return QVariant{};
+  switch (role)
+  {
+    case itemType: {
+      return QVariant::fromValue(dragItemAtIndex.itemType);
+    }
+    case dragItemName: {
+      return QVariant::fromValue(dragItemAtIndex.dragItemName);
+    }
+    case dragItemImageSource: {
+      return QVariant::fromValue(dragItemAtIndex.dragItemImageSource);
+    }
+    default: {
+      return QVariant{};
+    }
+  }
 }
 
 bool DragGridModel::insertRows(int column, int count, const QModelIndex& parent)

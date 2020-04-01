@@ -2,8 +2,8 @@
 #define LEVELMODE_H
 
 #include <QWidget>
-#include "mode.h"
-#include "ui/buttons/modebutton.h"
+#include "src/mode.h"
+#include "src/ui/buttons/modebutton.h"
 
 //! кнопки для выбора уровня (количества разбиений)
 class LevelModeWidget : public QWidget

@@ -4,7 +4,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 
-#include "menuitemproxy.h"
+#include "menuiconproxy.h"
 
 class IconsView : public QGraphicsView
 {
@@ -35,7 +35,7 @@ signals:
 protected:
   QGraphicsScene m_scene;
   QPoint m_clickPos;
-  std::vector<MenuItemProxy*> m_icons;
+  std::vector<MenuIconProxy*> m_icons;
 
   const int IconSize = 150;
   const int NColumn = 2;

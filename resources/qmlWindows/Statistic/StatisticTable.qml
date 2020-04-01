@@ -55,6 +55,34 @@ TableView {
     width: tableView.viewport.width / tableView.columnCount
   }
 
+  headerDelegate: Rectangle {
+    id: _header
+    height: tableView.height * 0.11
+    width:  tableView.viewport.width / tableView.columnCount
+    color: "lightsteelblue"
+    //текст заголовка
+    Text {
+      id: textItem
+      anchors.fill: parent
+      verticalAlignment: Text.AlignVCenter
+      horizontalAlignment: Text.AlignHCenter
+      text: styleData.value
+      font.pointSize: Math.min(_header.width===0?1:_header.width/3.5,
+                               _header.height===0?1:_header.height/3.5)
+      renderType: Text.NativeRendering
+      wrapMode: Text.WrapAnywhere
+    }
+    //разделительная линия
+    Rectangle {
+      anchors.right: parent.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      width: _header.width*0.015
+      color: "#ccc"
+    }
+  }
+
+
   itemDelegate: Item {
     id: _rowItem
     Text {
@@ -63,8 +91,8 @@ TableView {
       color: "black"
       elide: Text.ElideRight
       text: styleData.value
-      font.pixelSize: Math.min(_rowItem.width === 0 ? 1 : _rowItem.width / 3,
-                               _rowItem.height === 0 ? 1 : _rowItem.height / 3)
+      font.pixelSize: Math.min(_rowItem.width === 0 ? 1 : _rowItem.width / 2,
+                               _rowItem.height === 0 ? 1 : _rowItem.height / 2)
       wrapMode: Text.WrapAnywhere
     }
     Rectangle {
@@ -85,36 +113,6 @@ TableView {
     color: {
       var baseColor = styleData.alternate ? myPalette.alternateBase : myPalette.base
       return styleData.selected ? myPalette.highlight : baseColor
-    }
-  }
-  style: TableViewStyle {
-    alternateBackgroundColor: "white"
-    headerDelegate: Rectangle {
-      id: _header
-      height: tableView.height * 0.11
-      width: tableView.viewport.width / tableView.columnCount
-      color: "lightsteelblue"
-      //текст заголовка
-      Text {
-        id: textItem
-        anchors.fill: parent
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignHCenter
-        text: styleData.value
-        font.pointSize: Math.min(_header.width === 0 ? 1 : _header.width / 3,
-                                 _header.height === 0 ? 1 : _header.height / 3)
-        color: textColor
-        renderType: Text.NativeRendering
-        wrapMode: Text.WrapAnywhere
-      }
-      //разделительная линия
-      Rectangle {
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        width: _header.width * 0.015
-        color: "#ccc"
-      }
     }
   }
 

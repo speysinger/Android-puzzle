@@ -2,8 +2,8 @@
 #define LEVELMENUSCREENCONTROLLER_H
 
 #include "screensstack.h"
-#include "mode.h"
-#include "database/levelstructures.h"
+#include "src/mode.h"
+#include "src/database/levelstructures.h"
 
 #include <memory>
 

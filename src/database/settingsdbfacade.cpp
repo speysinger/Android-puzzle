@@ -49,5 +49,5 @@ QString SettingsDBFacade::getValue(const QString& property)
   catch (...)
   {
     return DefaultSettings[property];
-  }
+    }
 }

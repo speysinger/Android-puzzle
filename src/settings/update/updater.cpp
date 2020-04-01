@@ -201,7 +201,6 @@ int Updater::countSelectedForUpdateItems(const std::vector<EraListModelItem>& se
           {
             if (foundedAuthor->updateFiles != NOTHING)
             {
-              qDebug() << foundedAuthor->object.authorName;
               itemsForUpdate++;
               foundedAuthor->updateFiles = NOTHING;
             }
@@ -285,11 +284,6 @@ void Updater::downloadAuthor(UpdatableItemWrapper<Author> author)
 void Updater::UploadSelectedItems(const std::vector<EraListModelItem>& selectedEras)
 {
   int itemsForUpdateCount = countSelectedForUpdateItems(selectedEras);
-
-  qDebug() << "COUNT" << itemsForUpdateCount;
-
-  int i = 0;
-
   emit maxValueCalculated(itemsForUpdateCount);
 
   for (auto& art : m_updatableArts)
@@ -303,7 +297,6 @@ void Updater::UploadSelectedItems(const std::vector<EraListModelItem>& selectedE
       auto foundedEra = m_updatableEras.find(fakeItemWrapper);
       if (foundedEra->updateFiles != NOTHING)
       {
-        i++;
         downloadEra(*foundedEra);
         foundedEra->updateFiles = NOTHING;
       }
@@ -315,13 +308,12 @@ void Updater::UploadSelectedItems(const std::vector<EraListModelItem>& selectedE
           if (eraInSelectedList->domesticSelected && art.object.domestic)
           {
             downloadArt(art);
-            i++;
           }
           if (eraInSelectedList->internationalSelected && !art.object.domestic)
           {
             downloadArt(art);
-            i++;
           }
+          art.updateFiles = NOTHING;
         }
 
         for (auto& artAuthor : art.object.artAuthors)
@@ -332,7 +324,6 @@ void Updater::UploadSelectedItems(const std::vector<EraListModelItem>& selectedE
           {
             if (foundedAuthor->updateFiles != NOTHING)
             {
-              i++;
               downloadAuthor(*foundedAuthor);
               m_updatableAuthors.erase(foundedAuthor);
             }
@@ -341,7 +332,7 @@ void Updater::UploadSelectedItems(const std::vector<EraListModelItem>& selectedE
       }
     }
   }
-  qDebug() << "UPDATED" << i;
+  emit stopLoading();
 }
 
 void Updater::loadJson()

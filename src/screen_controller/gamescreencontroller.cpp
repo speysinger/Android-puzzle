@@ -1,7 +1,7 @@
 #include "gamescreencontroller.h"
-#include "game/puzzlegame.h"
-#include "ui/html_view/artinfowidget.h"
-#include "database/levelstructures.h"
+#include "src/game/puzzlegame.h"
+#include "src/ui/html_view/artinfowidget.h"
+#include "src/database/levelstructures.h"
 #include <memory>
 
 GameScreenController::GameScreenController(QWidget* parent) : ScreensStack(parent)

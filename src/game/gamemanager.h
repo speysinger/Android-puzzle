@@ -2,7 +2,7 @@
 #define GAMEMANAGER_H
 
 #include "puzzlegame.h"
-#include "database/levelstructures.h"
+#include "src/database/levelstructures.h"
 #include <memory>
 
 class PuzzleGame;

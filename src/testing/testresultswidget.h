@@ -2,8 +2,8 @@
 #define TESTRESULTSWIDGET_H
 
 #include <QQmlContext>
-#include "settings/update/qmlbuttonshandler.h"
-#include "settings/update/qmlwidget.h"
+#include "src/settings/update/qmlbuttonshandler.h"
+#include "src/settings/update/qmlwidget.h"
 
 ///
 /// \brief The TestResultsWidget class

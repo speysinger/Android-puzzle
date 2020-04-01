@@ -16,6 +16,8 @@ public slots:
   bool picked();
 protected slots:
   void invert();
+protected:
+  void resizeEvent(QResizeEvent *event) override;
 signals:
   void picked(bool);
 

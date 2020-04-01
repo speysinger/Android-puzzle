@@ -1,5 +1,5 @@
 #include "gamemanager.h"
-#include "database/levelsdbfacade.h"
+#include "src/database/levelsdbfacade.h"
 
 GameManager::GameManager() : m_artPuzzleMode()
 {

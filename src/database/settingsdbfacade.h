@@ -2,7 +2,7 @@
 #define SETTINGSDBFACADE_H
 
 #include "dbfacade.h"
-#include "singleton.h"
+#include "src/singleton.h"
 #include <exception>
 
 struct Settings

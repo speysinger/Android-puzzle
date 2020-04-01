@@ -1,6 +1,6 @@
 #include "eralistmodel.h"
 #include "updater.h"
-#include "testing/testmanager.h"
+#include "src/testing/testmanager.h"
 
 EraListModel::EraListModel(QObject* parent) : QAbstractListModel(parent)
 {
@@ -140,29 +140,32 @@ QVariant EraListModel::data(const QModelIndex& index, int role) const
   if (!isPositionValid(rowIndex))
     return QVariant{};
 
-  if (role == countRole)
+  switch (role)
   {
-    int addEraToNumber = 0;
-    if (eraItemAtIndex.eraNeedToUpdate)
-      addEraToNumber = 1;
-
-    if (m_domesticArtSwitchButton && m_internationalArtSwitchButton)
-    {
+    case countRole: {
+      int addEraToNumber = 0;
       if (eraItemAtIndex.eraNeedToUpdate)
-        return QVariant::fromValue(QString::number(getTotalEraFilesCount(eraItemAtIndex) + addEraToNumber));
+        addEraToNumber = 1;
+
+      if (m_domesticArtSwitchButton && m_internationalArtSwitchButton)
+      {
+        if (eraItemAtIndex.eraNeedToUpdate)
+          return QVariant::fromValue(QString::number(getTotalEraFilesCount(eraItemAtIndex) + addEraToNumber));
+        else
+          return QVariant::fromValue(QString::number(getTotalEraFilesCount(eraItemAtIndex)));
+      }
+      else if (m_domesticArtSwitchButton & (eraItemAtIndex.domesticFilesCount > 0))
+        return QVariant::fromValue(QString::number(eraItemAtIndex.domesticFilesCount + addEraToNumber));
       else
-        return QVariant::fromValue(QString::number(getTotalEraFilesCount(eraItemAtIndex)));
+        return QVariant::fromValue(QString::number(eraItemAtIndex.internationalFilesCount + addEraToNumber));
     }
-
-    else if (m_domesticArtSwitchButton & (eraItemAtIndex.domesticFilesCount > 0))
-      return QVariant::fromValue(QString::number(eraItemAtIndex.domesticFilesCount + addEraToNumber));
-
-    else
-      return QVariant::fromValue(QString::number(eraItemAtIndex.internationalFilesCount + addEraToNumber));
+    case checkRole: {
+      return QVariant::fromValue(BoolToString(eraItemAtIndex.checkValue));
+    }
+    default: {
+      return QVariant::fromValue(eraItemAtIndex.eraName);
+    }
   }
-  if (role == checkRole)
-    return QVariant::fromValue(BoolToString(eraItemAtIndex.checkValue));
-  return QVariant::fromValue(eraItemAtIndex.eraName);
 }
 
 bool EraListModel::setData(const QModelIndex& index, const QVariant& value, int role)

@@ -4,9 +4,9 @@
 #include <QWidget>
 #include <QLineEdit>
 #include <QComboBox>
-#include "database/settingsdbfacade.h"
+#include "src/database/settingsdbfacade.h"
 #include "update/updatewidget.h"
-#include "screen_controller/screensstack.h"
+#include "src/screen_controller/screensstack.h"
 
 class OptionsWidget : public QWidget
 {
@@ -19,6 +19,7 @@ signals:
 private slots:
   void createOpenDialog();
   void setSound();
+  void clearDatabase();
 
 private:
   QLineEdit m_line_path;

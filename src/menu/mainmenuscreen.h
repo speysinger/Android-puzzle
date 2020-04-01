@@ -1,9 +1,9 @@
 #ifndef MAINMENUSCREEN_H
 #define MAINMENUSCREEN_H
 
-#include "mode.h"
+#include "src/mode.h"
 #include "level_icons_view/iconsview.h"
-#include "ui/buttons/levelmodewidget.h"
+#include "src/ui/buttons/levelmodewidget.h"
 
 class MainMenuScreen : public QWidget
 {

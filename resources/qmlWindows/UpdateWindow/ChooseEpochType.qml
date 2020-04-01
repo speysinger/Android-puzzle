@@ -1,7 +1,5 @@
-import QtQuick 2.7
-import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.1
-import QtQuick.Controls.Styles 1.4
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
 Row{
   id: root
@@ -42,8 +40,8 @@ Row{
       anchors.centerIn: _firstSwitchTextWrapper
       text: qsTr("Отечественное")
       font{
-        pointSize: Math.min((_firstSwitchTextWrapper.height===0?1:_firstSwitchTextWrapper.height*0.4),
-                            (_firstSwitchTextWrapper.width===0?1:_firstSwitchTextWrapper.width*0.1))
+        pointSize: Math.min((_firstSwitchTextWrapper.height===0?1:_firstSwitchTextWrapper.height*0.25),
+                            (_firstSwitchTextWrapper.width===0?1:_firstSwitchTextWrapper.width*0.2))
       }
       verticalAlignment: Text.AlignVCenter
     }
@@ -134,8 +132,8 @@ Row{
       anchors.centerIn: _secondSwitchTextWrapper
       text: qsTr("Зарубежное")
       font{
-        pointSize: Math.min((_secondSwitchTextWrapper.height===0?1:_secondSwitchTextWrapper.height*0.4),
-                            (_secondSwitchTextWrapper.width===0?1:_secondSwitchTextWrapper.width*0.1))
+        pointSize: Math.min((_secondSwitchTextWrapper.height===0?1:_secondSwitchTextWrapper.height*0.25),
+                            (_secondSwitchTextWrapper.width===0?1:_secondSwitchTextWrapper.width*0.2))
       }
       verticalAlignment: Text.AlignVCenter
     }

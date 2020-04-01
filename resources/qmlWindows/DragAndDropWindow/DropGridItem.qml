@@ -22,8 +22,8 @@ Item{
       // width: _imageRectangle.width
       //height: _imageRectangle.height
       opacity: 0.5
-      font.pointSize: Math.min(_firstTextDropRectangle.width===0? 1 : _firstTextDropRectangle.width/5,
-                               _firstTextDropRectangle.height===0? 1: _firstTextDropRectangle.height/8)
+      font.pointSize: Math.min(_firstTextDropRectangle.width===0? 1 : _firstTextDropRectangle.width/8,
+                               _firstTextDropRectangle.height===0? 1: _firstTextDropRectangle.height/12)
       antialiasing: true
       wrapMode: Text.WrapAnywhere
       horizontalAlignment: Text.AlignHCenter

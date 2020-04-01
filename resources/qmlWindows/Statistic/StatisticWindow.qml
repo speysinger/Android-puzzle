@@ -1,9 +1,5 @@
-import QtQuick 2.2
-import QtQuick.Layouts 1.1
-import QtQuick.Controls 2.1
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Window 2.2
+import QtQuick 2.12
+import QtQuick.Controls 2.5
 import SortFilter 1.0
 import StatisticModel 1.0
 
@@ -15,12 +11,12 @@ Rectangle {
   ToolBar {
     id:_toolBar
     anchors.top: parent.top
-    style: ToolBarStyle {
+    anchors.topMargin: parent.height*0.02
       background:Rectangle {
         color: "lemonchiffon"
       }
-    }
     height: parent.height*0.08
+    width: parent.width
 
     TabBar {
       id: _chooseNumberOfQuestions
@@ -43,8 +39,8 @@ Rectangle {
           anchors.centerIn: _firstTabButton
           text: qsTr("3x3")
           font{
-            pointSize: Math.min(_chooseNumberOfQuestions.height===0?1:_chooseNumberOfQuestions.height
-                                ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)*0.4
+            pointSize: Math.min(_firstTabButton.height===0?1:_firstTabButton.height
+                                ,_firstTabButton.width===0?1:_firstTabButton.width)/3.5
           }
         }
 
@@ -64,8 +60,8 @@ Rectangle {
           anchors.centerIn: _secondTabButton
           text: qsTr("5x5")
           font{
-            pointSize: Math.min(_chooseNumberOfQuestions.height===0?1:_chooseNumberOfQuestions.height
-                                ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)*0.4
+            pointSize: Math.min(_firstTabButton.height===0?1:_firstTabButton.height
+                                ,_firstTabButton.width===0?1:_firstTabButton.width)/3.5
           }
         }
         background: Rectangle {
@@ -85,8 +81,8 @@ Rectangle {
           anchors.centerIn: _thirdTabButton
           text: qsTr("7x7")
           font{
-            pointSize: Math.min(_chooseNumberOfQuestions.height===0?1:_chooseNumberOfQuestions.height
-                                ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)*0.4
+            pointSize: Math.min(_firstTabButton.height===0?1:_firstTabButton.height
+                                ,_firstTabButton.width===0?1:_firstTabButton.width)/3.5
           }
 
         }
@@ -107,8 +103,8 @@ Rectangle {
           anchors.centerIn: _fourthTabButton
           text: qsTr("9x9")
           font{
-            pointSize: Math.min(_chooseNumberOfQuestions.height===0?1:_chooseNumberOfQuestions.height,
-                                _chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)*0.4
+            pointSize: Math.min(_firstTabButton.height===0?1:_firstTabButton.height,
+                                _firstTabButton.width===0?1:_firstTabButton.width)/3.5
           }
         }
         background: Rectangle {
@@ -124,11 +120,11 @@ Rectangle {
       id: searchBox
       height: _chooseNumberOfQuestions.height
       placeholderText: "Поиск..."
-      font.pointSize: Math.min(_toolBar.width*0.2, _toolBar.height*0.5)
+      font.pointSize: Math.min(_toolBar.width*0.1, _toolBar.height*0.2)
 
       inputMethodHints: Qt.ImhNoPredictiveText
 
-      width: window.width / 5 * 1.5
+      width: window.width / 5 * 1.8
       anchors.right: parent.right
       anchors.verticalCenter: parent.verticalCenter
     }
@@ -151,21 +147,19 @@ Rectangle {
     anchors.topMargin: parent.height*0.02
     anchors.leftMargin: parent.width*0.05
     anchors.rightMargin: parent.width*0.05
-    height: parent.height*0.08
+    height: parent.height*0.07
     Text {
       anchors.centerIn: _backButton
       text: qsTr("Назад")
       font{
-        pointSize: Math.min((_backButton.height===0?1:_backButton.height)
-                            ,(_backButton.width===0?1:_backButton.width))/2
+        pointSize: Math.min((_backButton.height===0?1:_backButton.height/4)
+                            ,(_backButton.width===0?1:_backButton.width/4))
       }
     }
-    style: ButtonStyle {
       background: Rectangle {
         color:_backButton.down? "red":"orangered"
         radius:_backButton.height
       }
-    }
     onClicked: buttonsHandler.backButtonPressed()
 
   }

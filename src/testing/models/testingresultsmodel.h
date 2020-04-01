@@ -2,7 +2,7 @@
 #define TESTINGRESULTSMODEL_H
 
 #include <QAbstractListModel>
-#include "database/levelstructures.h"
+#include "src/database/levelstructures.h"
 
 ///
 /// \brief The TestingResultsModel class

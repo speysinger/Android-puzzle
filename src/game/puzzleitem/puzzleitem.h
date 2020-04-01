@@ -2,7 +2,7 @@
 #define PUZZLEITEM_H
 
 #include <QGraphicsPixmapItem>
-#include "game/puzzlepath.h"
+#include "src/game/puzzlepath.h"
 
 //! базовый класс пазла
 class PuzzleItem : public QObject, public QGraphicsItem {

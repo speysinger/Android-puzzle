@@ -3,7 +3,7 @@
 
 #include <QByteArray>
 #include <QJsonDocument>
-#include <database/levelstructures.h>
+#include <src/database/levelstructures.h>
 #include <set>
 
 ///

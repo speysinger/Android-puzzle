@@ -1,14 +1,14 @@
 #include "mainmenuscreencontroller.h"
-#include "menu/mainmenuscreen.h"
+#include "src/menu/mainmenuscreen.h"
 #include "gamescreencontroller.h"
-#include "ui/html_view/helpviewer.h"
+#include "src/ui/html_view/helpviewer.h"
 #include "levelmenuscreencontroller.h"
 #include "settingsscreencontroller.h"
 #include "testingscreencontroller.h"
-#include "statistic/statisticwidget.h"
+#include "src/statistic/statisticwidget.h"
 
-#include "statistic/statisticmodel.h"
-#include "statistic/sortfilterproxymodel.h"
+#include "src/statistic/statisticmodel.h"
+#include "src/statistic/sortfilterproxymodel.h"
 
 MainMenuScreenController::MainMenuScreenController(QWidget* parent) : ScreensStack(parent)
 {

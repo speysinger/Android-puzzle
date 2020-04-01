@@ -1,7 +1,7 @@
 #ifndef ERALISTMODEL_H
 #define ERALISTMODEL_H
 
-#include "database/levelstructures.h"
+#include "src/database/levelstructures.h"
 
 #include <QAbstractListModel>
 #include <vector>

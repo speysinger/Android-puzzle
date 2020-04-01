@@ -1,8 +1,8 @@
 #include "testmanager.h"
-#include "database/levelsdbfacade.h"
-#include "database/levelstructures.h"
+#include "src/database/levelsdbfacade.h"
+#include "src/database/levelstructures.h"
 #include <time.h>
-#include "game/random_points.h"
+#include "src/game/random_points.h"
 
 int TestManager::convertButtonNumberToNumberQuestions(int buttonNumber)
 {

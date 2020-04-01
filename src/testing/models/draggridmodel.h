@@ -2,7 +2,7 @@
 #define DRAGGRIDMODEL_H
 
 #include <QAbstractListModel>
-#include "database/levelstructures.h"
+#include "src/database/levelstructures.h"
 
 ///
 /// \brief The DragGridModel class

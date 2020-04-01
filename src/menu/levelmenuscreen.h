@@ -1,7 +1,7 @@
 #ifndef CATEGORYWIDGET_H
 #define CATEGORYWIDGET_H
 
-#include "mode.h"
+#include "src/mode.h"
 #include "level_icons_view/iconsview.h"
 
 class LevelModeWidget;

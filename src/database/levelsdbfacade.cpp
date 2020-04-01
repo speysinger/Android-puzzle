@@ -78,6 +78,29 @@ LevelsDBFacade::LevelsDBFacade(QObject* parent) : DBFacade(parent)
   m_statistic_model->setEditStrategy(QSqlTableModel::OnFieldChange);
 }
 
+void LevelsDBFacade::clearDatabase()
+{
+  for (auto author : authors())
+  {
+    deleteFile(author.imgPath);
+  }
+  clearTable("authors");
+
+  for (auto era : eras())
+  {
+    deleteFile(era.imgPath);
+  }
+  clearTable("eras");
+
+  for (auto art : arts())
+  {
+    deleteFile(art.imgPath);
+  }
+  clearTable("arts");
+  clearTable("artsAuthors");
+  clearTable("statistic");
+}
+
 Art LevelsDBFacade::randomArt()
 {
   exec(tr("SELECT era, path, info, name, domestic, lastUpdate FROM arts ORDER BY RANDOM() LIMIT 1;"));
@@ -405,6 +428,18 @@ void LevelsDBFacade::updateStatistic(const StatisticRecord& statisticRecord)
   }
 }
 
+void LevelsDBFacade::deleteFile(QString path)
+{
+  QFile file(path);
+  file.remove();
+}
+
+void LevelsDBFacade::clearTable(QString tableName)
+{
+  exec(tr("DELETE FROM ") + tableName + ";");
+  // exec(tr("VACUUM;"));
+}
+
 std::vector<StatisticsTableItem> LevelsDBFacade::getAllStatistic()
 {
   std::vector<StatisticsTableItem> records;
@@ -467,9 +502,9 @@ void LevelsDBFacade::updateEra(const Era& era)
   m_eras_model->select();
   m_query->first();
 
-  QFile file(m_query->value(0).toString());
-  if (era.imgPath != file.fileName())
-    file.remove();
+  QString previousFilePath = m_query->value(0).toString();
+  if (era.imgPath != previousFilePath)
+    deleteFile(previousFilePath);
 
   try
   {
@@ -488,9 +523,9 @@ void LevelsDBFacade::updateArt(Art& art)
   m_arts_model->select();
   m_query->first();
 
-  QFile file(m_query->value(0).toString());
-  if (art.imgPath != file.fileName())
-    file.remove();
+  QString previousFilePath = m_query->value(0).toString();
+  if (art.imgPath != previousFilePath)
+    deleteFile(previousFilePath);
 
   try
   {
@@ -510,9 +545,9 @@ void LevelsDBFacade::updateAuthor(Author& author)
   m_authors_model->select();
   m_query->first();
 
-  QFile file(m_query->value(0).toString());
-  if (author.imgPath != file.fileName())
-    file.remove();
+  QString previousFilePath = m_query->value(0).toString();
+  if (author.imgPath != previousFilePath)
+    deleteFile(previousFilePath);
 
   try
   {

@@ -2,9 +2,9 @@
 #define SETTINGSSCREENCONTROLLER_H
 
 #include "screensstack.h"
-#include "settings/optionswidget.h"
-#include "settings/update/updatewidget.h"
-#include "settings/update/progressbarwidget.h"
+#include "src/settings/optionswidget.h"
+#include "src/settings/update/updatewidget.h"
+#include "src/settings/update/progressbarwidget.h"
 
 class OptionsWidget;
 class UpdateWidget;

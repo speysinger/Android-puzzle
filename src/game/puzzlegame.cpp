@@ -1,9 +1,9 @@
 #include "puzzlegame.h"
 #include "itemground.h"
 #include "random_points.h"
-#include "ui/buttons/styledbutton.h"
-#include "game/puzzleitem/puzzlematrix.h"
-#include "game/puzzleitem/settableitem.h"
+#include "src/ui/buttons/styledbutton.h"
+#include "src/game/puzzleitem/puzzlematrix.h"
+#include "src/game/puzzleitem/settableitem.h"
 #include <QGridLayout>
 #include <QPushButton>
 #include <QSpacerItem>
@@ -20,12 +20,22 @@ PuzzleGame::PuzzleGame(QWidget* parent)
       Animal(":/icon/pets/mouse.png", "qrc:/sounds/pets/mouse.ogg")
     }, this) {
 
+
+    QSizePolicy buttonSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    buttonSizePolicy.setVerticalStretch(1);
+
   StyledButton *rotate = new StyledButton("rotate", this);
+  rotate->setSizePolicy(buttonSizePolicy);
   StyledButton *back = new StyledButton("back", this);
   back->setIcon(QIcon(":/icons/back.ico"));
+  back->setSizePolicy(buttonSizePolicy);
 
   QGridLayout *grid = new QGridLayout(this);
   setLayout(grid);
+
+
+  buttonSizePolicy.setVerticalStretch(9);
+  m_view.setSizePolicy(buttonSizePolicy);
 
   grid->addWidget(&m_view,1,0,1,2);
   grid->addWidget(&m_label,2,0,1,2);

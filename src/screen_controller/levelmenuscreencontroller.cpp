@@ -1,8 +1,8 @@
 #include "levelmenuscreencontroller.h"
 #include "gamescreencontroller.h"
-#include "database/levelsdbfacade.h"
-#include "database/levelstructures.h"
-#include "menu/levelmenuscreen.h"
+#include "src/database/levelsdbfacade.h"
+#include "src/database/levelstructures.h"
+#include "src/menu/levelmenuscreen.h"
 #include <memory>
 
 LevelMenuScreenController::LevelMenuScreenController(QWidget* parent)

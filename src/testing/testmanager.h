@@ -2,8 +2,8 @@
 #define TESTMANAGER_H
 
 #include <random>
-#include "database/levelstructures.h"
-#include "singleton.h"
+#include "src/database/levelstructures.h"
+#include "src/singleton.h"
 
 ///
 /// \brief The TestManager class

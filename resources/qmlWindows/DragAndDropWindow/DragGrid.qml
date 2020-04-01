@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import draggridmodel 1.0
 
 Rectangle {
@@ -17,8 +17,8 @@ Rectangle {
             anchors.centerIn: _dragGrid
             text: "Картины"
             font{
-                pointSize:Math.min(_dragGrid.height===0?1:_dragGrid.height*0.04,
-                                   _dragGrid.width===0?1:_dragGrid.width*0.03)
+                pointSize:Math.min(_dragGrid.height===0?1:_dragGrid.height*0.02,
+                                   _dragGrid.width===0?1:_dragGrid.width*0.02)
             }
         }
 

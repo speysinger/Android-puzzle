@@ -1,6 +1,6 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.1
-import EraListModel 1.0;
+import QtQuick 2.12
+import QtQuick.Controls 2.5
+import EraListModel 1.0
 import "../SupportingFiles"
 
 Rectangle {

@@ -1,6 +1,6 @@
 #include "statisticmodel.h"
-#include "database/levelsdbfacade.h"
-#include "database/levelstructures.h"
+#include "src/database/levelsdbfacade.h"
+#include "src/database/levelstructures.h"
 
 StatisticModel::StatisticModel(QObject* parent) : QAbstractTableModel(parent)
 {

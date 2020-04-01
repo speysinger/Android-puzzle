@@ -1,7 +1,7 @@
 #ifndef SELECTABLEITEM_H
 #define SELECTABLEITEM_H
 
-#include "game/puzzlepath.h"
+#include "src/game/puzzlepath.h"
 #include "puzzleitem.h"
 #include <QPainter>
 

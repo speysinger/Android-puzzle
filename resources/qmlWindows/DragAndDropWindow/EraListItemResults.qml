@@ -18,7 +18,7 @@ Item {
             text: question
             font {
                 pointSize: Math.min(_listViewResultsItem.width===0?1:_listViewResultsItem.width,
-                                    _listViewResultsItem.height===0?1:_listViewResultsItem.height)/8
+                                    _listViewResultsItem.height===0?1:_listViewResultsItem.height)/9
                 bold:true
             }
             wrapMode: Text.WrapAnywhere

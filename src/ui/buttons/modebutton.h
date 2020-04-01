@@ -2,7 +2,7 @@
 #define MODEBUTTON_H
 
 #include "pickedbutton.h"
-#include "mode.h"
+#include "src/mode.h"
 
 class ModeButton : public PickedButton
 {

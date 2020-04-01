@@ -1,5 +1,5 @@
 #include "dropgridmodel.h"
-#include "testing/testmanager.h"
+#include "src/testing/testmanager.h"
 
 DropGridModel::DropGridModel(QObject* parent) : QAbstractListModel(parent)
 {
@@ -52,16 +52,24 @@ QVariant DropGridModel::data(const QModelIndex& index, int role) const
   int rowIndex = index.row();
   DropGridItem dropItemAtIndex = m_dropItemsList[rowIndex];
 
-  if (role == itemType)
-    return QVariant::fromValue(dropItemAtIndex.itemType);
-
-  if (role == dropItemName)
-    return QVariant::fromValue(dropItemAtIndex.dropItemName);
-
-  if (role == answerObjectName)
-    return QVariant::fromValue(dropItemAtIndex.answerObjectName);
-
-  return QVariant::fromValue(dropItemAtIndex.dropItemImageSource);
+  switch (role)
+  {
+    case itemType: {
+      return QVariant::fromValue(dropItemAtIndex.itemType);
+    }
+    case dropItemName: {
+      return QVariant::fromValue(dropItemAtIndex.dropItemName);
+    }
+    case answerObjectName: {
+      return QVariant::fromValue(dropItemAtIndex.answerObjectName);
+    }
+    case dropItemImageSource: {
+      return QVariant::fromValue(dropItemAtIndex.dropItemImageSource);
+    }
+    default: {
+      return QVariant{};
+    }
+  }
 }
 
 bool DropGridModel::setData(const QModelIndex& index, const QVariant& value, int role)

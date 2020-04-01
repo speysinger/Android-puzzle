@@ -1,5 +1,5 @@
 #include "testingresultsmodel.h"
-#include "testing/testmanager.h"
+#include "src/testing/testmanager.h"
 
 TestingResultsModel::TestingResultsModel(QObject* parent) : QAbstractListModel(parent)
 {
@@ -34,17 +34,23 @@ QVariant TestingResultsModel::data(const QModelIndex& index, int role) const
   if (!index.isValid() || (role != question && role != userAnswer && role != correctAnswer))
     return QVariant{};
   int rowIndex = index.row();
+  TestResultsItem testResultsItem = m_testingResults[rowIndex];
 
-  if (role == question)
-    return QVariant::fromValue(m_testingResults[rowIndex].question);
-
-  if (role == userAnswer)
-    return QVariant::fromValue(m_testingResults[rowIndex].userAnswer);
-
-  if (role == correctAnswer)
-    return QVariant::fromValue(m_testingResults[rowIndex].correctAnswer);
-
-  return QVariant{};
+  switch (role)
+  {
+    case question: {
+      return QVariant::fromValue(testResultsItem.question);
+    }
+    case userAnswer: {
+      return QVariant::fromValue(testResultsItem.userAnswer);
+    }
+    case correctAnswer: {
+      return QVariant::fromValue(testResultsItem.correctAnswer);
+    }
+    default: {
+      return QVariant{};
+    }
+  }
 }
 
 bool TestingResultsModel::insertRows(int column, int count, const QModelIndex& parent)

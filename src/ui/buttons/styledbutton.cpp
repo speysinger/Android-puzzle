@@ -14,18 +14,19 @@ StyledButton::StyledButton(const QString& text, QWidget* parent) : QPushButton(t
   setFont(font);
 }
 
-void StyledButton::resizeEvent(QResizeEvent* event)
+void StyledButton::resizeEvent(QResizeEvent *event)
 {
-  QFont resizedFont = font();
-  float fontSize = std::min(this->width() / 18, this->height() / 3);
-  if (this->fontMetrics().elidedText(this->text(), Qt::ElideMiddle, this->geometry().width()) != this->text())
-  {
-  }
-  if (fontSize <= 1)
+  QFont resizedFont=font();
+  float fontSize=std::min(this->width()/28,this->height()/6);
+  if(this->fontMetrics().elidedText(this->text(),Qt::ElideMiddle,this->geometry().width())
+     != this->text())
+  { }
+  if(fontSize<=1)
     resizedFont.setPointSizeF(1);
   else
     resizedFont.setPointSizeF(fontSize);
 
+  setIconSize(QSize(this->width()/8,this->height()/3));
   setFont(resizedFont);
   QPushButton::resizeEvent(event);
 }

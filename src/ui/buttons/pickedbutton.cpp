@@ -31,3 +31,19 @@ void PickedButton::invert()
 {
   pick(!m_picked);
 }
+
+void PickedButton::resizeEvent(QResizeEvent *event)
+{
+    QFont resizedFont=font();
+    float fontSize=std::min(this->width()/14,this->height()/4);
+    if(this->fontMetrics().elidedText(this->text(),Qt::ElideMiddle,this->geometry().width())
+       != this->text())
+    { }
+    if(fontSize<=1)
+      resizedFont.setPointSizeF(1);
+    else
+      resizedFont.setPointSizeF(fontSize);
+
+    setFont(resizedFont);
+    QPushButton::resizeEvent(event);
+}

@@ -1,7 +1,7 @@
 #include "mainmenuscreen.h"
 #include <QGridLayout>
 #include <QPushButton>
-#include "ui/buttons/styledbutton.h"
+#include "src/ui/buttons/styledbutton.h"
 
 MainMenuScreen::MainMenuScreen(QWidget* parent) : QWidget(parent), m_modeWidget(new LevelModeWidget(this))
 {
@@ -18,6 +18,10 @@ MainMenuScreen::MainMenuScreen(QWidget* parent) : QWidget(parent), m_modeWidget(
   StyledButton* exit = new StyledButton("Выход", this);
 
   settings->setIcon(QIcon(":/icon/settings.ico"));
+
+  m_modeWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  m_modeWidget->sizePolicy().setHorizontalStretch(1);
+  m_modeWidget->sizePolicy().setVerticalStretch(2);
 
   randomPictures->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   authors->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);

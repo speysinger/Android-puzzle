@@ -1,9 +1,9 @@
 #ifndef UPDATER_H
 #define UPDATER_H
 
-#include <database/levelsdbfacade.h>
-#include <database/levelstructures.h>
-#include <database/jsonparser.h>
+#include <src/database/levelsdbfacade.h>
+#include <src/database/levelstructures.h>
+#include <src/database/jsonparser.h>
 #include <vector>
 #include <set>
 #include "loader.h"
@@ -57,6 +57,7 @@ private:
   void fillListOfUpdatableArts(const JsonParser& loadedJson);
   void fillListOfUpdatableAuthors(const JsonParser& loadedJson);
 
+
   void sendUpdatableInfoToQml();
   int countSelectedForUpdateItems(const std::vector<EraListModelItem>& selectedEras);
 
@@ -77,6 +78,7 @@ signals:
   void itemsLoaded(std::vector<EraListModelItem> vec, bool isTestingModule);
   void maxValueCalculated(int maxValue);
   void fileLoaded();
+  void stopLoading();
 };
 
 #define UPDATER Singleton<Updater>::instance()

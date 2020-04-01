@@ -2,7 +2,7 @@
 #define STATISTICMODEL_H
 
 #include <QAbstractTableModel>
-#include "database/levelstructures.h"
+#include "src/database/levelstructures.h"
 #include <vector>
 #include <QHash>
 

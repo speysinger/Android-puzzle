@@ -1,12 +1,12 @@
 #ifndef PUZZLEGAME_H
 #define PUZZLEGAME_H
 
-#include "mode.h"
+#include "src/mode.h"
 #include "puzzleview.h"
 #include "pathpoints.h"
 #include "puzzlepath.h"
-#include "game/puzzleitem/puzzleitem.h"
-#include "sound_controller/soundcontroller.h"
+#include "src/game/puzzleitem/puzzleitem.h"
+#include "src/sound_controller/soundcontroller.h"
 #include <QLabel>
 
 class SettableItem;

@@ -2,9 +2,9 @@
 #define TESTINGSCREENCONTROLLER_H
 
 #include "screensstack.h"
-#include "testing/testsettingswidget.h"
-#include "testing/widgetoftesting.h"
-#include "testing/testresultswidget.h"
+#include "src/testing/testsettingswidget.h"
+#include "src/testing/widgetoftesting.h"
+#include "src/testing/testresultswidget.h"
 
 class TestSettingsWidget;
 class WidgetOfTesting;

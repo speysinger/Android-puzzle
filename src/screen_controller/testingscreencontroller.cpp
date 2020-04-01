@@ -1,9 +1,9 @@
 #include "testingscreencontroller.h"
-#include "testing/testmanager.h"
-#include "settings/update/eralistmodel.h"
-#include "testing/models/testingresultsmodel.h"
-#include "testing/models/draggridmodel.h"
-#include "testing/models/dropgridmodel.h"
+#include "src/testing/testmanager.h"
+#include "src/settings/update/eralistmodel.h"
+#include "src/testing/models/testingresultsmodel.h"
+#include "src/testing/models/draggridmodel.h"
+#include "src/testing/models/dropgridmodel.h"
 
 TestingScreenController::TestingScreenController(QWidget* parent) : ScreensStack(parent)
 {

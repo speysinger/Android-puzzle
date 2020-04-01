@@ -1,9 +1,9 @@
 #include "puzzleview.h"
-#include "game/puzzleitem/puzzlematrix.h"
-#include "game/puzzleitem/settableitem.h"
-#include "game/puzzleitem/selectableitem.h"
-#include "game/puzzleitem/puzzleitem.h"
-#include "game/puzzleitem/rotatableitem.h"
+#include "src/game/puzzleitem/puzzlematrix.h"
+#include "src/game/puzzleitem/settableitem.h"
+#include "src/game/puzzleitem/selectableitem.h"
+#include "src/game/puzzleitem/puzzleitem.h"
+#include "src/game/puzzleitem/rotatableitem.h"
 
 PuzzleView::PuzzleView(QGraphicsScene *scene)
   : QGraphicsView(scene) {

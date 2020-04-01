@@ -1,5 +1,5 @@
-#include "game/puzzleitem/puzzlematrix.h"
-#include "game/puzzleitem/settableitem.h"
+#include "src/game/puzzleitem/puzzlematrix.h"
+#include "src/game/puzzleitem/settableitem.h"
 #include <assert.h>
 
 PuzzleMatrix createPuzzles(const QPixmap &source, PuzzlePathMatrix &puzzlePathes) {

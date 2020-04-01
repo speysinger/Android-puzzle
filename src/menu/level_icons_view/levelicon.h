@@ -2,7 +2,7 @@
 #define LEVELICON_H
 
 #include <QGraphicsPixmapItem>
-#include "database/levelstructures.h"
+#include "src/database/levelstructures.h"
 
 class ILevelIcon : public QObject, public QGraphicsPixmapItem
 {

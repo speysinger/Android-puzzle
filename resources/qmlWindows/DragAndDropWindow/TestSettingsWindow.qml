@@ -46,7 +46,7 @@ Rectangle {
     anchors.leftMargin: _testSettingsWindow.width*0.05
     anchors.rightMargin: _testSettingsWindow.width*0.05
     background: Rectangle{
-      color:"lemonchiffon"
+      color:"transparent"
     }
 
     TabButton {
@@ -57,7 +57,7 @@ Rectangle {
         text: "5"
         font{
           pointSize: Math.min(_chooseNumberOfQuestions.height===0?1:_chooseNumberOfQuestions.height
-                              ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)/1.1
+                              ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)/3
         }
       }
 
@@ -76,7 +76,7 @@ Rectangle {
         text: "10"
         font{
           pointSize: Math.min(_chooseNumberOfQuestions.height===0?1:_chooseNumberOfQuestions.height
-                              ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)/1.1
+                              ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)/3
         }
       }
       background: Rectangle {
@@ -95,7 +95,7 @@ Rectangle {
         text: "15"
         font{
           pointSize: Math.min(_chooseNumberOfQuestions.height===0?1:_chooseNumberOfQuestions.height
-                              ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)/1.1
+                              ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)/3
         }
       }
       background: Rectangle {
@@ -117,34 +117,10 @@ Rectangle {
     anchors.rightMargin: _testSettingsWindow.width*0.05
     height: _testSettingsWindow.height*0.11
     width: _testSettingsWindow.width*0.90
-    Button{
-      id:_backButton
-      anchors.left: _rowLayout.left
-      width: _rowLayout.width*0.45
-      anchors.top: parent.top
-      anchors.topMargin: parent.height*0.2
-      anchors.bottom: parent.bottom
-      height: _rowLayout.height*0.2
-      Text{
-        anchors.centerIn: _backButton
-        text: "Назад"
-        font{
-          pointSize: Math.min((_rowLayout.height===0?1:_rowLayout.height*0.37)
-                              ,(_rowLayout.width===0?1:_rowLayout.width*0.7))
-        }
-      }
-      background: Rectangle
-      {
-        color:_backButton.down? "red":"orangered"
-        radius:_backButton.height
-      }
-      onClicked: buttonsHandler.backButtonPressed()
-
-    }
 
     Button {
       id:_loadImagesButton
-      anchors.right: _rowLayout.right
+      anchors.left: _rowLayout.left
       anchors.top: parent.top
       anchors.topMargin: parent.height*0.2
       anchors.bottom: parent.bottom
@@ -154,8 +130,8 @@ Rectangle {
         anchors.centerIn: _loadImagesButton
         text: "Начать"
         font{
-          pointSize: Math.min((_rowLayout.height===0?1:_rowLayout.height*0.37),
-                              (_rowLayout.width===0?1:_rowLayout.width*0.7))
+          pointSize: Math.min((_rowLayout.height===0?1:_rowLayout.height/4.3),
+                              (_rowLayout.width===0?1:_rowLayout.width/2))
         }
       }
       background: Rectangle
@@ -166,6 +142,31 @@ Rectangle {
       onClicked:{
         _epochList.chooseCorrectModelData("testSettings")
       }
+    }
+
+    Button{
+      id:_backButton
+      anchors.right: _rowLayout.right
+      width: _rowLayout.width*0.45
+      anchors.top: parent.top
+      anchors.topMargin: parent.height*0.2
+      anchors.bottom: parent.bottom
+      height: _rowLayout.height*0.2
+      Text{
+        anchors.centerIn: _backButton
+        text: "Назад"
+        font{
+          pointSize: Math.min((_rowLayout.height===0?1:_rowLayout.height/4.3)
+                              ,(_rowLayout.width===0?1:_rowLayout.width/2))
+        }
+      }
+      background: Rectangle
+      {
+        color:_backButton.down? "red":"orangered"
+        radius:_backButton.height
+      }
+      onClicked: buttonsHandler.backButtonPressed()
+
     }
   }
   PopUpNotification{

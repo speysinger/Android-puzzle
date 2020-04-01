@@ -1,6 +1,6 @@
 #ifndef MEDIA_H
 #define MEDIA_H
-#include "singleton.h"
+#include "src/singleton.h"
 #include <QMediaPlayer>
 
 namespace media {

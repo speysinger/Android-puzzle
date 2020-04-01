@@ -81,7 +81,7 @@ Rectangle {
         anchors.rightMargin: _testWindow.width*0.05
         Text{
             anchors.centerIn: _nextButton
-            text: qsTr("Дальше")
+            text: qsTr("Далее")
             font{
                 pointSize: Math.min(_nextButton.height===0?1:_nextButton.height
                                     ,_nextButton.width===0?1:_nextButton.width)/2

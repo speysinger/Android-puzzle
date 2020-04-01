@@ -2,7 +2,7 @@
 #define LEVELSDBFACADE_H
 
 #include "dbfacade.h"
-#include "singleton.h"
+#include "src/singleton.h"
 #include "levelstructures.h"
 #include "settingsdbfacade.h"
 #include "jsonparser.h"
@@ -15,6 +15,8 @@ class LevelsDBFacade : public DBFacade
   Q_OBJECT
 public:
   LevelsDBFacade(QObject* parent = nullptr);
+
+  void clearDatabase();
 
   Art randomArt();
   Art randomArt(Era& era);
@@ -55,6 +57,9 @@ public:
 private:
   void addStatistic(const StatisticRecord& statisticRecord);
   void updateStatistic(const StatisticRecord& statisticRecord);
+
+  void deleteFile(QString path);
+  void clearTable(QString tableName);
 
 protected:
   QSqlRelationalTableModel* m_arts_model;

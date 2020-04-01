@@ -1,7 +1,7 @@
 #ifndef PUZZLEMATRIX_H
 #define PUZZLEMATRIX_H
 
-#include "game/puzzlepath.h"
+#include "src/game/puzzlepath.h"
 
 class SettableItem;
 

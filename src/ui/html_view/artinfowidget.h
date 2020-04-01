@@ -1,7 +1,7 @@
 #ifndef INFOART_H
 #define INFOART_H
 #include <QWidget>
-#include "database/levelstructures.h"
+#include "src/database/levelstructures.h"
 
 class QGridLayout;
 class ScrolledTextBrowser;
@@ -17,9 +17,7 @@ signals:
   void back();
 
 protected:
-  QGridLayout* m_layer;
-  ScrolledTextBrowser* m_text;
-  StyledButton* m_backButton;
+  ScrolledTextBrowser *m_text;
 };
 
 #endif  // INFOART_H

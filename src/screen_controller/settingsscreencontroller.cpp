@@ -1,7 +1,7 @@
 #include "settingsscreencontroller.h"
-#include "settings/update/eralistmodel.h"
+#include "src/settings/update/eralistmodel.h"
 
-#include "settings/update/updater.h"
+#include "src/settings/update/updater.h"
 
 SettingsScreenController::SettingsScreenController(QWidget* parent) : ScreensStack(parent)
 {
@@ -25,7 +25,7 @@ SettingsScreenController::SettingsScreenController(QWidget* parent) : ScreensSta
   });
 
   connect(m_options, SIGNAL(back()), SIGNAL(back()));
-  connect(m_progressBar, &ProgressBarWidget::backButtonPressed, [=] {
+  connect(&UPDATER, &Updater::stopLoading, [=] {
     pop();
     UPDATER.loadJson();
   });
