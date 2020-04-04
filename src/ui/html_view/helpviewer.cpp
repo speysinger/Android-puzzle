@@ -6,8 +6,8 @@
 
 HelpViewer::HelpViewer(QWidget* parent) : QWidget(parent)
 {
-    QVBoxLayout *layer = new QVBoxLayout(this);
-    setLayout(layer);
+  QVBoxLayout* layer = new QVBoxLayout(this);
+  setLayout(layer);
 
   ScrolledTextBrowser* helpViewer = new ScrolledTextBrowser;
   StyledButton* backButton = new StyledButton("back", this);
@@ -24,7 +24,7 @@ HelpViewer::HelpViewer(QWidget* parent) : QWidget(parent)
   backButton->setIcon(QIcon(":/icon/back.ico"));
 
   layer->addWidget(helpViewer);
-    layer->addWidget(backButton);
+  layer->addWidget(backButton);
 
   connect(backButton, SIGNAL(clicked(bool)), SIGNAL(back()));
 }

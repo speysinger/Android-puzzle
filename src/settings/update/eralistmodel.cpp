@@ -77,7 +77,7 @@ void EraListModel::getSelectedElements(bool isTestingRequest, int buttonNumber)
     if (isTestingRequest)
       TESTMANAGER.startTesting(selectedEras, buttonNumber);
     else  //иначе данные присылал апдейтер и данные ему отослать
-      UPDATER.UploadSelectedItems(selectedEras);
+      UPDATER.uploadSelectedItems(selectedEras);
   }
 }
 

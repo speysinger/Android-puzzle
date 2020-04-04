@@ -58,7 +58,7 @@ void TestManager::loadAvailableEras()
           questionsAndAnswers.push_back(QuestionWrapper(dragItem, authorDropItem, false, isDomestic));
         }
       }
-      //У эпохи, при их наличии, указывается любое ненулевое количество отечественных и заруб файлов.
+      //У эпохи, при их наличии, указывается любое ненулевое количество отечественных и заруб. файлов.
       int domesticFilesCount = 0, internationalFilesCount = 0;
       if (hasDomesticArts)
         domesticFilesCount = 2;
@@ -91,6 +91,10 @@ void TestManager::getNumberOfEraQuestions(int& eraQuestions, int& authorQuestion
   qDebug() << QString::number(eraQuestions) + " " + QString::number(authorQuestions);
 }
 
+/// \details Сперва проверяется количество доступных вопросов
+/// Следом случайным образом выбирается эпоха
+/// Из эпохи случайным образом выбирается вопрос и записывается  во временный вектор
+/// Как только временный вектор достигает размера = количеству вопросов на одном экране, он записывается в итог. вектор
 void TestManager::startTesting(std::vector<EraListModelItem> selectedEras, int buttonNumber)
 {
   ///псевдо-генератор для std::shuffle
@@ -173,6 +177,10 @@ void TestManager::takeResultsFromDropModel(std::vector<DropGridItem> results)
   sendQuadToDndModels();
 }
 
+/// \details Для каждого элемента из списка результатов проверяется тип вопроса(автор или эпоха)
+/// Следом происходит его поиск в первых элементах общего списка вопросов, равных residueCount
+/// При нахождении вопроса в общем списке, результаты заносятся в список и вопрос удаляется как из общего списка,
+/// так и из списка результатов
 void TestManager::findCorrectAnswers(std::vector<DropGridItem>& results, int& residueCount)
 {
   std::vector<DropGridItem>::iterator dropIt = results.begin();
@@ -199,6 +207,10 @@ void TestManager::findCorrectAnswers(std::vector<DropGridItem>& results, int& re
   }
 }
 
+/// \details Для каждого элемента из списка результатов проверяется тип вопроса(автор или эпоха)
+/// Следом происходит его поиск в первых элементах общего списка вопросов, равных residueCount
+/// При нахождении вопроса в общем списке, результаты заносятся в список и вопрос удаляется как из общего списка,
+/// так и из списка результатов
 void TestManager::findWrongAnswers(std::vector<DropGridItem>& results, int& residueCount)
 {
   std::vector<DropGridItem>::iterator dropIt = results.begin();
@@ -242,7 +254,6 @@ void TestManager::sendQuadToDndModels()
   for (size_t index = 0; index < questionItems; index++)
   {
     QuestionWrapper questionWrapper = questionType ? m_eraForTestQuestions[index] : m_authorForTestQuestions[index];
-    // questionType ==1 (eratype) else author
     m_currentTypeOfQuestionIsEra = questionType;
 
     dragGridItems.push_back(questionWrapper.dragGridItem);

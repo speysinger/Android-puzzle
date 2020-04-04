@@ -437,7 +437,6 @@ void LevelsDBFacade::deleteFile(QString path)
 void LevelsDBFacade::clearTable(QString tableName)
 {
   exec(tr("DELETE FROM ") + tableName + ";");
-  // exec(tr("VACUUM;"));
 }
 
 std::vector<StatisticsTableItem> LevelsDBFacade::getAllStatistic()

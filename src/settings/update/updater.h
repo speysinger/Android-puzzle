@@ -17,7 +17,7 @@ class Updater : public QObject
   Q_OBJECT
 public:
   Updater();
-  void UploadSelectedItems(const std::vector<EraListModelItem>& selectedEras);
+  void uploadSelectedItems(const std::vector<EraListModelItem>& selectedEras);
   void loadJson();
 public slots:
   void fillUpdatableLists(const QByteArray& jsonData);
@@ -56,7 +56,6 @@ private:
   void fillListOfUpdatableEras(const JsonParser& loadedJson);
   void fillListOfUpdatableArts(const JsonParser& loadedJson);
   void fillListOfUpdatableAuthors(const JsonParser& loadedJson);
-
 
   void sendUpdatableInfoToQml();
   int countSelectedForUpdateItems(const std::vector<EraListModelItem>& selectedEras);

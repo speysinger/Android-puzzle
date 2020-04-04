@@ -144,9 +144,9 @@ void Updater::sendUpdatableInfoToQml()
 
         for (auto& artAuthor : art.object.artAuthors)
         {
-          UpdatableItemWrapper<Author> test(artAuthor, NOTHING);
+          UpdatableItemWrapper<Author> desiredAuthor(artAuthor, NOTHING);
 
-          auto foundedAuthor = m_updatableAuthors.find(test);
+          auto foundedAuthor = m_updatableAuthors.find(desiredAuthor);
           if (foundedAuthor != m_updatableAuthors.end())
           {
             if (foundedAuthor->updateFiles != NOTHING)
@@ -175,9 +175,9 @@ int Updater::countSelectedForUpdateItems(const std::vector<EraListModelItem>& se
 
   for (auto& era : selectedEras)
   {
-    UpdatableItemWrapper<Era> fakeItemWrapper(Era(era.eraName, "", QDate()), UpdateFileStatus(NOTHING));
+    UpdatableItemWrapper<Era> desiredEra(Era(era.eraName, "", QDate()), UpdateFileStatus(NOTHING));
 
-    auto foundedEra = m_updatableEras.find(fakeItemWrapper);
+    auto foundedEra = m_updatableEras.find(desiredEra);
     if (foundedEra->updateFiles != NOTHING)
       itemsForUpdate++;
 
@@ -195,8 +195,9 @@ int Updater::countSelectedForUpdateItems(const std::vector<EraListModelItem>& se
 
         for (auto& artAuthor : art.object.artAuthors)
         {
-          UpdatableItemWrapper<Author> test(artAuthor, NOTHING);
-          auto foundedAuthor = authorsList.find(test);
+          UpdatableItemWrapper<Author> desiredAuthor(artAuthor, NOTHING);
+
+          auto foundedAuthor = authorsList.find(desiredAuthor);
           if (foundedAuthor != authorsList.end())
           {
             if (foundedAuthor->updateFiles != NOTHING)
@@ -278,10 +279,10 @@ void Updater::downloadAuthor(UpdatableItemWrapper<Author> author)
 }
 
 /// \details Сперва производится подсчёт объектов, которые необходимо скачать, для выбранного списка эпох
-/// Следом производится обход по списке всех картин
+/// Следом производится обход по списку всех картин
 /// Для каждой картины проверяется наличие её эпохи в списке эпох на закачку
 /// Для каждой картины проверяется необходимость закачать авторов
-void Updater::UploadSelectedItems(const std::vector<EraListModelItem>& selectedEras)
+void Updater::uploadSelectedItems(const std::vector<EraListModelItem>& selectedEras)
 {
   int itemsForUpdateCount = countSelectedForUpdateItems(selectedEras);
   emit maxValueCalculated(itemsForUpdateCount);
@@ -292,9 +293,9 @@ void Updater::UploadSelectedItems(const std::vector<EraListModelItem>& selectedE
 
     if (eraInSelectedList != selectedEras.end())
     {
-      UpdatableItemWrapper<Era> fakeItemWrapper(Era(art.object.eraName, "", QDate()), UpdateFileStatus(NOTHING));
+      UpdatableItemWrapper<Era> desiredEra(Era(art.object.eraName, "", QDate()), UpdateFileStatus(NOTHING));
 
-      auto foundedEra = m_updatableEras.find(fakeItemWrapper);
+      auto foundedEra = m_updatableEras.find(desiredEra);
       if (foundedEra->updateFiles != NOTHING)
       {
         downloadEra(*foundedEra);
@@ -318,8 +319,8 @@ void Updater::UploadSelectedItems(const std::vector<EraListModelItem>& selectedE
 
         for (auto& artAuthor : art.object.artAuthors)
         {
-          UpdatableItemWrapper<Author> test(artAuthor, NOTHING);
-          auto foundedAuthor = m_updatableAuthors.find(test);
+          UpdatableItemWrapper<Author> desiredAuthor(artAuthor, NOTHING);
+          auto foundedAuthor = m_updatableAuthors.find(desiredAuthor);
           if (foundedAuthor != m_updatableAuthors.end())
           {
             if (foundedAuthor->updateFiles != NOTHING)

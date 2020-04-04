@@ -7,11 +7,11 @@
 
 ArtInfoWidget::ArtInfoWidget(QWidget* parent) : QWidget(parent)
 {
-  QGridLayout *m_layer = new QGridLayout(this);
+  QGridLayout* m_layer = new QGridLayout(this);
   setLayout(m_layer);
 
   m_text = new ScrolledTextBrowser(this);
-  StyledButton *m_backButton = new StyledButton("back", this);
+  StyledButton* m_backButton = new StyledButton("back", this);
   m_backButton->setIcon(QIcon(":/icon/back.ico"));
 
   QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
@@ -55,4 +55,5 @@ void ArtInfoWidget::load(Art art)
   m_text->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
   c = m_text->textCursor();
   c.insertHtml(tr("<br>") + art.imgInfo + "<br><br>");
+  m_text->moveCursor(QTextCursor::Start, QTextCursor::MoveAnchor);
 }
