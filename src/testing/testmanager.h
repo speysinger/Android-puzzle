@@ -47,8 +47,13 @@ private:
 
   void getNumberOfEraQuestions(int& eraQuestions, int& artQuestions, std::vector<EraListModelItem>& selectedEras);
 
+  void findAnswers(std::vector<DropGridItem>& results, int& quadResidue);
   void findCorrectAnswers(std::vector<DropGridItem>& results, int& quadResidue);
   void findWrongAnswers(std::vector<DropGridItem>& results, int& quadResidue);
+
+  void fillQuestionsList(int requiredQuestionsCount, std::vector<EraListModelItem> selectedEras);
+  void mergeQuestionsQuad(std::vector<QuestionWrapper>& questionsQuad, std::vector<QuestionWrapper>& questionsList,
+                          int& questionsCount);
 
   void sendQuadToDndModels();
 
@@ -93,7 +98,7 @@ private:
 
     bool operator==(const QString& findEraName) const
     {
-      return era.name == findEraName;
+      return era.eraName == findEraName;
     }
   };
 
@@ -106,6 +111,9 @@ private:
 
   bool m_currentTypeOfQuestionIsEra = false;
   const int questionItems = 4;
+
+  ///генератор псевдо-случайных чисел для std::shuffle для std::shuffle
+  std::random_device rd;
 };
 
 #define TESTMANAGER Singleton<TestManager>::instance()

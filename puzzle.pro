@@ -2,7 +2,9 @@ QT += core gui
 QT += widgets sql multimedia network quick quickwidgets
 
 QMAKE_CXXFLAGS += -std=c++17
+android{
 QMAKE_LINK += -nostdlib++
+}
 
 TARGET = puzzle
 TEMPLATE = app
@@ -131,7 +133,7 @@ SOURCES += \
 
 contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
     ANDROID_PACKAGE_SOURCE_DIR = \
-        $$PWD/../android
+        $$PWD/android
 }
 
 include(androidOpenSSL/openssl.pri)

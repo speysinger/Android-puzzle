@@ -7,21 +7,21 @@
 
 struct Era
 {
-  mutable QString name, imgPath;
+  mutable QString eraName, imgPath;
   QDate lastUpdate;
 
-  Era(QString name_, QString imgPath_, QDate lastUpdate_) : name(name_), imgPath(imgPath_), lastUpdate(lastUpdate_)
+  Era(QString name_, QString imgPath_, QDate lastUpdate_) : eraName(name_), imgPath(imgPath_), lastUpdate(lastUpdate_)
   {
   }
 
   friend uint qHash(const Era& era)
   {
-    return qHash(era.name);
+    return qHash(era.eraName);
   }
 
   bool operator<(const Era& other) const
   {
-    return other.name < name;
+    return other.eraName < eraName;
   }
 };
 

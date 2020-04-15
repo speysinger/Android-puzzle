@@ -1,7 +1,7 @@
 #include "testmanager.h"
 #include "src/database/levelsdbfacade.h"
 #include "src/database/levelstructures.h"
-#include <time.h>
+
 #include "src/game/random_points.h"
 
 int TestManager::convertButtonNumberToNumberQuestions(int buttonNumber)
@@ -32,10 +32,9 @@ void TestManager::loadAvailableEras()
   for (auto& era : allEras)
   {
     std::vector<Art> eraArts = DB.arts(era);
-    if (eraArts.size() > 0)
+    if (!eraArts.empty())
     {
-      bool hasDomesticArts = false;
-      bool hasInternationalArts = false;
+      int domesticFilesCount = 0, internationalFilesCount = 0;
 
       std::vector<QuestionWrapper> questionsAndAnswers;
 
@@ -47,10 +46,10 @@ void TestManager::loadAvailableEras()
         bool isDomestic = eraArt.domestic;
         questionsAndAnswers.push_back(QuestionWrapper(dragItem, eraDropItem, true, isDomestic));
 
-        if (eraArt.domestic && !hasDomesticArts)
-          hasDomesticArts = true;
-        else if (!eraArt.domestic && !hasInternationalArts)
-          hasInternationalArts = true;
+        if (eraArt.domestic)
+          domesticFilesCount++;
+        else if (!eraArt.domestic)
+          internationalFilesCount++;
 
         for (auto& artAuthor : eraArt.artAuthors)
         {
@@ -58,15 +57,9 @@ void TestManager::loadAvailableEras()
           questionsAndAnswers.push_back(QuestionWrapper(dragItem, authorDropItem, false, isDomestic));
         }
       }
-      //У эпохи, при их наличии, указывается любое ненулевое количество отечественных и заруб. файлов.
-      int domesticFilesCount = 0, internationalFilesCount = 0;
-      if (hasDomesticArts)
-        domesticFilesCount = 2;
-      if (hasInternationalArts)
-        internationalFilesCount = 2;
 
-      availableForTestingEras.push_back(EraListModelItem(era.name, domesticFilesCount, internationalFilesCount, false,
-                                                         false, hasDomesticArts, hasInternationalArts));
+      availableForTestingEras.push_back(
+          EraListModelItem(era.eraName, domesticFilesCount, internationalFilesCount, false, false, false, false));
       m_eraModule.push_back(eraModuleQuestionsWrapper(era, questionsAndAnswers));
     }
   }
@@ -91,36 +84,46 @@ void TestManager::getNumberOfEraQuestions(int& eraQuestions, int& authorQuestion
   qDebug() << QString::number(eraQuestions) + " " + QString::number(authorQuestions);
 }
 
-/// \details Сперва проверяется количество доступных вопросов
-/// Следом случайным образом выбирается эпоха
-/// Из эпохи случайным образом выбирается вопрос и записывается  во временный вектор
-/// Как только временный вектор достигает размера = количеству вопросов на одном экране, он записывается в итог. вектор
-void TestManager::startTesting(std::vector<EraListModelItem> selectedEras, int buttonNumber)
+/// \details Для каждого элемента из списка результатов проверяется тип вопроса(автор или эпоха)
+/// Следом происходит его поиск в первых элементах общего списка вопросов, равных residueCount
+/// При нахождении вопроса в общем списке, результаты заносятся в список и вопрос удаляется как из общего списка,
+/// так и из списка результатов
+void TestManager::findAnswers(std::vector<DropGridItem>& results, int& quadResidue)
 {
-  ///псевдо-генератор для std::shuffle
-  std::random_device rd;
-  std::mt19937 g(rd());
+  auto find = [&](bool findCorrectAnswers) {
+    while (quadResidue != 0)
+    {
+      std::vector<DropGridItem>::iterator dropIt = results.begin();
+      std::vector<QuestionWrapper>::iterator questionsIt;
+      pointToRightVector(questionsIt);
 
-  int eraQuestions = 0, artQuestions = 0, countOfQuestions = 0;
-  getNumberOfEraQuestions(eraQuestions, artQuestions, selectedEras);
+      for (int quadQuestionsIndex = 0; quadQuestionsIndex < quadResidue; quadQuestionsIndex++, questionsIt++)
+      {
+        if (findCorrectAnswers ? ((dropIt->answerObjectName == questionsIt->dragGridItem.dragItemName) &&
+                                  dropIt->dropItemName == questionsIt->dropGridItem.dropItemName) :
+                                 dropIt->dropItemName == questionsIt->dropGridItem.dropItemName)
+        {
+          m_testResults.push_back(TestResultsItem(questionsIt->dropGridItem.dropItemName, dropIt->answerObjectName,
+                                                  questionsIt->dragGridItem.dragItemName));
+          dropIt = results.erase(dropIt);
+          quadResidue--;
+          deleteItemFromRightVector(questionsIt);
+          break;
+        }
+      }
+      if (findCorrectAnswers)
+        break;
+    }
+  };
+  find(true);
+  find(false);
+}
 
-  countOfQuestions = convertButtonNumberToNumberQuestions(buttonNumber);
+void TestManager::fillQuestionsList(int requiredQuestionsCount, std::vector<EraListModelItem> selectedEras)
+{
+  std::vector<QuestionWrapper> eraQuestionsQuad_, authorQuestionsQuad_;
 
-  if ((eraQuestions / questionItems + artQuestions / questionItems) < countOfQuestions)
-  {
-    emit notEnoughFilesToStartTesting();
-    return;
-  }
-  else
-    emit possibleToStartTesting();
-
-  ///Приведение счётчика вопросов к модулю размерностью в 4 вопроса
-  countOfQuestions *= questionItems;
-
-  std::vector<QuestionWrapper> eraQuestionsQuad_;
-  std::vector<QuestionWrapper> authorQuestionsQuad_;
-
-  while (countOfQuestions != 0)
+  while (requiredQuestionsCount != 0)
   {
     size_t randomEra = getBetween(0, selectedEras.size() - 1);
 
@@ -149,20 +152,40 @@ void TestManager::startTesting(std::vector<EraListModelItem> selectedEras, int b
     it->questionsAndAnswers.erase(randomItemIterator);
 
     if (eraQuestionsQuad_.size() == questionItems)
-    {
-      m_eraForTestQuestions.insert(m_eraForTestQuestions.end(), eraQuestionsQuad_.begin(), eraQuestionsQuad_.end());
-      eraQuestionsQuad_.clear();
-      countOfQuestions -= questionItems;
-    }
+      mergeQuestionsQuad(eraQuestionsQuad_, m_eraForTestQuestions, requiredQuestionsCount);
 
     if (authorQuestionsQuad_.size() == questionItems)
-    {
-      m_authorForTestQuestions.insert(m_authorForTestQuestions.end(), authorQuestionsQuad_.begin(),
-                                      authorQuestionsQuad_.end());
-      authorQuestionsQuad_.clear();
-      countOfQuestions -= questionItems;
-    }
+      mergeQuestionsQuad(authorQuestionsQuad_, m_authorForTestQuestions, requiredQuestionsCount);
   }
+}
+
+void TestManager::mergeQuestionsQuad(std::vector<TestManager::QuestionWrapper>& questionsQuad,
+                                     std::vector<TestManager::QuestionWrapper>& questionsList, int& questionsCount)
+{
+  questionsList.insert(questionsList.end(), questionsQuad.begin(), questionsQuad.end());
+  questionsQuad.clear();
+  questionsCount -= questionItems;
+}
+
+void TestManager::startTesting(std::vector<EraListModelItem> selectedEras, int buttonNumber)
+{
+  int eraQuestions = 0, artQuestions = 0, countOfQuestions = 0;
+  getNumberOfEraQuestions(eraQuestions, artQuestions, selectedEras);
+
+  countOfQuestions = convertButtonNumberToNumberQuestions(buttonNumber);
+
+  if ((eraQuestions / questionItems + artQuestions / questionItems) < countOfQuestions)
+  {
+    emit notEnoughFilesToStartTesting();
+    return;
+  }
+  else
+    emit possibleToStartTesting();
+
+  ///Приведение счётчика вопросов к модулю размерностью в 4 вопроса
+  countOfQuestions *= questionItems;
+
+  fillQuestionsList(countOfQuestions, selectedEras);
   sendQuadToDndModels();
 }
 
@@ -171,68 +194,8 @@ void TestManager::takeResultsFromDropModel(std::vector<DropGridItem> results)
   std::vector<DropGridItem> locResults = results;
   int residueCount = questionItems;
 
-  findCorrectAnswers(locResults, residueCount);
-  findWrongAnswers(locResults, residueCount);
-
+  findAnswers(locResults, residueCount);
   sendQuadToDndModels();
-}
-
-/// \details Для каждого элемента из списка результатов проверяется тип вопроса(автор или эпоха)
-/// Следом происходит его поиск в первых элементах общего списка вопросов, равных residueCount
-/// При нахождении вопроса в общем списке, результаты заносятся в список и вопрос удаляется как из общего списка,
-/// так и из списка результатов
-void TestManager::findCorrectAnswers(std::vector<DropGridItem>& results, int& residueCount)
-{
-  std::vector<DropGridItem>::iterator dropIt = results.begin();
-  for (int dropItemsIndex = 0; dropItemsIndex < residueCount; dropItemsIndex++, dropIt++)
-  {
-    std::vector<QuestionWrapper>::iterator questionsIt;
-
-    pointToRightVector(questionsIt);
-
-    for (int quadQuestionsIndex = 0; quadQuestionsIndex < residueCount; quadQuestionsIndex++, questionsIt++)
-    {
-      //если найдена пара вопрос+ответ как дал пользователь
-      if ((dropIt->answerObjectName == questionsIt->dragGridItem.dragItemName) &&
-          dropIt->dropItemName == questionsIt->dropGridItem.dropItemName)
-      {
-        m_testResults.push_back(TestResultsItem(questionsIt->dropGridItem.dropItemName, dropIt->answerObjectName,
-                                                questionsIt->dragGridItem.dragItemName));
-        dropIt = results.erase(dropIt--);
-        residueCount--;
-        deleteItemFromRightVector(questionsIt);
-        break;
-      }
-    }
-  }
-}
-
-/// \details Для каждого элемента из списка результатов проверяется тип вопроса(автор или эпоха)
-/// Следом происходит его поиск в первых элементах общего списка вопросов, равных residueCount
-/// При нахождении вопроса в общем списке, результаты заносятся в список и вопрос удаляется как из общего списка,
-/// так и из списка результатов
-void TestManager::findWrongAnswers(std::vector<DropGridItem>& results, int& residueCount)
-{
-  std::vector<DropGridItem>::iterator dropIt = results.begin();
-  while (residueCount != 0)
-  {
-    std::vector<QuestionWrapper>::iterator questionsIt;
-    pointToRightVector(questionsIt);
-
-    for (int quadQuestionsIndex = 0; quadQuestionsIndex < residueCount; quadQuestionsIndex++, questionsIt++)
-    {
-      //если найден вопрос пользователя
-      if (dropIt->dropItemName == questionsIt->dropGridItem.dropItemName)
-      {
-        m_testResults.push_back(TestResultsItem(questionsIt->dropGridItem.dropItemName, dropIt->answerObjectName,
-                                                questionsIt->dragGridItem.dragItemName));
-        dropIt = results.erase(dropIt);
-        residueCount--;
-        deleteItemFromRightVector(questionsIt);
-        break;
-      }
-    }
-  }
 }
 
 void TestManager::sendQuadToDndModels()
@@ -242,7 +205,7 @@ void TestManager::sendQuadToDndModels()
   std::vector<DragGridItem> dragGridItems;
   std::vector<DropGridItem> dropGridItems;
 
-  if (m_eraForTestQuestions.size() == 0 && m_authorForTestQuestions.size() == 0)
+  if (m_eraForTestQuestions.empty() && m_authorForTestQuestions.empty())
   {
     emit questionsIsOver();
     emit testResultsReady(m_testResults);
@@ -260,12 +223,8 @@ void TestManager::sendQuadToDndModels()
     dropGridItems.push_back(questionWrapper.dropGridItem);
   }
 
-  ///псевдо-генератор для std::shuffle
-  std::random_device rd;
-  std::mt19937 g(rd());
-
-  std::shuffle(dragGridItems.begin(), dragGridItems.end(), g);
-  std::shuffle(dropGridItems.begin(), dropGridItems.end(), g);
+  std::shuffle(dragGridItems.begin(), dragGridItems.end(), rd);
+  std::shuffle(dropGridItems.begin(), dropGridItems.end(), rd);
 
   if (m_currentTypeOfQuestionIsEra)
     emit newQuestionsHaveEraType();
@@ -284,7 +243,7 @@ DragGridItem TestManager::createDragItem(Art art)
 
 DropGridItem TestManager::createDropItem(Era era)
 {
-  DropGridItem dropItem("Picture", era.name, era.imgPath, "");
+  DropGridItem dropItem("Picture", era.eraName, era.imgPath, "");
   return dropItem;
 }
 
@@ -320,9 +279,9 @@ void TestManager::deleteItemFromRightVector(std::vector<QuestionWrapper>::iterat
 
 int TestManager::getQuestionType()
 {
-  if (m_eraForTestQuestions.size() == 0)
+  if (m_eraForTestQuestions.empty())
     return 0;  //вопрос из authorQuadQuestions
-  else if (m_authorForTestQuestions.size() == 0)
+  else if (m_authorForTestQuestions.empty())
     return 1;  //вопрос из eraQuadQuestions
   else
     return getBetween(0, 1);  //рандом между 0 и 1

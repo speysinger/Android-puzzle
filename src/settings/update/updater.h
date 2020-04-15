@@ -53,13 +53,20 @@ private:
 
   QString getUpdatableItemPath(QString url);
 
-  void fillListOfUpdatableEras(const JsonParser& loadedJson);
-  void fillListOfUpdatableArts(const JsonParser& loadedJson);
-  void fillListOfUpdatableAuthors(const JsonParser& loadedJson);
+  template <class T>
+  void prepareUpdatableItems(std::set<T> jsonClassObjectsList, std::set<T> dbClassObjectsList,
+                             std::set<UpdatableItemWrapper<T>>&);
+  void prepareUpdatableEras(const JsonParser& loadedJson);
+  void prepareUpdatableArts(const JsonParser& loadedJson);
+  void prepareUpdatableAuthors(const JsonParser& loadedJson);
 
   void sendUpdatableInfoToQml();
   int countSelectedForUpdateItems(const std::vector<EraListModelItem>& selectedEras);
+  void countAuthors(UpdatableItemWrapper<Art> art, int& domesticFilesCount, int& internationalFilesCount,
+                    std::set<UpdatableItemWrapper<Author>>& authorsList);
 
+  template <class T>
+  void downloadItem(UpdatableItemWrapper<T> item);
   void downloadEra(UpdatableItemWrapper<Era> era);
   void downloadArt(UpdatableItemWrapper<Art> art);
   void downloadAuthor(UpdatableItemWrapper<Author> author);

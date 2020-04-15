@@ -40,15 +40,15 @@ public:
   void loadLevels(const QByteArray& jsonData);
 
   /// for update
-  void updateEra(const Era& era);
+  void update(const Era& era);
   /// for update
-  void updateArt(Art& art);
+  void update(const Art& art);
   /// for update
-  void updateAuthor(Author& author);
+  void update(const Author& author);
 
-  void addArt(const Art& Art);
-  void addEra(const Era& era);
-  void addAuthor(const Author& author);
+  void save(const Art& Art);
+  void save(const Era& era);
+  void save(const Author& author);
   void addArtAuthor(const QString authorName, const QString artName);
 
   void checkStatistic(StatisticRecord& statisticRecord);

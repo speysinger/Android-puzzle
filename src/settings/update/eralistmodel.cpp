@@ -49,7 +49,6 @@ bool EraListModel::isPositionValid(int rowIndex) const
 void EraListModel::getSelectedElements(bool isTestingRequest, int buttonNumber)
 {
   std::vector<EraListModelItem> selectedEras;
-  selectedEras.clear();
   for (auto& era : m_eraListModel)
   {
     //если эпоха выбрана пользователем
@@ -66,7 +65,7 @@ void EraListModel::getSelectedElements(bool isTestingRequest, int buttonNumber)
   }
 
   //если ничего не было выбрано, но кнопка вызова следующего окна была нажата
-  if (selectedEras.size() <= 0)
+  if (selectedEras.empty())
     emit nothingIsSelected();
   else
   {
@@ -86,24 +85,17 @@ void EraListModel::changeListOfTheSelectedEpoch(bool domesticArt, bool foreigntA
   m_domesticArtSwitchButton = domesticArt;
   m_internationalArtSwitchButton = foreigntArt;
 
-  m_fillingList.clear();
   removeRows(0, m_eraListModel.size(), QModelIndex());
 
   for (auto era : m_allErasForLoading)
   {
-    //если выбрано отображение 2-х типов искусства
-    if (m_domesticArtSwitchButton && m_internationalArtSwitchButton &&
-        (era.domesticFilesCount > 0 || era.internationalFilesCount > 0))
+    if ((m_domesticArtSwitchButton && era.domesticFilesCount > 0) ||
+        (m_internationalArtSwitchButton && era.internationalFilesCount > 0))
+      m_fillingList.push_back(era);
+    else
     {
-      m_fillingList.push_back(era);
+      continue;
     }
-    //если выбрано отображение только отечественных эпох
-    else if (m_domesticArtSwitchButton && era.domesticFilesCount > 0)
-      m_fillingList.push_back(era);
-
-    //если выбрано отображение только зарубежных эпох
-    else if (m_internationalArtSwitchButton && era.internationalFilesCount > 0)
-      m_fillingList.push_back(era);
   }
   insertRows(0, m_fillingList.size(), QModelIndex());
 }

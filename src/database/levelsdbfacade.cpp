@@ -118,7 +118,7 @@ Art LevelsDBFacade::randomArt()
 
 Art LevelsDBFacade::randomArt(Era& era_)
 {
-  exec(tr("SELECT era, path, info, name, domestic, lastUpdate FROM arts WHERE era=") + qs(era_.name) +
+  exec(tr("SELECT era, path, info, name, domestic, lastUpdate FROM arts WHERE era=") + qs(era_.eraName) +
        tr("ORDER BY RANDOM() LIMIT 1;"));
   m_arts_model->select();
   m_query->first();
@@ -187,7 +187,7 @@ std::vector<Art> LevelsDBFacade::arts(Era& era_)
 {
   std::vector<Art> arts;
 
-  exec(tr("SELECT era, path, info, name, domestic, lastUpdate FROM arts WHERE era=") + qs(era_.name) + tr(";"));
+  exec(tr("SELECT era, path, info, name, domestic, lastUpdate FROM arts WHERE era=") + qs(era_.eraName) + tr(";"));
   m_arts_model->select();
 
   while (m_query->next())
@@ -316,12 +316,12 @@ std::set<Art> LevelsDBFacade::getArts()
   return arts;
 }
 
-void LevelsDBFacade::addEra(const Era& era)
+void LevelsDBFacade::save(const Era& era)
 {
   try
   {
-    exec(tr("INSERT INTO eras (id, eraImagePath,lastUpdate) VALUES (") + qs(era.name) + ", " + qs(era.imgPath) + ", " +
-         qs(era.lastUpdate.toString("yyyy-MM-dd")) + ");");
+    exec(tr("INSERT INTO eras (id, eraImagePath,lastUpdate) VALUES (") + qs(era.eraName) + ", " + qs(era.imgPath) +
+         ", " + qs(era.lastUpdate.toString("yyyy-MM-dd")) + ");");
   }
   catch (...)
   {
@@ -329,7 +329,7 @@ void LevelsDBFacade::addEra(const Era& era)
   }
 }
 
-void LevelsDBFacade::addArt(const Art& art)
+void LevelsDBFacade::save(const Art& art)
 {
   try
   {
@@ -343,7 +343,7 @@ void LevelsDBFacade::addArt(const Art& art)
   }
 }
 
-void LevelsDBFacade::addAuthor(const Author& author)
+void LevelsDBFacade::save(const Author& author)
 {
   try
   {
@@ -474,7 +474,7 @@ void LevelsDBFacade::loadLevels(const QByteArray& jsonData)
 
   std::set<Era>::iterator erasIt = eras.begin();
   for (; erasIt != eras.end(); ++erasIt)
-    addEra(*erasIt);
+    save(*erasIt);
 
   arts = jsonDoc.getArts();
   std::set<Art>::iterator artsIt = arts.begin();
@@ -484,20 +484,20 @@ void LevelsDBFacade::loadLevels(const QByteArray& jsonData)
   /// Добавление авторов картины в таблицу соответствия картины и её авторов
   for (; artsIt != arts.end(); ++artsIt)
   {
-    addArt(*artsIt);
+    save(*artsIt);
 
     std::vector<Author>::const_iterator authorsIt = artsIt->artAuthors.begin();
     for (; authorsIt != artsIt->artAuthors.end(); ++authorsIt)
     {
-      addAuthor(*authorsIt);
+      save(*authorsIt);
       addArtAuthor(authorsIt->authorName, artsIt->imgName);
     }
   }
 }
 
-void LevelsDBFacade::updateEra(const Era& era)
+void LevelsDBFacade::update(const Era& era)
 {
-  exec(tr("SELECT path FROM eras WHERE id=") + qs(era.name) + tr(";"));
+  exec(tr("SELECT path FROM eras WHERE id=") + qs(era.eraName) + tr(";"));
   m_eras_model->select();
   m_query->first();
 
@@ -507,8 +507,8 @@ void LevelsDBFacade::updateEra(const Era& era)
 
   try
   {
-    exec("UPDATE eras SET id=" + qs(era.name) + ", eraImagePath= " + qs(era.imgPath) +
-         ", lastUpdate=" + qs(era.lastUpdate.toString("yyyy-MM-dd")) + " WHERE id=" + qs(era.name) + ";");
+    exec("UPDATE eras SET id=" + qs(era.eraName) + ", eraImagePath= " + qs(era.imgPath) +
+         ", lastUpdate=" + qs(era.lastUpdate.toString("yyyy-MM-dd")) + " WHERE id=" + qs(era.eraName) + ";");
   }
   catch (...)
   {
@@ -516,7 +516,7 @@ void LevelsDBFacade::updateEra(const Era& era)
   }
 }
 
-void LevelsDBFacade::updateArt(Art& art)
+void LevelsDBFacade::update(const Art& art)
 {
   exec(tr("SELECT path FROM arts WHERE name=") + qs(art.imgName) + tr(";"));
   m_arts_model->select();
@@ -538,7 +538,7 @@ void LevelsDBFacade::updateArt(Art& art)
   }
 }
 
-void LevelsDBFacade::updateAuthor(Author& author)
+void LevelsDBFacade::update(const Author& author)
 {
   exec(tr("SELECT authorImagePath FROM authors WHERE authorName=") + qs(author.authorName) + tr(";"));
   m_authors_model->select();

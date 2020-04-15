@@ -15,7 +15,6 @@ void StatisticModel::modeChanged(QString mode)
 
 int StatisticModel::count()
 {
-  qDebug() << "COUNTCALLED";
   return m_tableItems.size();
 }
 
@@ -76,6 +75,10 @@ QVariant StatisticModel::data(const QModelIndex& index, int role) const
   if (!index.isValid() || (role != EraName && role != AssembledPuzzleArts && role != WorstTime && role != BestTime))
     return QVariant{};
   int rowIndex = index.row();
+
+  if (!isPositionValid(rowIndex))
+    return QVariant{};
+
   StatisticsTableItem tableItem = m_tableItems[rowIndex];
 
   if (role == EraName)
@@ -90,8 +93,6 @@ QVariant StatisticModel::data(const QModelIndex& index, int role) const
   if (role == BestTime)
     return QVariant::fromValue(tableItem.bestTime);
 
-  if (!isPositionValid(rowIndex))
-    return QVariant{};
   return QVariant::fromValue(tableItem.eraName);
 }
 
