@@ -9,6 +9,8 @@ Item {
         anchors.left: _listViewResultsItem.left
         color: "palegoldenrod"
         border.width: _firstColumnId.height*0.01
+        property string fontFamlily: "hAndy"
+
         Text {
             id: _firstText
             anchors.fill: _firstColumnId
@@ -17,6 +19,7 @@ Item {
             width: _firstColumnId.width
             text: question
             font {
+                family: fontFamlily
                 pointSize: Math.min(_listViewResultsItem.width===0?1:_listViewResultsItem.width,
                                     _listViewResultsItem.height===0?1:_listViewResultsItem.height)/9
                 bold:true
@@ -51,6 +54,7 @@ Item {
                 //leftPadding: _userAnswerTextWrapper.width*0.01
                 text: "Ваш ответ: "+userAnswer
                 font{
+                    family: fontFamlily
                     pointSize: Math.min(_userAnswerTextWrapper.width===0?1:_userAnswerTextWrapper.width,
                                         _userAnswerTextWrapper.height===0?1:_userAnswerTextWrapper.height)/5
                     bold:true
@@ -75,6 +79,7 @@ Item {
                 anchors.verticalCenter: _correctAnswerTextWrapper.verticalCenter
                 text:"Правильный ответ: "+correctAnswer
                 font {
+                    family: fontFamlily
                     pointSize: Math.min(_correctAnswerTextWrapper.width===0?1:_correctAnswerTextWrapper.width,
                                         _correctAnswerTextWrapper.height===0?1:_correctAnswerTextWrapper.height)/5
                     bold:true

@@ -7,6 +7,7 @@ Rectangle {
   id:_testResultsWindow
   color: "transparent"
   property bool isTestResultsWindow: true
+  property string fontFamlily: "hAndy"
 
 
   Row {
@@ -32,6 +33,7 @@ Rectangle {
         anchors.verticalCenter: _questionTitle.verticalCenter
         text: "Вопрос"
         font {
+            family: fontFamlily
           pointSize: Math.min(_questionTitle.width===0?3:_questionTitle.width,
                               _questionTitle.height===0?3:_questionTitle.height)/3
           bold:true
@@ -50,6 +52,7 @@ Rectangle {
         anchors.verticalCenter: _answersTitle.verticalCenter
         text: "Ответ"
         font{
+            family: fontFamlily
           pointSize: Math.min((_answersTitle.width===0?3:_answersTitle.width),
                               (_answersTitle.height===0?3:_answersTitle.height))/3
           bold:true
@@ -84,6 +87,7 @@ Rectangle {
       anchors.centerIn: _backToTestSettingsWindow
       text: "Главное меню"
       font{
+         family: fontFamlily
         pointSize: Math.min((_backToTestSettingsWindow.height===0?2:_backToTestSettingsWindow.height)
                             ,(_backToTestSettingsWindow.width===0?2:_backToTestSettingsWindow.width))/2
       }

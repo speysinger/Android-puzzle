@@ -6,6 +6,7 @@ import "../SupportingFiles"
 Rectangle {
   id:_updateWindow
   color: "transparent"
+  property string fontFamlily: "hAndy"
   signal updateModuleLoadButtonPressed()
 
   ChooseEpochType {
@@ -48,6 +49,7 @@ Rectangle {
         anchors.centerIn: _backButton
         text: qsTr("Назад")
         font{
+            family: fontFamlily
           pointSize: Math.min((_backButton.height===0?1:_backButton.height/4.3)
                               ,(_backButton.width===0?1:_backButton.width/2))
         }
@@ -73,6 +75,7 @@ Rectangle {
         anchors.centerIn: _loadImagesButton
         text: qsTr("Загрузить")
         font{
+            family: fontFamlily
           pointSize: Math.min((_loadImagesButton.height===0?1:_loadImagesButton.height/4.3)
                               ,(_loadImagesButton.width===0?1:_loadImagesButton.width/2))
         }

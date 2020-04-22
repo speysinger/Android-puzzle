@@ -20,12 +20,15 @@ public:
   }
   void incValue()
   {
+    if(m_numberOfUpdatedItems!=0)
+    {
     m_currentProgress++;;
     emit progressChanged(ceil((float(m_currentProgress) / float(m_numberOfUpdatedItems)) * 100));
 
     if (m_currentProgress == m_numberOfUpdatedItems)
     {
       resetValues();
+    }
     }
   }
 
@@ -39,17 +42,20 @@ public:
     resetValues();
     emit back();
   }
+  void resetValues()
+  {
+      m_currentProgress = 0;
+      m_numberOfUpdatedItems = 0;
+      emit progressChanged(0);
+  }
+
 signals:
   void progressChanged(float progress);
   void back();
   void loaded();
 
 private:
-  void resetValues()
-  {
-      m_currentProgress = 0;
-      m_numberOfUpdatedItems = 0;
-  }
+
   int m_currentProgress = 0;
   int m_numberOfUpdatedItems = 0;
 };

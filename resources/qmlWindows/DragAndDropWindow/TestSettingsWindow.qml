@@ -9,6 +9,7 @@ import "../SupportingFiles"
 Rectangle {
   id:_testSettingsWindow
   color: "transparent"
+  property string fontFamlily: "hAndy"
 
   signal notEnoughFilesToStartTesting();
 
@@ -56,8 +57,9 @@ Rectangle {
         anchors.centerIn: _firstTabButton
         text: "5"
         font{
+            family: fontFamlily
           pointSize: Math.min(_chooseNumberOfQuestions.height===0?1:_chooseNumberOfQuestions.height
-                              ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)/3
+                              ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)/2.8
         }
       }
 
@@ -75,8 +77,9 @@ Rectangle {
         anchors.centerIn: _secondTabButton
         text: "10"
         font{
+            family: fontFamlily
           pointSize: Math.min(_chooseNumberOfQuestions.height===0?1:_chooseNumberOfQuestions.height
-                              ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)/3
+                              ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)/2.8
         }
       }
       background: Rectangle {
@@ -94,8 +97,9 @@ Rectangle {
         anchors.centerIn: _thirdTabButton
         text: "15"
         font{
+            family: fontFamlily
           pointSize: Math.min(_chooseNumberOfQuestions.height===0?1:_chooseNumberOfQuestions.height
-                              ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)/3
+                              ,_chooseNumberOfQuestions.width===0?1:_chooseNumberOfQuestions.height)/2.8
         }
       }
       background: Rectangle {
@@ -130,6 +134,7 @@ Rectangle {
         anchors.centerIn: _loadImagesButton
         text: "Начать"
         font{
+            family: fontFamlily
           pointSize: Math.min((_rowLayout.height===0?1:_rowLayout.height/4.3),
                               (_rowLayout.width===0?1:_rowLayout.width/2))
         }
@@ -156,6 +161,7 @@ Rectangle {
         anchors.centerIn: _backButton
         text: "Назад"
         font{
+            family: fontFamlily
           pointSize: Math.min((_rowLayout.height===0?1:_rowLayout.height/4.3)
                               ,(_rowLayout.width===0?1:_rowLayout.width/2))
         }

@@ -19,6 +19,8 @@ public:
   Updater();
   void uploadSelectedItems(const std::vector<EraListModelItem>& selectedEras);
   void loadJson();
+  void setBreakFlag(bool breakLoading);
+
 public slots:
   void fillUpdatableLists(const QByteArray& jsonData);
 
@@ -77,6 +79,8 @@ private:
 
   Loader* pixmapLoader = new Loader();
   Loader* jsonLoader = new Loader();
+
+  bool breaker = false;
 
   QString const jsonPath = "https://pro-prof.com/artists-puzzle/load_1/levels.json";
 

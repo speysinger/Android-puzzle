@@ -11,6 +11,7 @@ Row{
   width: parent.width
   height: parent.height*0.1
   spacing: parent.width*0.01
+  property string fontFamlily: "hAndy"
   signal activated(bool firstSwitchChecked,bool secondSwitchChecked)
 
   Connections{
@@ -40,6 +41,7 @@ Row{
       anchors.centerIn: _firstSwitchTextWrapper
       text: qsTr("Отечественное")
       font{
+          family: fontFamlily
         pointSize: Math.min((_firstSwitchTextWrapper.height===0?1:_firstSwitchTextWrapper.height*0.25),
                             (_firstSwitchTextWrapper.width===0?1:_firstSwitchTextWrapper.width*0.2))
       }
@@ -93,7 +95,6 @@ Row{
 
     Switch {
       id: _secondSwitch
-      //text: qsTr("Switch")
       anchors.centerIn: _secondSwitchWrapper
       width: _secondSwitchWrapper.width*0.95
       height:_secondSwitchWrapper.height/2
@@ -132,6 +133,7 @@ Row{
       anchors.centerIn: _secondSwitchTextWrapper
       text: qsTr("Зарубежное")
       font{
+          family: fontFamlily
         pointSize: Math.min((_secondSwitchTextWrapper.height===0?1:_secondSwitchTextWrapper.height*0.25),
                             (_secondSwitchTextWrapper.width===0?1:_secondSwitchTextWrapper.width*0.2))
       }

@@ -67,6 +67,7 @@ TableView {
       verticalAlignment: Text.AlignVCenter
       horizontalAlignment: Text.AlignHCenter
       text: styleData.value
+      font.family: window.fontFamlily
       font.pointSize: Math.min(_header.width===0?1:_header.width/3.5,
                                _header.height===0?1:_header.height/3.5)
       renderType: Text.NativeRendering
@@ -91,6 +92,7 @@ TableView {
       color: "black"
       elide: Text.ElideRight
       text: styleData.value
+      font.family: window.fontFamlily
       font.pixelSize: Math.min(_rowItem.width === 0 ? 1 : _rowItem.width / 2,
                                _rowItem.height === 0 ? 1 : _rowItem.height / 2)
       wrapMode: Text.WrapAnywhere

@@ -206,6 +206,13 @@ void Updater::uploadSelectedItems(const std::vector<EraListModelItem>& selectedE
   {
     auto eraInSelectedList = std::find(selectedEras.begin(), selectedEras.end(), art.object.eraName);
 
+    if(breaker)
+    {
+        breaker = false;
+        emit stopLoading();
+        return;
+    }
+
     if (eraInSelectedList != selectedEras.end())
     {
       UpdatableItemWrapper<Era> desiredEra(Era(art.object.eraName, "", QDate()), UpdateFileStatus(NOTHING));
@@ -264,8 +271,14 @@ void Updater::loadJson()
   catch (const std::runtime_error& error)
   {
     qDebug() << error.what();
-  }
+    }
 }
+
+void Updater::setBreakFlag(bool breakLoading)
+{
+    breaker = true;
+}
+
 
 template <class T>
 void Updater::prepareUpdatableItems(std::set<T> jsonClassObjectsList, std::set<T> dbClassObjectsList,

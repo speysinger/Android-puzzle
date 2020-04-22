@@ -8,6 +8,7 @@ Rectangle {
     width: Screen.width/4
     height: Screen.height/4
     color:"lemonchiffon"
+    property string fontFamlily: "hAndy"
     Connections {
         target: progressInd
         onProgressChanged: _progressBar.value = progress
@@ -29,6 +30,7 @@ Rectangle {
             id: name
             text: _progressBar.value+"/100%"
             font{
+                family: fontFamlily
                 pointSize: Math.min(_progressBarWindow.width===0?1:_progressBarWindow.width,
                                     _progressBarWindow.height===0?1:_progressBarWindow.height)/25
             }
@@ -56,6 +58,7 @@ Rectangle {
             anchors.centerIn: _cancelButton
             text: qsTr("Отмена")
             font {
+                family: fontFamlily
                 pointSize: Math.min(_progressBarWindow.width===0?1:_progressBarWindow.width,
                                     _progressBarWindow.height===0?1:_progressBarWindow.width)/30
             }

@@ -19,11 +19,8 @@ int main(int argc, char* argv[])
 
   QFontDatabase::addApplicationFont(":/fonts/menu_font.ttf");
 
-  qDebug() << QSslSocket::supportsSsl() << QSslSocket::sslLibraryBuildVersionString() << QSslSocket::sslLibraryVersionString();
-
-
   MainMenuScreenController controller;
-    controller.showFullScreen();
+  controller.showFullScreen();
 
   controller.setStyleSheet("QWidget { background-color:#FFFFE0; border: 0px;}");
   return a.exec();

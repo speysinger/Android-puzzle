@@ -83,24 +83,6 @@ Item {
             }
           }
         }
-
-
-        /*if(dropObject!=null && dropObject!=_dragImage.Drag.target.ObjectName)
-                    dropObject.isBusy=false
-                else
-                {
-                    dropObject=_dragImage.Drag.target
-                    _dragImage.Drag.drop()
-                }*/
-
-        /*//if(_dragImage.Drag.target===DropArea)
-                      //  console.log("ETODROP")
-                    //else
-                        //console.log("NEDROP")
-                    dropObject=_dragImage.Drag.target
-                    console.log(dropObject.objectName)*/
-
-        //_dragImage.Drag.drop()
       }
     }
   }

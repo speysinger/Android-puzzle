@@ -5,6 +5,7 @@ Rectangle {
     id:_dragGridRectangle
     color: "lightsalmon"
     radius: Math.pow(_dragGridRectangle.height*0.0076,2)
+    property string fontFamlily: "hAndy"
 
     GridView {
         id: _dragGrid
@@ -17,6 +18,7 @@ Rectangle {
             anchors.centerIn: _dragGrid
             text: "Картины"
             font{
+                family: fontFamlily
                 pointSize:Math.min(_dragGrid.height===0?1:_dragGrid.height*0.02,
                                    _dragGrid.width===0?1:_dragGrid.width*0.02)
             }

@@ -24,7 +24,10 @@ SettingsScreenController::SettingsScreenController(QWidget* parent) : ScreensSta
     push(m_update);
   });
 
+  connect(m_progressBar, &ProgressBarWidget::backButtonPressed, [=] { UPDATER.setBreakFlag(true);});
+
   connect(m_options, SIGNAL(back()), SIGNAL(back()));
+
   connect(&UPDATER, &Updater::stopLoading, [=] {
     pop();
     UPDATER.loadJson();

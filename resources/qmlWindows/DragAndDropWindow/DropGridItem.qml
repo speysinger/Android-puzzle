@@ -6,6 +6,7 @@ Item{
   width: parent.width
   height: parent.height
   signal changeDroppedItemName()
+  property string fontFamlily: "hAndy"
 
   Rectangle{
     id:_imageRectangle
@@ -19,17 +20,15 @@ Item{
       anchors.centerIn: _imageRectangle
       objectName:"dropImage"
       anchors.fill: parent
-      // width: _imageRectangle.width
-      //height: _imageRectangle.height
       opacity: 0.5
-      font.pointSize: Math.min(_firstTextDropRectangle.width===0? 1 : _firstTextDropRectangle.width/8,
-                               _firstTextDropRectangle.height===0? 1: _firstTextDropRectangle.height/12)
+      font.family: fontFamlily
+      font.pointSize: Math.min(_firstTextDropRectangle.width===0? 1 : _firstTextDropRectangle.width/12,
+                               _firstTextDropRectangle.height===0? 1: _firstTextDropRectangle.height/16)
       antialiasing: true
-      wrapMode: Text.WrapAnywhere
+      elide: Text.ElideRight
+      wrapMode: Text.WordWrap
       horizontalAlignment: Text.AlignHCenter
       verticalAlignment: Text.AlignVCenter
-      //anchors.horizontalCenter: parent.horizontalCenter
-      //anchors.verticalCenter: parent.verticalCenter
       states: [
         State {
           when: _firstDragTarget.containsDrag

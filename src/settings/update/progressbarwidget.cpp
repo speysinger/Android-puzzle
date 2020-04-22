@@ -7,7 +7,7 @@ ProgressBarWidget::ProgressBarWidget(QWidget* parent) : QmlWidget(parent)
   this->rootContext()->setContextProperty("progressInd", m_loadHandler);
 
   this->setSource(QUrl(m_pathToQmlFile));
-  connect(m_loadHandler, &LoadHandler::back, [=] { emit backButtonPressed(); });
+  connect(m_loadHandler, &LoadHandler::back, [=] { m_loadHandler->resetValues(); emit backButtonPressed(); });
 
   connect(&UPDATER, &Updater::maxValueCalculated, [=](int maxValue) { m_loadHandler->setMaxValue(maxValue); });
 

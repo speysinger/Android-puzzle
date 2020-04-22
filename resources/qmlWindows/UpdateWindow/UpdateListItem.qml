@@ -4,6 +4,7 @@ import QtQuick.Window 2.13
 
 Item {
   id:_currentItem
+  property string fontFamlily: "hAndy"
   Rectangle {
     id:_firstColumnId
     width: _currentItem.width*0.6
@@ -14,6 +15,7 @@ Item {
       anchors.verticalCenter: _firstColumnId.verticalCenter
       text: eraName
       font {
+          family: fontFamlily
         pointSize: Math.min(_currentItem.width===0?6:_currentItem.width,
                             _currentItem.height===0?6:_currentItem.height)/6.7
         bold:true
@@ -23,7 +25,7 @@ Item {
   }
   Rectangle {
     id: _countColumnId
-    width: _currentItem.width*0.2
+    width: _currentItem.width*0.3
     height: _currentItem.height
     anchors.right: _secondColumnItem.left
     Text {
@@ -31,6 +33,7 @@ Item {
       anchors.verticalCenter: _countColumnId.verticalCenter
       text: _listModel.isTestingModule()?(""):(' Файлов '+ filesCount)
       font {
+          family: fontFamlily
         pointSize: Math.min(_currentItem.width===0?6:_currentItem.width,
                             _currentItem.height===0?6:_currentItem.height)/6.7
         bold:true
