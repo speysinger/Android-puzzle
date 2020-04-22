@@ -136,7 +136,7 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
         $$PWD/android
 }
 
-include(androidOpenSSL/openssl.pri)
+include(android_openssl/openssl.pri)
 
 RESOURCES += \
     resources/resources.qrc
