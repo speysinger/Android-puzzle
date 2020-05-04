@@ -7,6 +7,9 @@
 
 StatisticWidget::StatisticWidget(QWidget* parent) : QmlWidget(parent)
 {
+    qmlRegisterType<StatisticModel>("StatisticModel", 1, 0, "StatisticModel");
+    qmlRegisterType<SortFilterProxyModel>("SortFilter", 1, 0, "SortFilterProxyModel");
+
   m_pathToQmlFile = "qrc:/qmlWindows/Statistic/StatisticWindow.qml";
 
   this->setSource(QUrl(m_pathToQmlFile));

@@ -1,11 +1,9 @@
 #include "settingsscreencontroller.h"
-#include "src/settings/update/eralistmodel.h"
 
 #include "src/settings/update/updater.h"
 
 SettingsScreenController::SettingsScreenController(QWidget* parent) : ScreensStack(parent)
 {
-  qmlRegisterType<EraListModel>("EraListModel", 1, 0, "EraListModel");
 
   m_update = new UpdateWidget(this);
   m_options = new OptionsWidget(this);

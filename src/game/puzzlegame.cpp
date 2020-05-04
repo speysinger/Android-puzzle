@@ -25,9 +25,11 @@ PuzzleGame::PuzzleGame(QWidget* parent)
     buttonSizePolicy.setVerticalStretch(1);
 
   StyledButton *rotate = new StyledButton("rotate", this);
+  rotate->setIcon(QIcon(":/icon/rotate.ico"));
   rotate->setSizePolicy(buttonSizePolicy);
+
   StyledButton *back = new StyledButton("back", this);
-  back->setIcon(QIcon(":/icons/back.ico"));
+  back->setIcon(QIcon(":/icon/back.ico"));
   back->setSizePolicy(buttonSizePolicy);
 
   QGridLayout *grid = new QGridLayout(this);

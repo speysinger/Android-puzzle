@@ -7,14 +7,8 @@
 #include "testingscreencontroller.h"
 #include "src/statistic/statisticwidget.h"
 
-#include "src/statistic/statisticmodel.h"
-#include "src/statistic/sortfilterproxymodel.h"
-
 MainMenuScreenController::MainMenuScreenController(QWidget* parent) : ScreensStack(parent)
 {
-  qmlRegisterType<StatisticModel>("StatisticModel", 1, 0, "StatisticModel");
-  qmlRegisterType<SortFilterProxyModel>("SortFilter", 1, 0, "SortFilterProxyModel");
-
   m_menu = new MainMenuScreen(this);
   m_settings = new SettingsScreenController(this);
   m_game = new GameScreenController(this);

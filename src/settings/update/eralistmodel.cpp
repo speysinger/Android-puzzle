@@ -193,11 +193,14 @@ bool EraListModel::insertRows(int row, int count, const QModelIndex& parent)
   Q_UNUSED(row)
   Q_UNUSED(parent)
 
+  auto comparator = [](EraListModelItem x, EraListModelItem y){ return x.eraName < y.eraName; };
+
   if (count > 0)
   {
     beginInsertRows(QModelIndex(), 0, count - 1);
     m_eraListModel = m_fillingList;
     m_fillingList.clear();
+    std::sort(m_eraListModel.begin(), m_eraListModel.end(), comparator);
     endInsertRows();
   }
   return true;

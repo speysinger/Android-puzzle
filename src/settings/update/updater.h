@@ -82,7 +82,7 @@ private:
 
   bool breaker = false;
 
-  QString const jsonPath = "https://pro-prof.com/artists-puzzle/load_1/levels.json";
+  QString const jsonPath = "https://pro-prof.com/artists-puzzle/load/levels.json";
 
 signals:
   void itemsLoaded(std::vector<EraListModelItem> vec, bool isTestingModule);

@@ -182,7 +182,6 @@ void IconsView::loadEras()
     MenuIconProxy* proxy = new MenuIconProxy(eraIcon);
 
     m_icons.push_back(proxy);
-
     m_scene.addItem(proxy->getItem());
   }
   disposeIcons();
@@ -210,11 +209,7 @@ void IconsView::loadArts(Era era)
   m_scene.clear();
   m_icons.clear();
 
-  auto test = DB.arts(era);
-  for (int i = 0; i < 100; i++)
-    test.push_back(test[0]);
-
-  for (auto art : test)
+  for (auto art : DB.arts(era))
   {
     ArtIcon* artIcon = new ArtIcon(std::move(art));
 

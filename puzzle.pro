@@ -138,9 +138,6 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
 
 include(android_openssl/openssl.pri)
 
-RESOURCES += \
-    resources/resources.qrc
-
 DISTFILES += \
     /android/AndroidManifest.xml \
     /android/build.gradle \
@@ -149,5 +146,8 @@ DISTFILES += \
     /android/gradlew \
     /android/gradlew.bat \
     /android/res/values/libs.xml
+
+RESOURCES += \
+    resources/resources.qrc
 
 

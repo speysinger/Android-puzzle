@@ -31,8 +31,8 @@ void Updater::fillUpdatableLists(const QByteArray& jsonData)
 
 QString Updater::getUpdatableItemPath(QString url)
 {
-  url = url.remove("https://pro-prof.com/artists-puzzle/load_1/");
-  QString path_dir = DBSettings.getValue("path") + "/load_1/";
+  url = url.remove("https://pro-prof.com/artists-puzzle/load/");
+  QString path_dir = DBSettings.getValue("path") + "/load/";
   QDir().mkdir(path_dir);
 
   QString path = path_dir + url;
