@@ -42,6 +42,7 @@ signals:
 
 private:
   struct QuestionWrapper;
+  enum QUESTIONTYPE { AUTHOR = 0, ERA = 0};
 
   int convertButtonNumberToNumberQuestions(int buttonNumber);
 

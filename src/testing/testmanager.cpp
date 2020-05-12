@@ -280,9 +280,9 @@ void TestManager::deleteItemFromRightVector(std::vector<QuestionWrapper>::iterat
 int TestManager::getQuestionType()
 {
   if (m_eraForTestQuestions.empty())
-    return 0;  //вопрос из authorQuadQuestions
+    return AUTHOR;
   else if (m_authorForTestQuestions.empty())
-    return 1;  //вопрос из eraQuadQuestions
+    return ERA;
   else
     return getBetween(0, 1);  //рандом между 0 и 1
 }

@@ -5,9 +5,6 @@
 #include <set>
 #include <vector>
 
-#include <QDebug>
-#include <qfile.h>
-
 const std::set<Era>& JsonParser::getEras() const
 {
   return m_erasArray;
@@ -90,7 +87,6 @@ void JsonParser::readJson(const QByteArray& jsonData)
   m_jsonDoc = QJsonDocument::fromJson(jsonData, &docError);
   if (docError.error != QJsonParseError::NoError)
   {
-      qDebug()<<docError.errorString();
     throw docError.errorString();
   }
 

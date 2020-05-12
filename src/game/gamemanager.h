@@ -5,9 +5,6 @@
 #include "src/database/levelstructures.h"
 #include <memory>
 
-class PuzzleGame;
-class Art;
-
 ///
 /// \brief The GameManager class
 /// Данный класс реализует: создание игры(PuzzleGame) по входящим данным

@@ -276,7 +276,7 @@ void Updater::loadJson()
 
 void Updater::setBreakFlag(bool breakLoading)
 {
-    breaker = true;
+    breaker = breakLoading;
 }
 
 
