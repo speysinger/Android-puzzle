@@ -1,10 +1,12 @@
 #include "mainmenuscreen.h"
+
 #include <QGridLayout>
 #include <QPushButton>
+
 #include "src/ui/buttons/styledbutton.h"
 
-MainMenuScreen::MainMenuScreen(QWidget* parent) : QWidget(parent), m_modeWidget(new LevelModeWidget(this))
-{
+MainMenuScreen::MainMenuScreen(QWidget* parent)
+    : QWidget(parent), m_modeWidget(new LevelModeWidget(this)) {
   QGridLayout* layer = new QGridLayout(this);
   setLayout(layer);
 
@@ -50,11 +52,9 @@ MainMenuScreen::MainMenuScreen(QWidget* parent) : QWidget(parent), m_modeWidget(
   connect(authors, SIGNAL(clicked()), this, SIGNAL(authorsSelected()));
   connect(randomPictures, SIGNAL(clicked()), this, SIGNAL(randomSelected()));
   connect(statictic, SIGNAL(clicked()), this, SIGNAL(statisticSelected()));
-  connect(aboutProgram, SIGNAL(clicked()), this, SIGNAL(aboutProgramSelected()));
+  connect(aboutProgram, SIGNAL(clicked()), this,
+          SIGNAL(aboutProgramSelected()));
   connect(exit, SIGNAL(clicked()), this, SIGNAL(exit()));
 }
 
-Mode MainMenuScreen::mode()
-{
-  return m_modeWidget->mode();
-}
+Mode MainMenuScreen::mode() { return m_modeWidget->mode(); }

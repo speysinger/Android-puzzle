@@ -1,22 +1,21 @@
 #ifndef GAMESCREENCONTROLLER_H
 #define GAMESCREENCONTROLLER_H
 
+#include <QTime>
+#include <memory>
+
 #include "screensstack.h"
-#include "src/mode.h"
 #include "src/database/levelstructures.h"
 #include "src/game/gamemanager.h"
-
-#include <memory>
-#include <QTime>
+#include "src/mode.h"
 
 class PuzzleGame;
 class HelpViewer;
 class ArtInfoWidget;
 
-class GameScreenController : public ScreensStack
-{
+class GameScreenController : public ScreensStack {
   Q_OBJECT
-public:
+ public:
   explicit GameScreenController(QWidget* parent = nullptr);
   void startRandomGame(Mode mode);
   void startRandomGame(Author author, Mode mode);
@@ -26,7 +25,7 @@ public:
 
   void start();
 
-protected:
+ protected:
   PuzzleGame* m_game;
   GameManager* m_gameManager;
   ArtInfoWidget* m_artInfo;

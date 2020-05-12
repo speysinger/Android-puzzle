@@ -3,8 +3,8 @@
 
 #include "screensstack.h"
 #include "src/settings/optionswidget.h"
-#include "src/settings/update/updatewidget.h"
 #include "src/settings/update/progressbarwidget.h"
+#include "src/settings/update/updatewidget.h"
 
 class OptionsWidget;
 class UpdateWidget;
@@ -12,14 +12,14 @@ class UpdateProgressBar;
 
 ///
 /// \brief The SettingsScreenController class
-/// Данный класс реализует управление показом окон, связанных с тестированием и настройками(путь до файла, звук)
-class SettingsScreenController : public ScreensStack
-{
+/// Данный класс реализует управление показом окон, связанных с тестированием и
+/// настройками(путь до файла, звук)
+class SettingsScreenController : public ScreensStack {
   Q_OBJECT
-public:
+ public:
   explicit SettingsScreenController(QWidget* parent = nullptr);
 
-protected:
+ protected:
   OptionsWidget* m_options;
   UpdateWidget* m_update;
   ProgressBarWidget* m_progressBar;

@@ -1,30 +1,28 @@
 #ifndef SETTINGSDBFACADE_H
 #define SETTINGSDBFACADE_H
 
-#include "dbfacade.h"
-#include "src/singleton.h"
 #include <exception>
 
-struct Settings
-{
+#include "dbfacade.h"
+#include "src/singleton.h"
+
+struct Settings {
   QString value;
   QString property;
-  Settings(QString property_, QString value_)
-  {
+  Settings(QString property_, QString value_) {
     value = value_;
     property = property_;
   }
 };
 
-class SettingsDBFacade : public DBFacade
-{
+class SettingsDBFacade : public DBFacade {
   Q_OBJECT
-public:
+ public:
   SettingsDBFacade(QObject* parent = nullptr);
   void set(const Settings& setting);
   QString getValue(const QString& property);
 
-protected:
+ protected:
   std::map<QString, QString> DefaultSettings;
   QSqlTableModel* m_model;
 

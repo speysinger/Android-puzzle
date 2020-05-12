@@ -1,12 +1,13 @@
 #include "artinfowidget.h"
+
 #include <QGridLayout>
-#include "src/ui/buttons/styledbutton.h"
-#include "scrolledtextbrowser.h"
-#include "src/database/levelsdbfacade.h"
 #include <vector>
 
-ArtInfoWidget::ArtInfoWidget(QWidget* parent) : QWidget(parent)
-{
+#include "scrolledtextbrowser.h"
+#include "src/database/levelsdbfacade.h"
+#include "src/ui/buttons/styledbutton.h"
+
+ArtInfoWidget::ArtInfoWidget(QWidget* parent) : QWidget(parent) {
   QGridLayout* m_layer = new QGridLayout(this);
   setLayout(m_layer);
 
@@ -28,19 +29,18 @@ ArtInfoWidget::ArtInfoWidget(QWidget* parent) : QWidget(parent)
   connect(m_backButton, SIGNAL(clicked(bool)), SIGNAL(back()));
 }
 
-void ArtInfoWidget::load(Art art)
-{
+void ArtInfoWidget::load(Art art) {
   QTextCursor c;
   m_text->setHtml(tr("<b>") + "Авторы:" + "</b><br>");
   std::vector<Author> authors = art.artAuthors;
 
-  for (auto author : authors)
-  {
+  for (auto author : authors) {
     QImage authorImage(author.imgPath);
 
     m_text->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
     c = m_text->textCursor();
-    c.insertImage(authorImage.scaled(350, authorImage.height(), Qt::KeepAspectRatio));
+    c.insertImage(
+        authorImage.scaled(350, authorImage.height(), Qt::KeepAspectRatio));
 
     m_text->moveCursor(QTextCursor::End, QTextCursor::MoveAnchor);
     c = m_text->textCursor();

@@ -1,9 +1,10 @@
 #include "puzzlepath.h"
+
 #include <QtDebug>
 
 void reverse(PathPoints& path) {
   auto size = pathSize(path);
-  for (auto &point : path.points) {
+  for (auto& point : path.points) {
     if (path.type == PathPoints::Type::HorizontalZigZag ||
         path.type == PathPoints::Type::HorizontalLine)
       point.setX(point.x() - size.width());
@@ -15,7 +16,7 @@ void reverse(PathPoints& path) {
   std::reverse(path.points.begin(), path.points.end());
 }
 
-QPainterPath points2path(PathPoints path,  bool need_reverse) {
+QPainterPath points2path(PathPoints path, bool need_reverse) {
   if (need_reverse) {
     reverse(path);
   }
@@ -27,11 +28,11 @@ QPainterPath points2path(PathPoints path,  bool need_reverse) {
     painterPath.moveTo(path.points[0]);
     painterPath.lineTo(path.points[1]);
     for (size_t i = 1; i < path.points.size() - 2; i += 2) {
-      painterPath.cubicTo(path.points[i], path.points[i+1], path.points[i+2]);
+      painterPath.cubicTo(path.points[i], path.points[i + 1],
+                          path.points[i + 2]);
     }
-    painterPath.lineTo(path.points[path.points.size()-1]);
-  }
-  else {
+    painterPath.lineTo(path.points[path.points.size() - 1]);
+  } else {
     painterPath.moveTo(path.points[0]);
     painterPath.lineTo(path.points[1]);
   }
@@ -40,7 +41,7 @@ QPainterPath points2path(PathPoints path,  bool need_reverse) {
 }
 
 PuzzlePath* createPuzzlePathItem(PathPoints& up, PathPoints& right,
-                       PathPoints& down, PathPoints& left) {
+                                 PathPoints& down, PathPoints& left) {
   QPainterPath fullPath;
 
   int w = pathSize(up).width();
@@ -85,10 +86,12 @@ PuzzlePath* createPuzzlePathItem(PathPoints& up, PathPoints& right,
   fullPath.connectPath(downPath);
   fullPath.connectPath(leftPath);
 
-  return new PuzzlePath(fullPath, upleft_dx, upleft_dy, downright_dx, downright_dy);
+  return new PuzzlePath(fullPath, upleft_dx, upleft_dy, downright_dx,
+                        downright_dy);
 }
 
-PuzzlePathMatrix getPuzzlePathes(QPixmap& source, size_t n_rows, size_t n_columns) {
+PuzzlePathMatrix getPuzzlePathes(QPixmap& source, size_t n_rows,
+                                 size_t n_columns) {
   auto verPoints = getVerPoints(source, n_rows, n_columns);
   auto horPoints = getHorizPoints(source, n_rows, n_columns);
 
@@ -96,11 +99,10 @@ PuzzlePathMatrix getPuzzlePathes(QPixmap& source, size_t n_rows, size_t n_column
 
   for (size_t i = 0; i < n_rows; i++) {
     vecFullPath[i].resize(n_columns);
-    for (size_t j = 0; j < n_columns; j++){
-       vecFullPath[i][j] = createPuzzlePathItem(
-           horPoints[i][j], verPoints[i][j+1],
-           horPoints[i+1][j], verPoints[i][j]
-       );
+    for (size_t j = 0; j < n_columns; j++) {
+      vecFullPath[i][j] =
+          createPuzzlePathItem(horPoints[i][j], verPoints[i][j + 1],
+                               horPoints[i + 1][j], verPoints[i][j]);
     }
   }
   return vecFullPath;

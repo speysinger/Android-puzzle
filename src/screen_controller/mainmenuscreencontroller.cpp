@@ -1,14 +1,15 @@
 #include "mainmenuscreencontroller.h"
-#include "src/menu/mainmenuscreen.h"
+
 #include "gamescreencontroller.h"
-#include "src/ui/html_view/helpviewer.h"
 #include "levelmenuscreencontroller.h"
 #include "settingsscreencontroller.h"
-#include "testingscreencontroller.h"
+#include "src/menu/mainmenuscreen.h"
 #include "src/statistic/statisticwidget.h"
+#include "src/ui/html_view/helpviewer.h"
+#include "testingscreencontroller.h"
 
-MainMenuScreenController::MainMenuScreenController(QWidget* parent) : ScreensStack(parent)
-{
+MainMenuScreenController::MainMenuScreenController(QWidget* parent)
+    : ScreensStack(parent) {
   m_menu = new MainMenuScreen(this);
   m_settings = new SettingsScreenController(this);
   m_game = new GameScreenController(this);
@@ -31,7 +32,8 @@ MainMenuScreenController::MainMenuScreenController(QWidget* parent) : ScreensSta
     m_testing->pushTestingWindow();
   });
   connect(m_menu, &MainMenuScreen::exit, [=] { this->close(); });
-  connect(m_menu, &MainMenuScreen::aboutProgramSelected, [=] { push(m_aboutProgram); });
+  connect(m_menu, &MainMenuScreen::aboutProgramSelected,
+          [=] { push(m_aboutProgram); });
   connect(m_menu, &MainMenuScreen::erasSelected, [=] {
     m_level_menu->showEras();
     push(m_level_menu);

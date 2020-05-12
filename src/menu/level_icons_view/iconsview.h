@@ -6,10 +6,9 @@
 
 #include "menuiconproxy.h"
 
-class IconsView : public QGraphicsView
-{
+class IconsView : public QGraphicsView {
   Q_OBJECT
-public:
+ public:
   IconsView(QWidget* parent = nullptr);
 
   void loadAuthors();
@@ -17,7 +16,7 @@ public:
   void loadArts(Author author);
   void loadArts(Era era);
 
-protected:
+ protected:
   void resizeEvent(QResizeEvent* event) override;
   void disposeIcons();
 
@@ -27,12 +26,12 @@ protected:
 
   void mousePressEvent(QMouseEvent* event) override;
   void mouseReleaseEvent(QMouseEvent* event) override;
-signals:
+ signals:
   void authorSelected(Author data);
   void eraSelected(Era data);
   void artSelected(Art data);
 
-protected:
+ protected:
   QGraphicsScene m_scene;
   QPoint m_clickPos;
   std::vector<MenuIconProxy*> m_icons;

@@ -1,10 +1,10 @@
 #ifndef QTITEM_H
 #define QTITEM_H
 
-#include <vector>
+#include <QPixmap>
 #include <QPoint>
 #include <QSize>
-#include <QPixmap>
+#include <vector>
 
 struct PathPoints {
   enum class Type {
@@ -36,15 +36,14 @@ PathPoints vertLinePath(int h);
 void randCurvePath(PathPoints& path);
 
 //! возвращает размеры зигзага или линии
-QSize pathSize(PathPoints &path);
+QSize pathSize(PathPoints& path);
 
 //! формирует матрицу из горизонтальных крючков
 //! для заданного изображения и количества фигур
-PathPointsMatrix getHorizPoints (QPixmap& source, size_t n_rows, size_t n_columns);
+PathPointsMatrix getHorizPoints(QPixmap& source, size_t n_rows,
+                                size_t n_columns);
 
 //! формирует матрицу из вертикальных крючков
 //! для заданного изображения и количества фигур
-PathPointsMatrix getVerPoints (QPixmap& source, size_t n_rows, size_t n_column);
-#endif // QTITEM_H
-
-
+PathPointsMatrix getVerPoints(QPixmap& source, size_t n_rows, size_t n_column);
+#endif  // QTITEM_H

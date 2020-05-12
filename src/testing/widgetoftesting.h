@@ -2,42 +2,28 @@
 #define WIDGETOFTESTING_H
 
 #include <QQmlContext>
+
 #include "src/settings/update/qmlbuttonshandler.h"
 #include "src/settings/update/qmlwidget.h"
 
 ///
 /// \brief The Titles class
-/// Данный класс содержит текст на вставку в окно тестирования, в зависимости от типа вопроса
-class Titles : public QObject
-{
+/// Данный класс содержит текст на вставку в окно тестирования, в зависимости от
+/// типа вопроса
+class Titles : public QObject {
   Q_OBJECT
-public:
+ public:
   bool IsEraQuestions = false;
-  Q_INVOKABLE QString getEraTitle()
-  {
-    return m_eraTitle;
-  }
-  Q_INVOKABLE QString getArtTitle()
-  {
-    return m_artTitle;
-  }
-  Q_INVOKABLE QString getErasWord()
-  {
-    return m_eras;
-  }
-  Q_INVOKABLE QString getArtsWord()
-  {
-    return m_arts;
-  }
-  Q_INVOKABLE QString getAuthorsWord()
-  {
-    return m_authors;
-  }
-signals:
+  Q_INVOKABLE QString getEraTitle() { return m_eraTitle; }
+  Q_INVOKABLE QString getArtTitle() { return m_artTitle; }
+  Q_INVOKABLE QString getErasWord() { return m_eras; }
+  Q_INVOKABLE QString getArtsWord() { return m_arts; }
+  Q_INVOKABLE QString getAuthorsWord() { return m_authors; }
+ signals:
   void newQuestionsHaveEraType();
   void newQuestionsHaveAuthorType();
 
-private:
+ private:
   const QString m_eraTitle = "Соотнесите картины с эпохами";
   const QString m_artTitle = "Соотнесите картины с авторами";
   const QString m_eras = "Эпохи";
@@ -48,15 +34,14 @@ private:
 ///
 /// \brief The WidgetOfTesting class
 /// Данный класс реализует создание окна тестирования
-class WidgetOfTesting : public QmlWidget
-{
+class WidgetOfTesting : public QmlWidget {
   Q_OBJECT
-public:
+ public:
   WidgetOfTesting(QWidget* parent = nullptr);
-signals:
+ signals:
   void nextQuestionsButtonPressed();
 
-private:
+ private:
   Titles* m_testingTitles = new Titles();
 };
 

@@ -1,11 +1,12 @@
-#include <QPushButton>
-#include <QGridLayout>
-#include "src/ui/buttons/styledbutton.h"
-#include "scrolledtextbrowser.h"
 #include "helpviewer.h"
 
-HelpViewer::HelpViewer(QWidget* parent) : QWidget(parent)
-{
+#include <QGridLayout>
+#include <QPushButton>
+
+#include "scrolledtextbrowser.h"
+#include "src/ui/buttons/styledbutton.h"
+
+HelpViewer::HelpViewer(QWidget* parent) : QWidget(parent) {
   QVBoxLayout* layer = new QVBoxLayout(this);
   setLayout(layer);
 

@@ -1,4 +1,5 @@
-  #include "movableitem.h"
+#include "movableitem.h"
+
 #include <QApplication>
 #include <QGraphicsSceneMouseEvent>
 
@@ -13,11 +14,10 @@ void MovableItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 void MovableItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
   RotatableItem::mouseMoveEvent(event);
 
-  if (false == m_selection)
-    return;
+  if (false == m_selection) return;
 
   if (QLineF(event->screenPos(), event->buttonDownScreenPos(Qt::LeftButton))
-    .length() < QApplication::startDragDistance()) {
+          .length() < QApplication::startDragDistance()) {
     return;
   }
 

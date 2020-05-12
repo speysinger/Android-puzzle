@@ -1,26 +1,25 @@
 #ifndef LEVELMENUSCREENCONTROLLER_H
 #define LEVELMENUSCREENCONTROLLER_H
 
-#include "screensstack.h"
-#include "src/mode.h"
-#include "src/database/levelstructures.h"
-
 #include <memory>
+
+#include "screensstack.h"
+#include "src/database/levelstructures.h"
+#include "src/mode.h"
 
 class GameScreenController;
 class LevelMenuScreen;
 
-class LevelMenuScreenController : public ScreensStack
-{
+class LevelMenuScreenController : public ScreensStack {
   Q_OBJECT
-public:
+ public:
   explicit LevelMenuScreenController(QWidget* parent = nullptr);
   void showEras();
   void showAuthors();
-signals:
+ signals:
   void back();
 
-protected:
+ protected:
   GameScreenController* m_game;
   LevelMenuScreen* m_menu;
 

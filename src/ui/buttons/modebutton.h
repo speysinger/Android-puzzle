@@ -4,19 +4,18 @@
 #include "pickedbutton.h"
 #include "src/mode.h"
 
-class ModeButton : public PickedButton
-{
+class ModeButton : public PickedButton {
   Q_OBJECT
-public:
+ public:
   ModeButton(const QString& text, const Mode& mode, QWidget* parent = nullptr);
-public slots:
+ public slots:
   void unpick();
   Mode mode();
   void onPicked();
-signals:
+ signals:
   void picked_true();
 
-private:
+ private:
   Mode m_mode;
 };
 

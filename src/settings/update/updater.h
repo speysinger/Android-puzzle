@@ -1,54 +1,47 @@
 #ifndef UPDATER_H
 #define UPDATER_H
 
+#include <src/database/jsonparser.h>
 #include <src/database/levelsdbfacade.h>
 #include <src/database/levelstructures.h>
-#include <src/database/jsonparser.h>
-#include <vector>
+
 #include <set>
+#include <vector>
+
 #include "loader.h"
 
 ///
 /// \brief The Updater class
 /// Данный класс реализует обновление базы данных(Эпохи/Картины/Авторы)
-/// Предоставляет интерфейс, позволяющий загрузить json и обновить указанный список эпох
-class Updater : public QObject
-{
+/// Предоставляет интерфейс, позволяющий загрузить json и обновить указанный
+/// список эпох
+class Updater : public QObject {
   Q_OBJECT
-public:
+ public:
   Updater();
   void uploadSelectedItems(const std::vector<EraListModelItem>& selectedEras);
   void loadJson();
   void setBreakFlag(bool breakLoading);
 
-public slots:
+ public slots:
   void fillUpdatableLists(const QByteArray& jsonData);
 
-private:
-  enum UpdateFileStatus
-  {
-    LOAD,
-    UPDATE,
-    NOTHING
-  };
+ private:
+  enum UpdateFileStatus { LOAD, UPDATE, NOTHING };
 
   template <class T>
-  class UpdatableItemWrapper
-  {
-  public:
-    UpdatableItemWrapper(T object_, UpdateFileStatus updateFiles_) : object(object_), updateFiles(updateFiles_)
-    {
-    }
+  class UpdatableItemWrapper {
+   public:
+    UpdatableItemWrapper(T object_, UpdateFileStatus updateFiles_)
+        : object(object_), updateFiles(updateFiles_) {}
     T object;
     mutable UpdateFileStatus updateFiles;
 
-    bool operator<(const UpdatableItemWrapper<T>& other) const
-    {
+    bool operator<(const UpdatableItemWrapper<T>& other) const {
       return object < other.object;
     }
 
-    bool operator==(const UpdatableItemWrapper<T>& other) const
-    {
+    bool operator==(const UpdatableItemWrapper<T>& other) const {
       return object == other.object;
     }
   };
@@ -56,15 +49,18 @@ private:
   QString getUpdatableItemPath(QString url);
 
   template <class T>
-  void prepareUpdatableItems(std::set<T> jsonClassObjectsList, std::set<T> dbClassObjectsList,
+  void prepareUpdatableItems(std::set<T> jsonClassObjectsList,
+                             std::set<T> dbClassObjectsList,
                              std::set<UpdatableItemWrapper<T>>&);
   void prepareUpdatableEras(const JsonParser& loadedJson);
   void prepareUpdatableArts(const JsonParser& loadedJson);
   void prepareUpdatableAuthors(const JsonParser& loadedJson);
 
   void sendUpdatableInfoToQml();
-  int countSelectedForUpdateItems(const std::vector<EraListModelItem>& selectedEras);
-  void countAuthors(UpdatableItemWrapper<Art> art, int& domesticFilesCount, int& internationalFilesCount,
+  int countSelectedForUpdateItems(
+      const std::vector<EraListModelItem>& selectedEras);
+  void countAuthors(UpdatableItemWrapper<Art> art, int& domesticFilesCount,
+                    int& internationalFilesCount,
                     std::set<UpdatableItemWrapper<Author>>& authorsList);
 
   template <class T>
@@ -82,9 +78,10 @@ private:
 
   bool breaker = false;
 
-  QString const jsonPath = "https://pro-prof.com/artists-puzzle/load/levels.json";
+  QString const jsonPath =
+      "https://pro-prof.com/artists-puzzle/load/levels.json";
 
-signals:
+ signals:
   void itemsLoaded(std::vector<EraListModelItem> vec, bool isTestingModule);
   void maxValueCalculated(int maxValue);
   void fileLoaded();

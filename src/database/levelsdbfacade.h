@@ -1,19 +1,18 @@
 #ifndef LEVELSDBFACADE_H
 #define LEVELSDBFACADE_H
 
-#include "dbfacade.h"
-#include "src/singleton.h"
-#include "levelstructures.h"
-#include "settingsdbfacade.h"
-#include "jsonparser.h"
-
 #include <QSqlRelationalTableModel>
 #include <vector>
 
-class LevelsDBFacade : public DBFacade
-{
+#include "dbfacade.h"
+#include "jsonparser.h"
+#include "levelstructures.h"
+#include "settingsdbfacade.h"
+#include "src/singleton.h"
+
+class LevelsDBFacade : public DBFacade {
   Q_OBJECT
-public:
+ public:
   LevelsDBFacade(QObject* parent = nullptr);
 
   void clearDatabase();
@@ -54,14 +53,14 @@ public:
   void checkStatistic(StatisticRecord& statisticRecord);
   std::vector<StatisticsTableItem> getAllStatistic();
 
-private:
+ private:
   void addStatistic(const StatisticRecord& statisticRecord);
   void updateStatistic(const StatisticRecord& statisticRecord);
 
   void deleteFile(QString path);
   void clearTable(QString tableName);
 
-protected:
+ protected:
   QSqlRelationalTableModel* m_arts_model;
   QSqlRelationalTableModel* m_eras_model;
   QSqlRelationalTableModel* m_authors_model;

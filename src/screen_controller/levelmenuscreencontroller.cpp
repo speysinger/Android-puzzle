@@ -1,13 +1,14 @@
 #include "levelmenuscreencontroller.h"
+
+#include <memory>
+
 #include "gamescreencontroller.h"
 #include "src/database/levelsdbfacade.h"
 #include "src/database/levelstructures.h"
 #include "src/menu/levelmenuscreen.h"
-#include <memory>
 
 LevelMenuScreenController::LevelMenuScreenController(QWidget* parent)
-  : ScreensStack(parent), m_selectedAuthor(nullptr), m_selectedEra(nullptr)
-{
+    : ScreensStack(parent), m_selectedAuthor(nullptr), m_selectedEra(nullptr) {
   m_game = new GameScreenController(this);
   m_menu = new LevelMenuScreen(this);
 
@@ -16,35 +17,25 @@ LevelMenuScreenController::LevelMenuScreenController(QWidget* parent)
 
   connect(m_game, &GameScreenController::back, [=] { pop(); });
   connect(m_menu, &LevelMenuScreen::back, [=] {
-    if (m_selectedEra)
-    {
+    if (m_selectedEra) {
       m_selectedEra = nullptr;
       m_selectedAuthor = nullptr;
       m_menu->loadEras();
-    }
-    else if (m_selectedAuthor)
-    {
+    } else if (m_selectedAuthor) {
       m_selectedEra = nullptr;
       m_selectedAuthor = nullptr;
       m_menu->loadAuthors();
-    }
-    else
-    {
+    } else {
       emit back();
     }
   });
 
   connect(m_menu, &LevelMenuScreen::randomSelected, [=] {
-    if (m_selectedEra)
-    {
+    if (m_selectedEra) {
       m_game->startRandomGame(*m_selectedEra, m_menu->mode());
-    }
-    else if (m_selectedAuthor)
-    {
+    } else if (m_selectedAuthor) {
       m_game->startRandomGame(*m_selectedAuthor, m_menu->mode());
-    }
-    else
-    {
+    } else {
       m_game->startRandomGame(m_menu->mode());
     }
     push(m_game);
@@ -66,16 +57,14 @@ LevelMenuScreenController::LevelMenuScreenController(QWidget* parent)
   });
 }
 
-void LevelMenuScreenController::showEras()
-{
+void LevelMenuScreenController::showEras() {
   m_selectedEra = nullptr;
   m_selectedAuthor = nullptr;
   m_menu->loadEras();
   push(m_menu);
 }
 
-void LevelMenuScreenController::showAuthors()
-{
+void LevelMenuScreenController::showAuthors() {
   m_selectedEra = nullptr;
   m_selectedAuthor = nullptr;
   m_menu->loadAuthors();

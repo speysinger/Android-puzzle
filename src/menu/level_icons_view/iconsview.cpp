@@ -1,13 +1,13 @@
 #include "iconsview.h"
-#include "src/database/levelsdbfacade.h"
-#include "menuiconproxy.h"
 
-#include <QVBoxLayout>
-#include <QScrollBar>
 #include <QResizeEvent>
+#include <QScrollBar>
+#include <QVBoxLayout>
 
-IconsView::IconsView(QWidget* parent) : QGraphicsView(parent), m_scene(this)
-{
+#include "menuiconproxy.h"
+#include "src/database/levelsdbfacade.h"
+
+IconsView::IconsView(QWidget* parent) : QGraphicsView(parent), m_scene(this) {
   setInteractive(false);
   setDragMode(QGraphicsView::DragMode::ScrollHandDrag);
   setViewportMargins(0, 0, 0, 0);
@@ -18,20 +18,17 @@ IconsView::IconsView(QWidget* parent) : QGraphicsView(parent), m_scene(this)
   setScene(&m_scene);
 }
 
-void IconsView::disposeIcons()
-{
+void IconsView::disposeIcons() {
   const int n = m_icons.size();
 
   const int NRow = n / NColumn + (n % NColumn ? 1 : 0);
 
   int i = 0;
-  for (auto icon : m_icons)
-  {
+  for (auto icon : m_icons) {
     int iRow = i / NColumn;
     int iColumn = i % NColumn;
 
-    if (height() > width())
-    {
+    if (height() > width()) {
       std::swap(iRow, iColumn);
     }
 
@@ -40,40 +37,33 @@ void IconsView::disposeIcons()
     ++i;
   }
 
-  if (height() > width())
-  {
+  if (height() > width()) {
     m_scene.setSceneRect(0, 0, IconSize * NColumn, IconSize * NRow);
-  }
-  else
-  {
+  } else {
     m_scene.setSceneRect(0, 0, IconSize * NRow, IconSize * NColumn);
   }
   scrollContentsBy(0, 0);
   fitInView(0, 0, IconSize * NColumn, IconSize * NColumn, Qt::KeepAspectRatio);
 }
 
-void IconsView::scrollContentsBy(int dx, int dy)
-{
+void IconsView::scrollContentsBy(int dx, int dy) {
   qreal axis, size;
 
   QRectF visibleSceneRect = mapToScene(viewport()->rect()).boundingRect();
 
-  if (width() > height())
-  {
+  if (width() > height()) {
     axis = visibleSceneRect.x();
     size = visibleSceneRect.width();
-  }
-  else
-  {
+  } else {
     axis = visibleSceneRect.y();
     size = visibleSceneRect.height();
   }
 
-  if (axis <= 0)
-    axis = 0;
+  if (axis <= 0) axis = 0;
 
   firstLoadableItemIndex = size_t(axis / IconSize) * NColumn;
-  lastLoadableItemIndex = firstLoadableItemIndex + (size / IconSize + NColumn) * NColumn;
+  lastLoadableItemIndex =
+      firstLoadableItemIndex + (size / IconSize + NColumn) * NColumn;
   lastLoadableItemIndex = qMin(lastLoadableItemIndex, m_icons.size());
 
   setProxyItems();
@@ -81,70 +71,56 @@ void IconsView::scrollContentsBy(int dx, int dy)
   QGraphicsView::scrollContentsBy(dx, dy);
 }
 
-void IconsView::setProxyItems()
-{
-  for (size_t index = firstLoadableItemIndex; index < lastLoadableItemIndex; index++)
-  {
+void IconsView::setProxyItems() {
+  for (size_t index = firstLoadableItemIndex; index < lastLoadableItemIndex;
+       index++) {
     auto* iconProxy = m_icons[index];
     iconProxy->setLabelSize(IconSize, IconSize);
   }
 
-  if (firstLoadableItemIndex >= 1)
-  {
+  if (firstLoadableItemIndex >= 1) {
     m_icons[firstLoadableItemIndex - 1]->disableItem(IconSize, IconSize);
     m_icons[firstLoadableItemIndex - 2]->disableItem(IconSize, IconSize);
   }
 
-  if (lastLoadableItemIndex + (NColumn + 1) <= m_icons.size())
-  {
+  if (lastLoadableItemIndex + (NColumn + 1) <= m_icons.size()) {
     m_icons[lastLoadableItemIndex + 1]->disableItem(IconSize, IconSize);
     m_icons[lastLoadableItemIndex + 2]->disableItem(IconSize, IconSize);
   }
 }
 
-void IconsView::resizeEvent(QResizeEvent* event)
-{
-  if (event->size() != event->oldSize())
-  {
+void IconsView::resizeEvent(QResizeEvent* event) {
+  if (event->size() != event->oldSize()) {
     disposeIcons();
   }
 }
 
-void IconsView::mousePressEvent(QMouseEvent* event)
-{
+void IconsView::mousePressEvent(QMouseEvent* event) {
   m_clickPos = event->pos();
   QGraphicsView::mousePressEvent(event);
 }
 
-void IconsView::mouseReleaseEvent(QMouseEvent* event)
-{
+void IconsView::mouseReleaseEvent(QMouseEvent* event) {
   auto object = itemAt(event->pos());
-  do
-  {
-    if (nullptr == object)
-      break;
+  do {
+    if (nullptr == object) break;
 
-    if ((m_clickPos - event->pos()).manhattanLength() > 10)
-      break;
+    if ((m_clickPos - event->pos()).manhattanLength() > 10) break;
 
     auto proxy = dynamic_cast<QGraphicsItem*>(object);
-    if (nullptr == proxy)
-      break;
+    if (nullptr == proxy) break;
 
     auto authorIcon = dynamic_cast<AuthorIcon*>(proxy);
     auto eraIcon = dynamic_cast<EraIcon*>(proxy);
     auto artIcon = dynamic_cast<ArtIcon*>(proxy);
 
-    if (authorIcon)
-    {
+    if (authorIcon) {
       emit authorSelected(authorIcon->getAuthor());
     }
-    if (eraIcon)
-    {
+    if (eraIcon) {
       emit eraSelected(eraIcon->getEra());
     }
-    if (artIcon)
-    {
+    if (artIcon) {
       emit artSelected(artIcon->getArt());
     }
   } while (false);
@@ -152,13 +128,11 @@ void IconsView::mouseReleaseEvent(QMouseEvent* event)
   QGraphicsView::mouseReleaseEvent(event);
 }
 
-void IconsView::loadAuthors()
-{
+void IconsView::loadAuthors() {
   m_scene.clear();
   m_icons.clear();
 
-  for (auto author : DB.authors())
-  {
+  for (auto author : DB.authors()) {
     AuthorIcon* authorIcon = new AuthorIcon(std::move(author));
 
     MenuIconProxy* proxy = new MenuIconProxy(authorIcon);
@@ -170,13 +144,11 @@ void IconsView::loadAuthors()
   disposeIcons();
 }
 
-void IconsView::loadEras()
-{
+void IconsView::loadEras() {
   m_scene.clear();
   m_icons.clear();
 
-  for (auto era : DB.eras())
-  {
+  for (auto era : DB.eras()) {
     EraIcon* eraIcon = new EraIcon(std::move(era));
 
     MenuIconProxy* proxy = new MenuIconProxy(eraIcon);
@@ -187,13 +159,11 @@ void IconsView::loadEras()
   disposeIcons();
 }
 
-void IconsView::loadArts(Author author)
-{
+void IconsView::loadArts(Author author) {
   m_scene.clear();
   m_icons.clear();
 
-  for (auto art : DB.arts(author))
-  {
+  for (auto art : DB.arts(author)) {
     ArtIcon* artIcon = new ArtIcon(std::move(art));
 
     MenuIconProxy* proxy = new MenuIconProxy(artIcon);
@@ -204,13 +174,11 @@ void IconsView::loadArts(Author author)
   disposeIcons();
 }
 
-void IconsView::loadArts(Era era)
-{
+void IconsView::loadArts(Era era) {
   m_scene.clear();
   m_icons.clear();
 
-  for (auto art : DB.arts(era))
-  {
+  for (auto art : DB.arts(era)) {
     ArtIcon* artIcon = new ArtIcon(std::move(art));
 
     MenuIconProxy* proxy = new MenuIconProxy(artIcon);

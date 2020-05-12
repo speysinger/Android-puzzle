@@ -1,12 +1,13 @@
 #ifndef MEDIA_H
 #define MEDIA_H
-#include "src/singleton.h"
 #include <QMediaPlayer>
 
+#include "src/singleton.h"
+
 namespace media {
-  #define Media Singleton<QMediaPlayer>::instance()
+#define Media Singleton<QMediaPlayer>::instance()
 
-  void play(const std::string &path);
-}
+void play(const std::string &path);
+}  // namespace media
 
-#endif // MEDIA_H
+#endif  // MEDIA_H

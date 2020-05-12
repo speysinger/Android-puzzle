@@ -1,27 +1,27 @@
 #ifndef OPTIONSWIDGET_H
 #define OPTIONSWIDGET_H
 
-#include <QWidget>
-#include <QLineEdit>
 #include <QComboBox>
-#include "src/database/settingsdbfacade.h"
-#include "update/updatewidget.h"
-#include "src/screen_controller/screensstack.h"
+#include <QLineEdit>
+#include <QWidget>
 
-class OptionsWidget : public QWidget
-{
+#include "src/database/settingsdbfacade.h"
+#include "src/screen_controller/screensstack.h"
+#include "update/updatewidget.h"
+
+class OptionsWidget : public QWidget {
   Q_OBJECT
-public:
+ public:
   OptionsWidget(QWidget* parent = nullptr);
-signals:
+ signals:
   void back();
   void loadSelected();
-private slots:
+ private slots:
   void createOpenDialog();
   void setSound();
   void clearDatabase();
 
-private:
+ private:
   QLineEdit m_line_path;
   QComboBox m_combo_sound;
   std::vector<QString> m_sounds;

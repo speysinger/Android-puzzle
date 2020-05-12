@@ -2,14 +2,14 @@
 #define HELP_H
 
 #include <QWidget>
+
 #include "scrolledtextbrowser.h"
 
-class HelpViewer : public QWidget
-{
+class HelpViewer : public QWidget {
   Q_OBJECT
-public:
+ public:
   HelpViewer(QWidget* parent = nullptr);
-signals:
+ signals:
   void back();
 };
 

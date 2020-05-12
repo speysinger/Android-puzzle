@@ -1,12 +1,12 @@
 #include "puzzleview.h"
-#include "src/game/puzzleitem/puzzlematrix.h"
-#include "src/game/puzzleitem/settableitem.h"
-#include "src/game/puzzleitem/selectableitem.h"
-#include "src/game/puzzleitem/puzzleitem.h"
-#include "src/game/puzzleitem/rotatableitem.h"
 
-PuzzleView::PuzzleView(QGraphicsScene *scene)
-  : QGraphicsView(scene) {
+#include "src/game/puzzleitem/puzzleitem.h"
+#include "src/game/puzzleitem/puzzlematrix.h"
+#include "src/game/puzzleitem/rotatableitem.h"
+#include "src/game/puzzleitem/selectableitem.h"
+#include "src/game/puzzleitem/settableitem.h"
+
+PuzzleView::PuzzleView(QGraphicsScene *scene) : QGraphicsView(scene) {
   grabGesture(Qt::PinchGesture);
   setAttribute(Qt::WA_AcceptTouchEvents);
   setTransformationAnchor(AnchorViewCenter);
@@ -18,7 +18,7 @@ PuzzleView::PuzzleView(QGraphicsScene *scene)
 
 bool PuzzleView::event(QEvent *event) {
   if (event->type() == QEvent::Gesture)
-    return gestureEvent(static_cast<QGestureEvent*>(event));
+    return gestureEvent(static_cast<QGestureEvent *>(event));
   return QGraphicsView::event(event);
 }
 
@@ -29,7 +29,7 @@ bool PuzzleView::gestureEvent(QGestureEvent *event) {
   return true;
 }
 
-void PuzzleView::pinchTriggered(QPinchGesture* pinch) {
+void PuzzleView::pinchTriggered(QPinchGesture *pinch) {
   if (pinch->state() == Qt::GestureUpdated) {
     auto scaleValue = pinch->scaleFactor();
     scale(scaleValue, scaleValue);
@@ -38,12 +38,11 @@ void PuzzleView::pinchTriggered(QPinchGesture* pinch) {
 }
 
 void PuzzleView::mousePressEvent(QMouseEvent *event) {
-  auto item = dynamic_cast<SettableItem*>(itemAt(event->pos()));
+  auto item = dynamic_cast<SettableItem *>(itemAt(event->pos()));
   if (item && false == item->is_setted()) {
     setInteractive(true);
     setDragMode(QGraphicsView::DragMode::NoDrag);
-  }
-  else {
+  } else {
     setInteractive(false);
     setDragMode(QGraphicsView::DragMode::ScrollHandDrag);
   }

@@ -1,19 +1,18 @@
 #ifndef QMLWIDGET_H
 #define QMLWIDGET_H
 
-#include <QQuickWidget>
 #include <QQmlContext>
+#include <QQuickWidget>
+
 #include "qmlbuttonshandler.h"
 
 ///
 /// \brief The QmlWidget class
 /// Данный класс реализует создание qQuickWidget
-class QmlWidget : public QQuickWidget
-{
+class QmlWidget : public QQuickWidget {
   Q_OBJECT
-public:
-  QmlWidget(QWidget* parent) : QQuickWidget(parent)
-  {
+ public:
+  QmlWidget(QWidget* parent) : QQuickWidget(parent) {
     setStyleSheet("background-color: 'gray';");
     this->rootContext()->setContextProperty("buttonsHandler", m_buttonsHandler);
     this->setResizeMode(QQuickWidget::SizeRootObjectToView);
@@ -21,7 +20,7 @@ public:
     this->setClearColor(Qt::transparent);
   }
 
-protected:
+ protected:
   QmlButtonsHandler* m_buttonsHandler = new QmlButtonsHandler();
   QString m_pathToQmlFile;
 };

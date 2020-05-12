@@ -1,28 +1,27 @@
 #ifndef SCREENSSTACK_H
 #define SCREENSSTACK_H
 
-#include <QWidget>
 #include <QGridLayout>
 #include <QStack>
+#include <QWidget>
 #include <memory>
 
 //! стек окон приложения
-class ScreensStack : public QWidget
-{
+class ScreensStack : public QWidget {
   Q_OBJECT
-public:
+ public:
   explicit ScreensStack(QWidget* parent = nullptr);
-public slots:
+ public slots:
   void push(QWidget* widget);
   void pop();
   int lenght();
 
-protected:
+ protected:
   bool check_empty();
-signals:
+ signals:
   void back();
 
-private:
+ private:
   QStack<QWidget*> m_widgets;
   QGridLayout m_layout;
 };

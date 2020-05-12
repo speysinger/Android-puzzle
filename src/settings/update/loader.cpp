@@ -1,37 +1,33 @@
 #include "loader.h"
-#include <QUrl>
-#include <QNetworkRequest>
+
 #include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QUrl>
 #include <QtNetwork>
 
-QNetworkReply* Loader::load(QString url)
-{
+QNetworkReply* Loader::load(QString url) {
   QEventLoop loop;
   QNetworkReply* loadedFile;
   connect(&m_manager, SIGNAL(finished(QNetworkReply*)), &loop, SLOT(quit()));
   loadedFile = m_manager.get(QNetworkRequest(QUrl(url)));
   loop.exec();
 
-  if (loadedFile->error() != QNetworkReply::NoError)
-  {
+  if (loadedFile->error() != QNetworkReply::NoError) {
     loadedFile->abort();
     loadedFile->deleteLater();
     m_manager.clearAccessCache();
-    throw NetworkReplyException("in DataLoader: " + loadedFile->errorString().toStdString());
+    throw NetworkReplyException("in DataLoader: " +
+                                loadedFile->errorString().toStdString());
   }
 
   return loadedFile;
 }
 
-void Loader::loadPixmap(QString url, QString imagePath)
-{
+void Loader::loadPixmap(QString url, QString imagePath) {
   QNetworkReply* reply;
-  try
-  {
+  try {
     reply = load(url);
-  }
-  catch (NetworkReplyException error)
-  {
+  } catch (NetworkReplyException error) {
     throw std::runtime_error("Network error");
   }
 
@@ -41,15 +37,11 @@ void Loader::loadPixmap(QString url, QString imagePath)
   pixmap.save(imagePath, "JPG");
 }
 
-void Loader::loadJSON(QString url)
-{
+void Loader::loadJSON(QString url) {
   QNetworkReply* reply;
-  try
-  {
+  try {
     reply = load(url);
-  }
-  catch (NetworkReplyException error)
-  {
+  } catch (NetworkReplyException error) {
     throw std::runtime_error("Network error");
   }
   QByteArray JSONdoc = reply->readAll();

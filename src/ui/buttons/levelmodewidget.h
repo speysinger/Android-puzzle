@@ -2,20 +2,20 @@
 #define LEVELMODE_H
 
 #include <QWidget>
+
 #include "src/mode.h"
 #include "src/ui/buttons/modebutton.h"
 
 //! кнопки для выбора уровня (количества разбиений)
-class LevelModeWidget : public QWidget
-{
+class LevelModeWidget : public QWidget {
   Q_OBJECT
-public:
+ public:
   LevelModeWidget(QWidget* parent = nullptr);
   Mode mode();
-public slots:
+ public slots:
   void onPick();
 
-protected:
+ protected:
   ModeButton* m_pickedButton;
   PickedButton* m_rotatedButton;
 };

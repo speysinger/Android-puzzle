@@ -1,17 +1,17 @@
 #ifndef GAMEMANAGER_H
 #define GAMEMANAGER_H
 
+#include <memory>
+
 #include "puzzlegame.h"
 #include "src/database/levelstructures.h"
-#include <memory>
 
 ///
 /// \brief The GameManager class
 /// Данный класс реализует: создание игры(PuzzleGame) по входящим данным
 /// Сбор и запись в бд игровой статистики
-class GameManager
-{
-public:
+class GameManager {
+ public:
   GameManager();
 
   void createGame(PuzzleGame* puzzleGame, Mode mode);
@@ -22,7 +22,7 @@ public:
   Art getArt();
   void addStatisticRecord(int puzzleCollectionTime);
 
-private:
+ private:
   void setGame(PuzzleGame* puzzleGame, Art art, Mode mode);
 
   std::unique_ptr<Art> m_currentArt;

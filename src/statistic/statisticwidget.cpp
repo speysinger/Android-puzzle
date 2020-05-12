@@ -2,13 +2,13 @@
 
 #include <QQuickItem>
 
-#include "statisticmodel.h"
 #include "sortfilterproxymodel.h"
+#include "statisticmodel.h"
 
-StatisticWidget::StatisticWidget(QWidget* parent) : QmlWidget(parent)
-{
-    qmlRegisterType<StatisticModel>("StatisticModel", 1, 0, "StatisticModel");
-    qmlRegisterType<SortFilterProxyModel>("SortFilter", 1, 0, "SortFilterProxyModel");
+StatisticWidget::StatisticWidget(QWidget* parent) : QmlWidget(parent) {
+  qmlRegisterType<StatisticModel>("StatisticModel", 1, 0, "StatisticModel");
+  qmlRegisterType<SortFilterProxyModel>("SortFilter", 1, 0,
+                                        "SortFilterProxyModel");
 
   m_pathToQmlFile = "qrc:/qmlWindows/Statistic/StatisticWindow.qml";
 
@@ -20,7 +20,4 @@ StatisticWidget::StatisticWidget(QWidget* parent) : QmlWidget(parent)
   connect(m_buttonsHandler, &QmlButtonsHandler::back, [=] { emit back(); });
 }
 
-void StatisticWidget::loadStatistic()
-{
-  emit loadData();
-}
+void StatisticWidget::loadStatistic() { emit loadData(); }

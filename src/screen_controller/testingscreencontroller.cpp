@@ -1,12 +1,11 @@
 #include "testingscreencontroller.h"
-#include "src/testing/testmanager.h"
+
 #include "src/settings/update/eralistmodel.h"
 #include "src/testing/models/testingresultsmodel.h"
+#include "src/testing/testmanager.h"
 
-
-TestingScreenController::TestingScreenController(QWidget* parent) : ScreensStack(parent)
-{
-
+TestingScreenController::TestingScreenController(QWidget* parent)
+    : ScreensStack(parent) {
   m_testing = new TestSettingsWidget(this);
   m_testWindow = new WidgetOfTesting(this);
   m_testResults = new TestResultsWidget(this);
@@ -20,7 +19,8 @@ TestingScreenController::TestingScreenController(QWidget* parent) : ScreensStack
     emit back();
   });
 
-  connect(m_testing, &TestSettingsWidget::startTestingButtonPressed, [=] { push(m_testWindow); });
+  connect(m_testing, &TestSettingsWidget::startTestingButtonPressed,
+          [=] { push(m_testWindow); });
 
   connect(&TESTMANAGER, &TestManager::questionsIsOver, [=] {
     pop();
@@ -28,8 +28,7 @@ TestingScreenController::TestingScreenController(QWidget* parent) : ScreensStack
   });
 }
 
-void TestingScreenController::pushTestingWindow()
-{
+void TestingScreenController::pushTestingWindow() {
   TESTMANAGER.loadAvailableEras();
   push(m_testing);
 }

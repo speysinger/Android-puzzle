@@ -5,23 +5,23 @@
 //! кнопка-переключатель
 //! находится в двух состояниях - выбрано-невыбрано
 //! вырабатывает сигналы при переключении
-class PickedButton : public QPushButton
-{
+class PickedButton : public QPushButton {
   Q_OBJECT
   Q_PROPERTY(bool picked READ picked WRITE pick NOTIFY picked)
-public:
+ public:
   PickedButton(const QString& text, QWidget* parent = nullptr);
-public slots:
+ public slots:
   void pick(bool);
   bool picked();
-protected slots:
+ protected slots:
   void invert();
-protected:
-  void resizeEvent(QResizeEvent *event) override;
-signals:
+
+ protected:
+  void resizeEvent(QResizeEvent* event) override;
+ signals:
   void picked(bool);
 
-private:
+ private:
   bool m_picked;
 };
 

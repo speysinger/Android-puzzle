@@ -11,13 +11,12 @@ class LevelMenuScreenController;
 class TestingScreenController;
 class StatisticWidget;
 
-class MainMenuScreenController : public ScreensStack
-{
+class MainMenuScreenController : public ScreensStack {
   Q_OBJECT
-public:
+ public:
   explicit MainMenuScreenController(QWidget* parent = nullptr);
 
-protected:
+ protected:
   MainMenuScreen* m_menu;
   SettingsScreenController* m_settings;
   GameScreenController* m_game;

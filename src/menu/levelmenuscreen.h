@@ -1,15 +1,14 @@
 #ifndef CATEGORYWIDGET_H
 #define CATEGORYWIDGET_H
 
-#include "src/mode.h"
 #include "level_icons_view/iconsview.h"
+#include "src/mode.h"
 
 class LevelModeWidget;
 
-class LevelMenuScreen : public QWidget
-{
+class LevelMenuScreen : public QWidget {
   Q_OBJECT
-public:
+ public:
   LevelMenuScreen(QWidget* parent = nullptr);
   Mode mode();
 
@@ -18,7 +17,7 @@ public:
 
   void loadArts(Author author);
   void loadArts(Era era);
-signals:
+ signals:
   void randomSelected();
   void back();
 
@@ -26,7 +25,7 @@ signals:
   void eraSelected(Era data);
   void artSelected(Art data);
 
-protected:
+ protected:
   LevelModeWidget* m_modeWidget;
   IconsView* m_iconView;
 };

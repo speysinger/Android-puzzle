@@ -1,21 +1,15 @@
 #include <QApplication>
-#include <QFontDatabase>
-#include "screen_controller/mainmenuscreencontroller.h"
 #include <QFile>
-#include "database/levelsdbfacade.h"
-
-#include <map>
-#include <iostream>
+#include <QFontDatabase>
 #include <QSslSocket>
+#include <iostream>
+#include <map>
 
-int main(int argc, char* argv[])
-{
+#include "database/levelsdbfacade.h"
+#include "screen_controller/mainmenuscreencontroller.h"
+
+int main(int argc, char* argv[]) {
   QApplication a(argc, argv);
-
-  /*QFile levels(":/pictures_db/levels.json");
-  if (levels.open(QIODevice::ReadOnly | QFile::Text)) {
-    DB.loadLevels(levels.readAll());
-  }*/
 
   QFontDatabase::addApplicationFont(":/fonts/menu_font.ttf");
 

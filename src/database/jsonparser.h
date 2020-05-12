@@ -1,17 +1,17 @@
 #ifndef JSONPARSER_H
 #define JSONPARSER_H
 
+#include <src/database/levelstructures.h>
+
 #include <QByteArray>
 #include <QJsonDocument>
-#include <src/database/levelstructures.h>
 #include <set>
 
 ///
 /// \brief The JsonDocument class
 /// Данный класс реализует парсер Json документа под структуры(Era, Art, Author)
-class JsonParser
-{
-public:
+class JsonParser {
+ public:
   const std::set<Era>& getEras() const;
   const std::set<Art>& getArts() const;
   const std::set<Art> getArts(const Era& era) const;
@@ -19,7 +19,7 @@ public:
 
   void readJson(const QByteArray& jsonData);
 
-private:
+ private:
   void prepareErasArray();
   void prepareArtsArray();
   void prepareAuthorsArray();

@@ -52,11 +52,11 @@
 #define SORTFILTERPROXYMODEL_H
 
 #include <QtCore/qsortfilterproxymodel.h>
-#include <QtQml/qqmlparserstatus.h>
 #include <QtQml/qjsvalue.h>
+#include <QtQml/qqmlparserstatus.h>
 
-class SortFilterProxyModel : public QSortFilterProxyModel, public QQmlParserStatus
-{
+class SortFilterProxyModel : public QSortFilterProxyModel,
+                             public QQmlParserStatus {
   Q_OBJECT
   Q_INTERFACES(QQmlParserStatus)
 
@@ -72,7 +72,7 @@ class SortFilterProxyModel : public QSortFilterProxyModel, public QQmlParserStat
 
   Q_ENUMS(FilterSyntax)
 
-public:
+ public:
   explicit SortFilterProxyModel(QObject* parent = 0);
 
   QObject* source() const;
@@ -89,12 +89,7 @@ public:
   QString filterString() const;
   void setFilterString(const QString& filter);
 
-  enum FilterSyntax
-  {
-    RegExp,
-    Wildcard,
-    FixedString
-  };
+  enum FilterSyntax { RegExp, Wildcard, FixedString };
 
   FilterSyntax filterSyntax() const;
   void setFilterSyntax(FilterSyntax syntax);
@@ -105,15 +100,15 @@ public:
   void classBegin();
   void componentComplete();
 
-signals:
+ signals:
   void countChanged();
 
-protected:
+ protected:
   int roleKey(const QByteArray& role) const;
   QHash<int, QByteArray> roleNames() const;
   bool filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const;
 
-private:
+ private:
   bool m_complete;
   QByteArray m_sortRole;
   QByteArray m_filterRole;

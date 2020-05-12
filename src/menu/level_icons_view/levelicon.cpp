@@ -1,22 +1,19 @@
 #include "levelicon.h"
-#include <QtGlobal>
+
 #include <QColor>
 #include <QDebug>
+#include <QtGlobal>
 
 //------------- ILevelIcon:
 
-ILevelIcon::ILevelIcon(QGraphicsItem* parent) : QGraphicsPixmapItem(parent)
-{
-}
+ILevelIcon::ILevelIcon(QGraphicsItem* parent) : QGraphicsPixmapItem(parent) {}
 
 //------------- LevelGraphicsIcon:
 
-LevelGraphicsIcon::LevelGraphicsIcon(QGraphicsItem* parent) : ILevelIcon(parent)
-{
-}
+LevelGraphicsIcon::LevelGraphicsIcon(QGraphicsItem* parent)
+    : ILevelIcon(parent) {}
 
-void LevelGraphicsIcon::setLabelSize(const int w, const int h)
-{
+void LevelGraphicsIcon::setLabelSize(const int w, const int h) {
   QPixmap image = iconImage();
 
   auto pixmapSize = image.size();
@@ -27,20 +24,16 @@ void LevelGraphicsIcon::setLabelSize(const int w, const int h)
   auto shift = (maxSize - minSize) / 2;
 
   QPixmap icon;
-  if (pixmapSize.height() < pixmapSize.width())
-  {
+  if (pixmapSize.height() < pixmapSize.width()) {
     icon = image.copy(shift, 0, minSize + shift, minSize);
-  }
-  else
-  {
+  } else {
     icon = image.copy(0, shift, minSize, minSize + shift);
   }
 
   setPixmap(icon.scaled(w, h));
 }
 
-void LevelGraphicsIcon::disableItem(const int w, const int h)
-{
+void LevelGraphicsIcon::disableItem(const int w, const int h) {
   QPixmap icon(w, h);
   icon.fill(QColor("white"));
   setPixmap(icon);
@@ -48,48 +41,27 @@ void LevelGraphicsIcon::disableItem(const int w, const int h)
 
 //------------- AuthorIcon:
 
-AuthorIcon::AuthorIcon(Author&& author_, QGraphicsItem* parent) : LevelGraphicsIcon(parent), author(author_)
-{
-}
+AuthorIcon::AuthorIcon(Author&& author_, QGraphicsItem* parent)
+    : LevelGraphicsIcon(parent), author(author_) {}
 
-QPixmap AuthorIcon::iconImage()
-{
-  return QPixmap(author.imgPath);
-}
+QPixmap AuthorIcon::iconImage() { return QPixmap(author.imgPath); }
 
-Author AuthorIcon::getAuthor()
-{
-  return author;
-}
+Author AuthorIcon::getAuthor() { return author; }
 
 //------------- EraIcon:
 
-EraIcon::EraIcon(Era&& era_, QGraphicsItem* parent) : LevelGraphicsIcon(parent), era(era_)
-{
-}
+EraIcon::EraIcon(Era&& era_, QGraphicsItem* parent)
+    : LevelGraphicsIcon(parent), era(era_) {}
 
-QPixmap EraIcon::iconImage()
-{
-  return QPixmap(era.imgPath);
-}
+QPixmap EraIcon::iconImage() { return QPixmap(era.imgPath); }
 
-Era EraIcon::getEra()
-{
-  return era;
-}
+Era EraIcon::getEra() { return era; }
 
 //------------- ArtIcon:
 
-ArtIcon::ArtIcon(Art&& art_, QGraphicsItem* parent) : LevelGraphicsIcon(parent), art(art_)
-{
-}
+ArtIcon::ArtIcon(Art&& art_, QGraphicsItem* parent)
+    : LevelGraphicsIcon(parent), art(art_) {}
 
-QPixmap ArtIcon::iconImage()
-{
-  return QPixmap(art.imgPath);
-}
+QPixmap ArtIcon::iconImage() { return QPixmap(art.imgPath); }
 
-Art ArtIcon::getArt()
-{
-  return art;
-}
+Art ArtIcon::getArt() { return art; }

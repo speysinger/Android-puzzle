@@ -2,19 +2,18 @@
 #define DROPGRIDMODEL_H
 
 #include <QAbstractListModel>
+
 #include "src/database/levelstructures.h"
 
 ///
 /// \brief The DropGridModel class
 /// Данный класс является моделью для DropGridModel
 /// Реализует редактирование содержимого DropGridModel
-class DropGridModel : public QAbstractListModel
-{
+class DropGridModel : public QAbstractListModel {
   Q_OBJECT
-public:
+ public:
   DropGridModel(QObject* parent = nullptr);
-  enum listItemsType
-  {
+  enum listItemsType {
     itemType = Qt::UserRole + 1,
     dropItemName,
     dropItemImageSource,
@@ -27,13 +26,17 @@ public:
   Q_INVOKABLE void setNextDropQuad();
 
   int rowCount(const QModelIndex& parent = QModelIndex{}) const override;
-  QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-  bool setData(const QModelIndex& index, const QVariant& value, int role) override;
-  bool insertRows(int row, int count, const QModelIndex& parent = QModelIndex()) override;
-  bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex()) override;
+  QVariant data(const QModelIndex& index,
+                int role = Qt::DisplayRole) const override;
+  bool setData(const QModelIndex& index, const QVariant& value,
+               int role) override;
+  bool insertRows(int row, int count,
+                  const QModelIndex& parent = QModelIndex()) override;
+  bool removeRows(int row, int count,
+                  const QModelIndex& parent = QModelIndex()) override;
   QHash<int, QByteArray> roleNames() const override;
 
-private:
+ private:
   std::vector<DropGridItem> m_dropItemsList;
   std::vector<DropGridItem> m_fillingList;
 };

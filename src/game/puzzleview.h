@@ -1,25 +1,26 @@
 #ifndef PUZZLEVIEW_H
 #define PUZZLEVIEW_H
 
+#include <QDebug>
+#include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QPinchGesture>
-#include <QGraphicsScene>
-#include <QPinchGesture>
-#include <QDebug>
 
 class PuzzleView : public QGraphicsView {
   Q_OBJECT
-public:
-  PuzzleView(QGraphicsScene* scene);
-signals:
+ public:
+  PuzzleView(QGraphicsScene *scene);
+ signals:
   void gesture_started();
   void change_scalefactor();
-protected:
+
+ protected:
   virtual bool event(QEvent *event) override;
   void mousePressEvent(QMouseEvent *event) override;
-private:
+
+ private:
   bool gestureEvent(QGestureEvent *event);
-  void pinchTriggered(QPinchGesture* pinch);
+  void pinchTriggered(QPinchGesture *pinch);
 };
 
-#endif // PUZZLEVIEW_H
+#endif  // PUZZLEVIEW_H
