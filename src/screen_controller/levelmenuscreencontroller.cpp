@@ -31,7 +31,7 @@ LevelMenuScreenController::LevelMenuScreenController(QWidget* parent)
   });
 
   connect(m_menu, &LevelMenuScreen::randomSelected, [=] {
-    if (m_selectedEra) {
+     if (m_selectedEra) {
       m_game->startRandomGame(*m_selectedEra, m_menu->mode());
     } else if (m_selectedAuthor) {
       m_game->startRandomGame(*m_selectedAuthor, m_menu->mode());

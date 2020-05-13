@@ -70,8 +70,12 @@ void Updater::prepareUpdatableAuthors(const JsonParser& loadedJson) {
   prepareUpdatableItems(authorsFromLoadedFile, authorsFromDB,
                         m_updatableAuthors);
 
-  for (auto author : m_updatableAuthors)
-    if (author.updateFiles == NOTHING) m_updatableAuthors.erase(author);
+  auto begin = m_updatableAuthors.begin();
+  auto end = m_updatableAuthors.end();
+
+  for (auto authorIt = begin; authorIt != end; ++authorIt)
+    if (authorIt->updateFiles == NOTHING)
+        m_updatableAuthors.erase(authorIt);
 }
 
 void Updater::sendUpdatableInfoToQml() {

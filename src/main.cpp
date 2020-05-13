@@ -1,4 +1,4 @@
-#include <QApplication>
+ #include <QApplication>
 #include <QFile>
 #include <QFontDatabase>
 #include <QSslSocket>
@@ -10,6 +10,13 @@
 
 int main(int argc, char* argv[]) {
   QApplication a(argc, argv);
+
+  QFile levels(":/pictures_db/levels.json");
+  QFileInfo check_db("puzzleDB.db1");
+
+    if (levels.open(QIODevice::ReadOnly | QFile::Text) && !check_db.exists()) {
+      DB.loadLevels(levels.readAll());
+    }
 
   QFontDatabase::addApplicationFont(":/fonts/menu_font.ttf");
 

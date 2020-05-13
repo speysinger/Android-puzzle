@@ -135,9 +135,11 @@ Art LevelsDBFacade::randomArt(Era& era_) {
 }
 
 Art LevelsDBFacade::randomArt(Author& author_) {
-  exec(tr("SELECT era, path, info, name, domestic, lastUpdate FROM arts WHERE "
-          "author=") +
-       qs(author_.authorName) + tr("ORDER BY RANDOM() LIMIT 1;"));
+  exec(tr("SELECT era, path, info, name, domestic, lastUpdate FROM arts JOIN "
+          "artsAuthors ON artsAuthors.artName=name "
+          "WHERE artsAuthors.artAuthor=") +
+         qs(author_.authorName) + tr("ORDER BY RANDOM() LIMIT 1;"));
+
   m_arts_model->select();
   m_query->first();
 

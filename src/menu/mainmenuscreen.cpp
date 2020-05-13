@@ -34,15 +34,15 @@ MainMenuScreen::MainMenuScreen(QWidget* parent)
   aboutProgram->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   exit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-  layer->addWidget(m_modeWidget, 0, 0, 1, 4);
-  layer->addWidget(randomPictures, 1, 0, 1, 4);
-  layer->addWidget(authors, 2, 0, 1, 4);
-  layer->addWidget(eras, 3, 0, 1, 4);
-  layer->addWidget(testing, 4, 0, 1, 4);
-  layer->addWidget(statictic, 5, 0, 1, 4);
-  layer->addWidget(settings, 6, 0, 1, 4);
-  layer->addWidget(aboutProgram, 7, 0, 1, 4);
-  layer->addWidget(exit, 8, 0, 1, 4);
+  layer->addWidget(m_modeWidget, 0, 0, 1, 2);
+  layer->addWidget(randomPictures, 1, 0, 1, 2);
+  layer->addWidget(authors, 2, 1);
+  layer->addWidget(eras, 2, 0);
+  layer->addWidget(testing, 3, 0, 1, 2);
+  layer->addWidget(statictic, 4, 0, 1, 2);
+  layer->addWidget(settings, 5, 0, 1, 2);
+  layer->addWidget(aboutProgram, 6, 0);
+  layer->addWidget(exit, 6, 1);
 
   layer->setSpacing(10);
 
