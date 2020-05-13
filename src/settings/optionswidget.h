@@ -18,13 +18,10 @@ class OptionsWidget : public QWidget {
   void loadSelected();
  private slots:
   void createOpenDialog();
-  void setSound();
   void clearDatabase();
 
  private:
   QLineEdit m_line_path;
-  QComboBox m_combo_sound;
-  std::vector<QString> m_sounds;
 };
 
 #endif  // SETTINGWIDGET_H
