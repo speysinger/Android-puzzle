@@ -44,6 +44,5 @@ void GameManager::setGame(PuzzleGame* puzzleGame, Art art, Mode mode) {
   m_artPuzzleMode = mode;
 
   QPixmap pixmap(m_currentArt->imgPath);
-  puzzleGame->setLabel(m_currentArt->imgPath);
   puzzleGame->load(pixmap, m_artPuzzleMode);
 }

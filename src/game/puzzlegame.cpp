@@ -12,9 +12,9 @@
 
 PuzzleGame::PuzzleGame(QWidget* parent)
     : QWidget(parent),
+      m_selectionLayer(1),
       m_scene(),
       m_view(&m_scene),
-      m_selectionLayer(1),
       m_sound({Animal(":/icon/pets/cat.png", "qrc:/sounds/pets/cat.ogg"),
                Animal(":/icon/pets/dog.png", "qrc:/sounds/pets/dog.ogg"),
                Animal(":/icon/pets/fish.png", ""),
@@ -39,7 +39,6 @@ PuzzleGame::PuzzleGame(QWidget* parent)
   m_view.setSizePolicy(buttonSizePolicy);
 
   grid->addWidget(&m_view, 1, 0, 1, 2);
-  grid->addWidget(&m_label, 2, 0, 1, 2);
   grid->addWidget(&m_sound, 3, 0, 1, 2);
 
   grid->addWidget(rotate, 4, 0);

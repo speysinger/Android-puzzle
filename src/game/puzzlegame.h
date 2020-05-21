@@ -17,9 +17,6 @@ class PuzzleGame : public QWidget {
  public:
   PuzzleGame(QWidget* parent = nullptr);
   void load(QPixmap source, Mode mode);
-  void setLabel(QString str) {  // TODO: remove
-    m_label.setText(str);
-  }
  protected slots:
   void onItemClicked();
   void onItemSetted();
@@ -37,7 +34,6 @@ class PuzzleGame : public QWidget {
   QGraphicsScene m_scene;
   PuzzleView m_view;
   SoundController m_sound;
-  QLabel m_label;
 };
 
 #endif  // PUZZLEGAME_H
