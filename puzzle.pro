@@ -131,21 +131,19 @@ SOURCES += \
     src/ui/html_view/scrolledtextbrowser.cpp
 
 
-contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
     ANDROID_PACKAGE_SOURCE_DIR = \
         $$PWD/android
-}
 
-include(android_openssl/openssl.pri)
+#include(android_openssl/openssl.pri)
 
 DISTFILES += \
-    /android/AndroidManifest.xml \
-    /android/build.gradle \
-    /android/gradle/wrapper/gradle-wrapper.jar \
-    /android/gradle/wrapper/gradle-wrapper.properties \
-    /android/gradlew \
-    /android/gradlew.bat \
-    /android/res/values/libs.xml
+    android/AndroidManifest.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew \
+    android/gradlew.bat \
+    android/res/values/libs.xml
 
 RESOURCES += \
     resources/resources.qrc
