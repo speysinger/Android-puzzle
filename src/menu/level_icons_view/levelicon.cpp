@@ -1,17 +1,10 @@
 #include "levelicon.h"
 
 #include <QColor>
-#include <QDebug>
 #include <QtGlobal>
 
-//------------- ILevelIcon:
-
-ILevelIcon::ILevelIcon(QGraphicsItem* parent) : QGraphicsPixmapItem(parent) {}
-
-//------------- LevelGraphicsIcon:
-
 LevelGraphicsIcon::LevelGraphicsIcon(QGraphicsItem* parent)
-    : ILevelIcon(parent) {}
+    : QGraphicsPixmapItem(parent) {}
 
 void LevelGraphicsIcon::setLabelSize(const int w, const int h) {
   QPixmap image = iconImage();

@@ -5,21 +5,13 @@
 
 #include "src/database/levelstructures.h"
 
-class ILevelIcon : public QObject, public QGraphicsPixmapItem {
-  Q_OBJECT
- public:
-  explicit ILevelIcon(QGraphicsItem* parent = nullptr);
-  virtual void setLabelSize(const int w, const int h) = 0;
-  virtual void disableItem(const int w, const int h) = 0;
-  virtual ~ILevelIcon() = default;
-};
-
-class LevelGraphicsIcon : public ILevelIcon {
+class LevelGraphicsIcon : public QObject, public QGraphicsPixmapItem {
   Q_OBJECT
  public:
   explicit LevelGraphicsIcon(QGraphicsItem* parent = nullptr);
-  virtual void setLabelSize(const int w, const int h);
-  virtual void disableItem(const int w, const int h);
+  void setLabelSize(const int w, const int h);
+  void disableItem(const int w, const int h);
+  virtual ~LevelGraphicsIcon() = default;
 
  protected:
   virtual QPixmap iconImage() = 0;

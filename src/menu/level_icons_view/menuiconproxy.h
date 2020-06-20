@@ -5,7 +5,9 @@
 
 class MenuIconProxy {
  public:
-  MenuIconProxy(LevelGraphicsIcon* icon_);
+  MenuIconProxy(Art art);
+  MenuIconProxy(Era era);
+  MenuIconProxy(Author author);
   LevelGraphicsIcon* getItem();
   void setLabelSize(const int w, const int h);
   void setPos(qreal ax, qreal ay);

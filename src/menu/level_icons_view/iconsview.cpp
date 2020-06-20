@@ -133,9 +133,7 @@ void IconsView::loadAuthors() {
   m_icons.clear();
 
   for (auto author : DB.authors()) {
-    AuthorIcon* authorIcon = new AuthorIcon(std::move(author));
-
-    MenuIconProxy* proxy = new MenuIconProxy(authorIcon);
+    MenuIconProxy* proxy = new MenuIconProxy(author);
 
     m_icons.push_back(proxy);
     m_scene.addItem(proxy->getItem());
@@ -149,9 +147,7 @@ void IconsView::loadEras() {
   m_icons.clear();
 
   for (auto era : DB.eras()) {
-    EraIcon* eraIcon = new EraIcon(std::move(era));
-
-    MenuIconProxy* proxy = new MenuIconProxy(eraIcon);
+    MenuIconProxy* proxy = new MenuIconProxy(era);
 
     m_icons.push_back(proxy);
     m_scene.addItem(proxy->getItem());
@@ -164,9 +160,7 @@ void IconsView::loadArts(Author author) {
   m_icons.clear();
 
   for (auto art : DB.arts(author)) {
-    ArtIcon* artIcon = new ArtIcon(std::move(art));
-
-    MenuIconProxy* proxy = new MenuIconProxy(artIcon);
+    MenuIconProxy* proxy = new MenuIconProxy(art);
 
     m_icons.push_back(proxy);
     m_scene.addItem(proxy->getItem());
@@ -179,9 +173,7 @@ void IconsView::loadArts(Era era) {
   m_icons.clear();
 
   for (auto art : DB.arts(era)) {
-    ArtIcon* artIcon = new ArtIcon(std::move(art));
-
-    MenuIconProxy* proxy = new MenuIconProxy(artIcon);
+    MenuIconProxy* proxy = new MenuIconProxy(art);
 
     m_icons.push_back(proxy);
     m_scene.addItem(proxy->getItem());
