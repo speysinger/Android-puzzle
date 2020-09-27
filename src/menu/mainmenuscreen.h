@@ -1,17 +1,16 @@
 #ifndef MAINMENUSCREEN_H
 #define MAINMENUSCREEN_H
-#include <QWidget>
-#include "database/levelsdbfacade.h"
-#include "mode.h"
-#include "level_icons_view/iconsview.h"
-#include "buttons/levelmodewidget.h"
 
-class MainMenuScreen: public QWidget {
+#include "level_icons_view/iconsview.h"
+#include "src/mode.h"
+#include "src/ui/buttons/levelmodewidget.h"
+
+class MainMenuScreen : public QWidget {
   Q_OBJECT
-public:
+ public:
   MainMenuScreen(QWidget* parent = nullptr);
   Mode mode();
-signals:
+ signals:
   void settingsSelected();
   void testingSelected();
   void updateSelected();
@@ -21,8 +20,9 @@ signals:
   void statisticSelected();
   void exit();
   void aboutProgramSelected();
-protected:
-   LevelModeWidget* m_modeWidget;
+
+ protected:
+  LevelModeWidget* m_modeWidget;
 };
 
-#endif // MAINMENUSCREEN_H
+#endif  // MAINMENUSCREEN_H

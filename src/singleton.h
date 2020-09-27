@@ -3,16 +3,17 @@
 
 template <class T>
 class Singleton {
-public:
+ public:
   static T& instance() {
     static T instance;
     return instance;
   }
-private:
+
+ private:
   Singleton();
   ~Singleton();
-  Singleton(const Singleton &);
-  Singleton& operator=(const Singleton &);
+  Singleton(const Singleton&);
+  Singleton& operator=(const Singleton&);
 };
 
-#endif // SINGLETON_H
+#endif  // SINGLETON_H

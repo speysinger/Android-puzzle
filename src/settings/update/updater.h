@@ -1,68 +1,93 @@
 #ifndef UPDATER_H
 #define UPDATER_H
 
-#include <database/levelsdbfacade.h>
-#include <database/levelstructures.h>
-#include <database/jsondocument.h>
-#include <QObject>
-#include <vector>
+#include <src/database/jsonparser.h>
+#include <src/database/levelsdbfacade.h>
+#include <src/database/levelstructures.h>
+
 #include <set>
-#include <QTime>
+#include <vector>
 
-class Updater:public QObject
-{
+#include "loader.h"
+
+///
+/// \brief The Updater class
+/// Данный класс реализует обновление базы данных(Эпохи/Картины/Авторы)
+/// Предоставляет интерфейс, позволяющий загрузить json и обновить указанный
+/// список эпох
+class Updater : public QObject {
   Q_OBJECT
-public:
+ public:
   Updater();
-  void UploadSelectedItems(std::vector<EraListModelItem> &selectedEras);
-public slots:
-  void fillUpdatableLists(const QByteArray &jsonData);
+  void uploadSelectedItems(const std::vector<EraListModelItem>& selectedEras);
+  void loadJson();
+  void setBreakFlag(bool breakLoading);
 
-private:
+ public slots:
+  void fillUpdatableLists(const QByteArray& jsonData);
+
+ private:
   enum UpdateFileStatus { LOAD, UPDATE, NOTHING };
 
-  template<class T>
-  class UpdatableItemWrapper
-  {
-  public:
-    UpdatableItemWrapper(T object_, UpdateFileStatus updateFiles_):
-      object(object_), updateFiles(updateFiles_){}
+  template <class T>
+  class UpdatableItemWrapper {
+   public:
+    UpdatableItemWrapper(T object_, UpdateFileStatus updateFiles_)
+        : object(object_), updateFiles(updateFiles_) {}
     T object;
     mutable UpdateFileStatus updateFiles;
 
-    bool operator<(const UpdatableItemWrapper<T>& other) const
-    {
-     return object<other.object;
+    bool operator<(const UpdatableItemWrapper<T>& other) const {
+      return object < other.object;
     }
 
-    bool operator==(const UpdatableItemWrapper<T>& other) const{
+    bool operator==(const UpdatableItemWrapper<T>& other) const {
       return object == other.object;
     }
   };
 
-  void fillListOfUpdatableEras(JsonDocument &loadedJson);
-  void fillListOfUpdatableArts(JsonDocument &loadedJson);
-  void fillListOfUpdatableAuthors(JsonDocument &loadedJson);
+  QString getUpdatableItemPath(QString url);
+
+  template <class T>
+  void prepareUpdatableItems(std::set<T> jsonClassObjectsList,
+                             std::set<T> dbClassObjectsList,
+                             std::set<UpdatableItemWrapper<T>>&);
+  void prepareUpdatableEras(const JsonParser& loadedJson);
+  void prepareUpdatableArts(const JsonParser& loadedJson);
+  void prepareUpdatableAuthors(const JsonParser& loadedJson);
 
   void sendUpdatableInfoToQml();
-  int countSelectedForUpdateItems(std::vector<EraListModelItem> &selectedEras);
+  int countSelectedForUpdateItems(
+      const std::vector<EraListModelItem>& selectedEras);
+  void countAuthors(UpdatableItemWrapper<Art> art, int& domesticFilesCount,
+                    int& internationalFilesCount,
+                    std::set<UpdatableItemWrapper<Author>>& authorsList);
 
+  template <class T>
+  void downloadItem(UpdatableItemWrapper<T> item);
   void downloadEra(UpdatableItemWrapper<Era> era);
   void downloadArt(UpdatableItemWrapper<Art> art);
   void downloadAuthor(UpdatableItemWrapper<Author> author);
 
-  std::set<UpdatableItemWrapper<Era>> updatableEras;
-  std::set<UpdatableItemWrapper<Art>> updatableArts;
-  std::set<UpdatableItemWrapper<Author>> updatableAuthors;
+  std::set<UpdatableItemWrapper<Era>> m_updatableEras;
+  std::set<UpdatableItemWrapper<Art>> m_updatableArts;
+  std::set<UpdatableItemWrapper<Author>> m_updatableAuthors;
 
-  QTime timer;
+  Loader* pixmapLoader = new Loader();
+  Loader* jsonLoader = new Loader();
 
-signals:
+  bool breaker = false;
+
+  QString const jsonPath =
+      "https://pro-prof.com/artists-puzzle/load/levels.json";
+
+ signals:
   void itemsLoaded(std::vector<EraListModelItem> vec, bool isTestingModule);
   void maxValueCalculated(int maxValue);
   void fileLoaded();
+  void stopLoading();
 };
 
 #define UPDATER Singleton<Updater>::instance()
 
-#endif // UPDATER_H
+#endif  // UPDATER_H

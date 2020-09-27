@@ -1,17 +1,16 @@
 #include "puzzleitem.h"
 
-#include <QPainter>
 #include <QBitmap>
+#include <QPainter>
 
 PuzzleItem::~PuzzleItem() {
   delete m_pixmap_item;
   delete m_path;
 }
 
-PuzzleItem::PuzzleItem(PuzzlePath *path, const QPixmap& source,
-                       const QRect &rect, QObject *parent)  :
-  QObject(parent), QGraphicsItem(), m_path(path) {
-
+PuzzleItem::PuzzleItem(PuzzlePath *path, const QPixmap &source,
+                       const QRect &rect, QObject *parent)
+    : QObject(parent), QGraphicsItem(), m_path(path) {
   QColor maskColor(122, 163, 39);
 
   // смещаем элемент пазла т.к. его часть в отрицательных координатах,
@@ -41,12 +40,11 @@ QRectF PuzzleItem::boundingRect() const {
     auto rect = m_pixmap_item->boundingRect();
     return rect;
   }
-  return QRectF(0,0,0,0);
+  return QRectF(0, 0, 0, 0);
 }
 
 void PuzzleItem::paint(QPainter *painter,
-           const QStyleOptionGraphicsItem *option,
-           QWidget *widget) {
-  if (m_pixmap_item)
-    m_pixmap_item->paint(painter, option, widget);
+                       const QStyleOptionGraphicsItem *option,
+                       QWidget *widget) {
+  if (m_pixmap_item) m_pixmap_item->paint(painter, option, widget);
 }

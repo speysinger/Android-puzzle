@@ -1,13 +1,19 @@
 #include "widgetoftesting.h"
+
+#include "src/testing/models/draggridmodel.h"
+#include "src/testing/models/dropgridmodel.h"
 #include "testmanager.h"
 
-WidgetOfTesting::WidgetOfTesting(QWidget *parent):
-  QmlWidget(parent)
-{
-  pathToQmlFile = "qrc:/qmlWindows/DragAndDropWindow/TestingWindow.qml";
+WidgetOfTesting::WidgetOfTesting(QWidget* parent) : QmlWidget(parent) {
+  qmlRegisterType<DropGridModel>("dropgridmodel", 1, 0, "DropGridModel");
+  qmlRegisterType<DragGridModel>("draggridmodel", 1, 0, "DragGridModel");
 
-  this->rootContext()->setContextProperty("titles", testingTitles);
-  this->setSource(QUrl(pathToQmlFile));
-  connect(&TESTMANAGER,&TestManager::newQuestionsHaveEraType, [=]{emit testingTitles->newQuestionsHaveEraType();});
-  connect(&TESTMANAGER,&TestManager::newQuestionsHaveAuthorType, [=]{emit testingTitles->newQuestionsHaveAuthorType();});
+  m_pathToQmlFile = "qrc:/qmlWindows/DragAndDropWindow/TestingWindow.qml";
+
+  this->rootContext()->setContextProperty("titles", m_testingTitles);
+  this->setSource(QUrl(m_pathToQmlFile));
+  connect(&TESTMANAGER, &TestManager::newQuestionsHaveEraType,
+          [=] { emit m_testingTitles->newQuestionsHaveEraType(); });
+  connect(&TESTMANAGER, &TestManager::newQuestionsHaveAuthorType,
+          [=] { emit m_testingTitles->newQuestionsHaveAuthorType(); });
 }

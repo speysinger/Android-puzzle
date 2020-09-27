@@ -1,8 +1,7 @@
 #include "rotatableitem.h"
 
 void RotatableItem::set_center_rotation(int angle) {
-  if (false == m_is_rotatable)
-    return;
+  if (false == m_is_rotatable) return;
   m_rotateAngle += angle;
 
   QRectF rect = mapToScene(this->boundingRect()).boundingRect();
@@ -21,9 +20,8 @@ void RotatableItem::set_center_rotation(int angle) {
 }
 
 void RotatableItem::set_randomRotate() {
-  if (false == m_is_rotatable)
-    return;
-  int angle = (rand() % 4)*90;
+  if (false == m_is_rotatable) return;
+  int angle = (rand() % 4) * 90;
 
   if (angle) {
     set_center_rotation(angle);

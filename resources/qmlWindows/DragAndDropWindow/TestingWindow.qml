@@ -6,6 +6,8 @@ import QtQuick.Controls.Styles 1.1
 Rectangle {
     id:_testWindow
     color:"lemonchiffon"
+    property string fontFamlily: "hAndy"
+
     Connections{
         target: titles
         onNewQuestionsHaveEraType:{
@@ -29,8 +31,9 @@ Rectangle {
         Text {
             id: _taskText
             anchors.centerIn: _taskTextContainer
-            text: " "//titles.isEraQuestions?titles.getEraTitle():titles.getArtTitle()
+            text: " "
             font{
+                family: fontFamlily
                 pointSize:Math.min(_taskTextContainer.height===0?1:_taskTextContainer.height/2,
                                    _taskTextContainer.width===0?1:_taskTextContainer.width*0.03)
             }
@@ -81,10 +84,11 @@ Rectangle {
         anchors.rightMargin: _testWindow.width*0.05
         Text{
             anchors.centerIn: _nextButton
-            text: qsTr("Дальше")
+            text: qsTr("Далее")
             font{
+                family: fontFamlily
                 pointSize: Math.min(_nextButton.height===0?1:_nextButton.height
-                                    ,_nextButton.width===0?1:_nextButton.width)/2
+                                    ,_nextButton.width===0?1:_nextButton.width)/2.1
             }
         }
         background: Rectangle

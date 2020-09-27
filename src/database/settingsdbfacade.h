@@ -1,9 +1,10 @@
 #ifndef SETTINGSDBFACADE_H
 #define SETTINGSDBFACADE_H
 
-#include "dbfacade.h"
-#include "singleton.h"
 #include <exception>
+
+#include "dbfacade.h"
+#include "src/singleton.h"
 
 struct Settings {
   QString value;
@@ -16,17 +17,18 @@ struct Settings {
 
 class SettingsDBFacade : public DBFacade {
   Q_OBJECT
-public:
-  SettingsDBFacade(QObject *parent = nullptr);
+ public:
+  SettingsDBFacade(QObject* parent = nullptr);
   void set(const Settings& setting);
   QString getValue(const QString& property);
-protected:
+
+ protected:
   std::map<QString, QString> DefaultSettings;
-  QSqlTableModel  *m_model;
+  QSqlTableModel* m_model;
 
   friend class Singleton<SettingsDBFacade>;
 };
 
 #define DBSettings Singleton<SettingsDBFacade>::instance()
 
-#endif // SETTINGSDBFACADE_H
+#endif  // SETTINGSDBFACADE_H

@@ -1,65 +1,63 @@
 #ifndef ERALISTMODEL_H
 #define ERALISTMODEL_H
+
 #include <QAbstractListModel>
-#include <vector>
-#include <QObject>
 #include <QHash>
-#include <QList>
-#include "database/levelstructures.h"
+#include <vector>
 
+#include "src/database/levelstructures.h"
 
-class EraListModel: public QAbstractListModel
-{
+///
+/// \brief The EraListModel class
+/// Данный является моделью для qml listView
+/// Реализует редактирование содержимого listView
+class EraListModel : public QAbstractListModel {
   Q_OBJECT
-  Q_PROPERTY(bool isTestingModule_ READ isTestingModule CONSTANT)
-public slots:
+ public slots:
   void fillEras(std::vector<EraListModelItem> vec, bool isTestingModule);
-signals:
+ signals:
   void itTestingModule();
   void notTestingModule();
   void listModelReady();
   void listViewWindowOpened();
   void nothingIsSelected();
   void somethingSelected();
-public:
-  EraListModel(QObject*parent=nullptr);
 
-  bool isTestingModule()
-  {
-    return isTestingModule_;
-  }
+ public:
+  EraListModel(QObject* parent = nullptr);
 
+  enum listItemsType { nameRole = Qt::UserRole + 1, countRole, checkRole };
 
-  enum listItemsType{
-    NameRole=Qt::UserRole+1,
-    CountRole,
-    CheckRole
-  };
-
-  int rowCount(const QModelIndex& parent=QModelIndex{}) const override;
-  QVariant data(const QModelIndex& index, int role=Qt::DisplayRole) const override;
-  bool setData(const QModelIndex &index, const QVariant &value, int role) override;
-  bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
-  bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
+  int rowCount(const QModelIndex& parent = QModelIndex{}) const override;
+  QVariant data(const QModelIndex& index,
+                int role = Qt::DisplayRole) const override;
+  bool setData(const QModelIndex& index, const QVariant& value,
+               int role) override;
+  bool removeRows(int row, int count,
+                  const QModelIndex& parent = QModelIndex()) override;
+  bool insertRows(int row, int count,
+                  const QModelIndex& parent = QModelIndex()) override;
   bool isPositionValid(int rowIndex) const;
 
   Q_INVOKABLE void getSelectedElements(bool isTestingRequest, int buttonNumber);
-  Q_INVOKABLE void changeListOfTheSelectedEpoch(bool domesticArt,bool foreigntArt);
+  Q_INVOKABLE void changeListOfTheSelectedEpoch(bool domesticArt,
+                                                bool foreigntArt);
   Q_INVOKABLE void clearList();
+  Q_INVOKABLE bool isTestingModule();
 
-  QHash<int,QByteArray> roleNames() const override;
+  QHash<int, QByteArray> roleNames() const override;
   QString BoolToString(bool b) const;
 
-private:
-
-  bool isTestingModule_ = false;
-  int getTotalEraFilesCount(const EraListModelItem &eraItem) const;
-  std::vector<EraListModelItem> allErasForLoading;
+ private:
+  int getTotalEraFilesCount(const EraListModelItem& eraItem) const;
+  std::vector<EraListModelItem> m_allErasForLoading;
   std::vector<EraListModelItem> m_eraListModel;
   std::vector<EraListModelItem> m_fillingList;
 
-  bool domesticArtSwitchButton=false;
-  bool internationalArtSwitchButton=false;
+  bool m_isTestingModule = false;
+
+  bool m_domesticArtSwitchButton = false;
+  bool m_internationalArtSwitchButton = false;
 };
 
-#endif // ERALISTMODEL_H
+#endif  // ERALISTMODEL_H

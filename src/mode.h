@@ -5,10 +5,11 @@
 struct Mode {
   size_t vertically, horizontally;
   bool rotated;
-  Mode (){}
-  Mode (int vertically_, int horizontally_, bool rotated_) :
-    vertically(vertically_), horizontally(horizontally_), rotated(rotated_) {
-  }
+  Mode() {}
+  Mode(int vertically_, int horizontally_, bool rotated_)
+      : vertically(vertically_),
+        horizontally(horizontally_),
+        rotated(rotated_) {}
 };
 
-#endif // MODE_H
+#endif  // MODE_H

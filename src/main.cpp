@@ -1,32 +1,28 @@
-#include <QApplication>
-#include <QFontDatabase>
-#include "screen_controller/mainmenuscreencontroller.h"
+ #include <QApplication>
 #include <QFile>
-#include "database/levelsdbfacade.h"
-
-#include <map>
+#include <QFontDatabase>
+#include <QSslSocket>
 #include <iostream>
-#include <settings/update/indexloader.h>
+#include <map>
 
-int main(int argc, char *argv[]) {
+#include "database/levelsdbfacade.h"
+#include "screen_controller/mainmenuscreencontroller.h"
+
+int main(int argc, char* argv[]) {
   QApplication a(argc, argv);
 
-  QThread *thread=new QThread;
-  LOADER.moveToThread(thread);
-  thread->start();
+  QFile levels(":/pictures_db/levels.json");
+  QFileInfo check_db("puzzleDB.db1");
 
-  /*QFile levels(":/pictures_db/levels.json");
-  if (levels.open(QIODevice::ReadOnly | QFile::Text)) {
-    DB.loadLevels(levels.readAll());
-  }*/
+    if (levels.open(QIODevice::ReadOnly | QFile::Text) && !check_db.exists()) {
+      DB.loadLevels(levels.readAll());
+    }
 
   QFontDatabase::addApplicationFont(":/fonts/menu_font.ttf");
 
   MainMenuScreenController controller;
-  controller.show();
+  controller.showFullScreen();
 
-  controller.setStyleSheet(
-        "QWidget { background-color:#FFFFE0; border: 0px; width: 40; height:30}"
-  );
+  controller.setStyleSheet("QWidget { background-color:#FFFFE0; border: 0px;}");
   return a.exec();
 }

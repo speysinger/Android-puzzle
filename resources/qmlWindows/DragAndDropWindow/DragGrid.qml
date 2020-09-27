@@ -1,10 +1,11 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import draggridmodel 1.0
 
 Rectangle {
     id:_dragGridRectangle
     color: "lightsalmon"
     radius: Math.pow(_dragGridRectangle.height*0.0076,2)
+    property string fontFamlily: "hAndy"
 
     GridView {
         id: _dragGrid
@@ -17,8 +18,9 @@ Rectangle {
             anchors.centerIn: _dragGrid
             text: "Картины"
             font{
-                pointSize:Math.min(_dragGrid.height===0?1:_dragGrid.height*0.04,
-                                   _dragGrid.width===0?1:_dragGrid.width*0.03)
+                family: fontFamlily
+                pointSize:Math.min(_dragGrid.height===0?1:_dragGrid.height*0.02,
+                                   _dragGrid.width===0?1:_dragGrid.width*0.02)
             }
         }
 

@@ -8,4 +8,4 @@ QPoint getBetween(QPoint from, QPoint to);
 
 QPoint getNear(QPoint pivot, QPoint range);
 
-#endif // RANDOM_POINTS_H
+#endif  // RANDOM_POINTS_H

@@ -3,21 +3,23 @@
 
 #include <QPushButton>
 
-class UniversalModeButton: public QPushButton {
- Q_OBJECT
- Q_PROPERTY(bool picked READ picked)
-public:
+class UniversalModeButton : public QPushButton {
+  Q_OBJECT
+  Q_PROPERTY(bool picked READ picked)
+ public:
   UniversalModeButton(const QString& text, QWidget* parent = nullptr);
-public slots:
+ public slots:
   bool picked();
   void pick();
   void unpick();
-private:
+
+ private:
   void pick(bool);
-signals:
+ signals:
   void picked_true();
-private:
+
+ private:
   bool m_picked;
 };
 
-#endif // UNIVERSALMODEBUTTON_H
+#endif  // UNIVERSALMODEBUTTON_H

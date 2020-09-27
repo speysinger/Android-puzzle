@@ -1,27 +1,30 @@
 #ifndef TESTINGSCREENCONTROLLER_H
 #define TESTINGSCREENCONTROLLER_H
 
-
 #include "screensstack.h"
-#include "testing/testsettingswidget.h"
-#include "testing/widgetoftesting.h"
-#include "testing/testresultswidget.h"
+#include "src/testing/testresultswidget.h"
+#include "src/testing/testsettingswidget.h"
+#include "src/testing/widgetoftesting.h"
 
 class TestSettingsWidget;
 class WidgetOfTesting;
 class TestResultsWidget;
 
+///
+/// \brief The TestingScreenController class
+/// Данный класс реализует управление показом окон, связанных с тестированием
 class TestingScreenController : public ScreensStack {
   Q_OBJECT
-public:
-  explicit TestingScreenController(QWidget *parent = nullptr);
+ public:
+  explicit TestingScreenController(QWidget* parent = nullptr);
   void pushTestingWindow();
-signals:
+ signals:
   void back();
-protected:
-   TestSettingsWidget *m_testing;
-   WidgetOfTesting *m_testWindow;
-   TestResultsWidget *m_testResults;
+
+ protected:
+  TestSettingsWidget* m_testing;
+  WidgetOfTesting* m_testWindow;
+  TestResultsWidget* m_testResults;
 };
 
-#endif // TESTINGSCREENCONTROLLER_H
+#endif  // TESTINGSCREENCONTROLLER_H

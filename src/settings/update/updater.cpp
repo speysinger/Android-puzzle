@@ -1,364 +1,282 @@
 #include "updater.h"
-#include "QDate"
-#include <set>
-#include <algorithm>
-#include "progressBarWidget.h"
-#include <settings/update/indexloader.h>
 
-Updater::Updater()
-{
-  connect(&LOADER, SIGNAL(loaded(const QByteArray &)), this, SLOT(fillUpdatableLists(const QByteArray&)), Qt::AutoConnection);
+#include <algorithm>
+
+#include "QDate"
+#include "progressbarwidget.h"
+
+Updater::Updater() {
+  QThread* thread = new QThread;
+  jsonLoader->moveToThread(thread);
+  thread->start();
+
+  connect(jsonLoader, SIGNAL(loaded(const QByteArray&)), this,
+          SLOT(fillUpdatableLists(const QByteArray&)), Qt::AutoConnection);
 }
 
-void Updater::fillUpdatableLists(const QByteArray &jsonData)
-{
-  timer.start();
-  JsonDocument loadedJson;
+void Updater::fillUpdatableLists(const QByteArray& jsonData) {
+  m_updatableEras.clear();
+  m_updatableArts.clear();
+  m_updatableAuthors.clear();
+
+  JsonParser loadedJson;
   loadedJson.readJson(jsonData);
 
-  fillListOfUpdatableEras(loadedJson);
-  fillListOfUpdatableArts(loadedJson);
-  fillListOfUpdatableAuthors(loadedJson);
+  prepareUpdatableEras(loadedJson);
+  prepareUpdatableArts(loadedJson);
+  prepareUpdatableAuthors(loadedJson);
 
   sendUpdatableInfoToQml();
 }
 
-void Updater::fillListOfUpdatableEras(JsonDocument &loadedJson)
-{
-  updatableEras.clear();
-  std::set<Era> erasFromDB,erasFromLoadedFile;
+QString Updater::getUpdatableItemPath(QString url) {
+  url = url.remove("https://pro-prof.com/artists-puzzle/load/");
+  QString path_dir = DBSettings.getValue("path") + "/load/";
+  QDir().mkdir(path_dir);
 
-  erasFromDB=DB.getEras();
-  erasFromLoadedFile=loadedJson.getEras();
+  QString path = path_dir + url;
 
-  for(auto& era : erasFromLoadedFile)
-  {
-    UpdateFileStatus updateFiles;
-
-    auto foundedElement=erasFromDB.find(era);
-    if(foundedElement!=erasFromDB.end())
-    {
-      if(era.lastUpdate > foundedElement->lastUpdate)
-        updateFiles = UPDATE;
-      else
-        updateFiles = NOTHING;
-    }
-    else
-      updateFiles = LOAD;
-    updatableEras.insert(UpdatableItemWrapper<Era>(era,updateFiles));
-  }
+  QDir().mkdir(path.left(path.lastIndexOf(QChar('/'))));
+  return path;
 }
 
-void Updater::fillListOfUpdatableArts(JsonDocument &loadedJson)
-{
-  updatableArts.clear();
-  std::set<Art> artsFromDB,artsFromLoadedFile;
+void Updater::prepareUpdatableEras(const JsonParser& loadedJson) {
+  m_updatableEras.clear();
+  std::set<Era> erasFromDB, erasFromLoadedFile;
 
-  artsFromDB=DB.getArts();
-  artsFromLoadedFile=loadedJson.getArts();
+  erasFromDB = DB.getEras();
+  erasFromLoadedFile = loadedJson.getEras();
 
-  for(auto& art : artsFromLoadedFile)
-  {
-    UpdateFileStatus updateFiles;
-    auto foundedElement = artsFromDB.find(art);
-    if(foundedElement!=artsFromDB.end())
-    {
-      if(art.lastUpdate>foundedElement->lastUpdate)
-        updateFiles = UPDATE;
-      else
-        updateFiles = NOTHING;
-    }
-    else
-      updateFiles = LOAD;
-    updatableArts.insert(UpdatableItemWrapper<Art>(art,updateFiles));
-  }
+  prepareUpdatableItems(erasFromLoadedFile, erasFromDB, m_updatableEras);
 }
 
-void Updater::fillListOfUpdatableAuthors(JsonDocument &loadedJson)
-{
-  updatableAuthors.clear();
+void Updater::prepareUpdatableArts(const JsonParser& loadedJson) {
+  m_updatableArts.clear();
+  std::set<Art> artsFromDB, artsFromLoadedFile;
+
+  artsFromDB = DB.getArts();
+  artsFromLoadedFile = loadedJson.getArts();
+
+  prepareUpdatableItems(artsFromLoadedFile, artsFromDB, m_updatableArts);
+}
+
+void Updater::prepareUpdatableAuthors(const JsonParser& loadedJson) {
+  m_updatableAuthors.clear();
   std::set<Author> authorsFromDB, authorsFromLoadedFile;
 
-  authorsFromDB=DB.getAllAuthors();
-  authorsFromLoadedFile=loadedJson.getAuthors();
+  authorsFromDB = DB.getAllAuthors();
+  authorsFromLoadedFile = loadedJson.getAuthors();
 
-  for(auto& author : authorsFromLoadedFile)
-  {
-    UpdateFileStatus updateFiles;
-    auto foundedElement = authorsFromDB.find(author);
-    if(foundedElement!=authorsFromDB.end())
-    {
-      if(author.lastUpdate>foundedElement->lastUpdate)
-        updateFiles = UPDATE;
-      else
-        updateFiles = NOTHING;
-    }
-    else
-      updateFiles = LOAD;
-    if(updateFiles != NOTHING)
-      updatableAuthors.insert(UpdatableItemWrapper<Author>(author,updateFiles));
-  }
+  prepareUpdatableItems(authorsFromLoadedFile, authorsFromDB,
+                        m_updatableAuthors);
+
+  auto begin = m_updatableAuthors.begin();
+  auto end = m_updatableAuthors.end();
+
+  for (auto authorIt = begin; authorIt != end; ++authorIt)
+    if (authorIt->updateFiles == NOTHING)
+        m_updatableAuthors.erase(authorIt);
 }
 
-void Updater::sendUpdatableInfoToQml()
-{
+void Updater::sendUpdatableInfoToQml() {
   std::vector<EraListModelItem> eraListModelItems;
+  std::set<UpdatableItemWrapper<Author>> authorsList = m_updatableAuthors;
 
-  for(auto& era : updatableEras)
-  {
+  for (auto& era : m_updatableEras) {
     bool eraNeedToUpdate = false;
     int domesticFilesCount = 0;
     int internationalFilesCount = 0;
 
-    if(era.updateFiles != NOTHING)
-      eraNeedToUpdate = true;
-    for(auto& art : updatableArts)
-    {
-      if(art.object.eraName == era.object.name)
-      {
-        if(art.updateFiles != NOTHING)
-        {
-          if(art.object.domestic)
+    if (era.updateFiles != NOTHING) eraNeedToUpdate = true;
+    for (auto& art : m_updatableArts) {
+      if (art.object.eraName == era.object.eraName) {
+        if (art.updateFiles != NOTHING) {
+          if (art.object.domestic)
             domesticFilesCount++;
           else
             internationalFilesCount++;
         }
 
-        for(auto& artAuthor : art.object.artAuthors)
-        {
-          UpdatableItemWrapper<Author> test(artAuthor, NOTHING);
-
-          auto foundedAuthor = updatableAuthors.find(test);
-          if(foundedAuthor != updatableAuthors.end())
-          {
-            if(foundedAuthor->updateFiles != NOTHING)
-            {
-              if(art.object.domestic)
-                domesticFilesCount++;
-              else
-                internationalFilesCount++;
-            }
-          }
-        }
+        countAuthors(art, domesticFilesCount, internationalFilesCount,
+                     authorsList);
+        authorsList = m_updatableAuthors;
       }
     }
-    EraListModelItem eraListModelItem(era.object.name, domesticFilesCount, internationalFilesCount, eraNeedToUpdate, false,
-                                      false, false);
+    EraListModelItem eraListModelItem(era.object.eraName, domesticFilesCount,
+                                      internationalFilesCount, eraNeedToUpdate,
+                                      false, false, false);
     eraListModelItems.push_back(eraListModelItem);
   }
 
   emit itemsLoaded(eraListModelItems, false);
-
-  int ms=timer.elapsed();
-  qDebug()<<"MS"+QString::number(ms);
 }
 
-int Updater::countSelectedForUpdateItems(std::vector<EraListModelItem> &selectedEras)
-{
+int Updater::countSelectedForUpdateItems(
+    const std::vector<EraListModelItem>& selectedEras) {
   int itemsForUpdate = 0;
-  std::set<UpdatableItemWrapper<Author>> authorsList = updatableAuthors;
+  std::set<UpdatableItemWrapper<Author>> authorsList = m_updatableAuthors;
 
-  for(auto& era : selectedEras)
-  {
-    UpdatableItemWrapper<Era> fakeItemWrapper(Era(era.eraName, "", QDate()), UpdateFileStatus(NOTHING));
+  for (auto& era : selectedEras) {
+    UpdatableItemWrapper<Era> desiredEra(Era(era.eraName, "", QDate()),
+                                         UpdateFileStatus(NOTHING));
 
-    auto foundedEra = updatableEras.find(fakeItemWrapper);
-    if(foundedEra->updateFiles != NOTHING)
-      itemsForUpdate++;
+    auto foundedEra = m_updatableEras.find(desiredEra);
+    if (foundedEra->updateFiles != NOTHING) itemsForUpdate++;
 
-    for(auto& art : updatableArts)
-    {
-      if(art.object.eraName == foundedEra->object.name)
-      {
-        if(art.updateFiles != NOTHING)
-        {
-          if(era.domesticSelected && art.object.domestic)
+    for (auto& art : m_updatableArts) {
+      if (art.object.eraName == foundedEra->object.eraName) {
+        if (art.updateFiles != NOTHING) {
+          if (era.domesticSelected && art.object.domestic)
             itemsForUpdate++;
-          if(era.internationalSelected && !art.object.domestic)
+          else if (era.internationalSelected && !art.object.domestic)
             itemsForUpdate++;
-        }
-
-        for(auto& artAuthor : art.object.artAuthors)
-        {
-          UpdatableItemWrapper<Author> test(artAuthor, NOTHING);
-          auto foundedAuthor = authorsList.find(test);
-          if(foundedAuthor != authorsList.end())
-          {
-            if(foundedAuthor->updateFiles != NOTHING)
-            {
-              itemsForUpdate++;
-              foundedAuthor->updateFiles = NOTHING;
-            }
+          else {
+            continue;
           }
         }
+
+        countAuthors(art, itemsForUpdate, itemsForUpdate, authorsList);
       }
     }
   }
   return itemsForUpdate;
 }
 
-void Updater::downloadEra(UpdatableItemWrapper<Era> era)
-{
-  LOADERPIXMAP.load(era.object.imgPath);
-  era.object.imgPath=LOADERPIXMAP.getPicPath();
-  if(era.updateFiles == LOAD)
-    DB.addEra(era.object);
-  else
-    DB.updateEra(era.object);
-  emit fileLoaded();
+void Updater::countAuthors(
+    UpdatableItemWrapper<Art> art, int& domesticFilesCount,
+    int& internationalFilesCount,
+    std::set<UpdatableItemWrapper<Author>>& authorsList) {
+  for (auto& artAuthor : art.object.artAuthors) {
+    UpdatableItemWrapper<Author> desiredAuthor(artAuthor, NOTHING);
+
+    auto foundedAuthor = authorsList.find(desiredAuthor);
+    if (foundedAuthor != authorsList.end()) {
+      if (foundedAuthor->updateFiles != NOTHING) {
+        if (art.object.domestic)
+          domesticFilesCount++;
+        else
+          internationalFilesCount++;
+        foundedAuthor->updateFiles = NOTHING;
+      }
+    }
+  }
 }
 
-void Updater::downloadArt(UpdatableItemWrapper<Art> art)
-{
-  LOADERPIXMAP.load(art.object.imgPath);
-  art.object.imgPath=LOADERPIXMAP.getPicPath();
-  if(art.updateFiles == LOAD)
-    DB.addArt(art.object);
-  else
-    DB.updateArt(art.object);
-  emit fileLoaded();
+void Updater::downloadEra(UpdatableItemWrapper<Era> era) { downloadItem(era); }
+
+void Updater::downloadArt(UpdatableItemWrapper<Art> art) {
+  downloadItem(art);
+  if (art.updateFiles == LOAD) {
+    for (auto artAuthor : art.object.artAuthors)
+      DB.addArtAuthor(artAuthor.authorName, art.object.imgName);
+  }
 }
 
-void Updater::downloadAuthor(UpdatableItemWrapper<Author> author)
-{
-  LOADERPIXMAP.load(author.object.imgPath);
-  author.object.imgPath=LOADERPIXMAP.getPicPath();
-  if(author.updateFiles == LOAD)
-    DB.addAuthor(author.object);
-  else
-    DB.updateAuthor(author.object);
-  emit fileLoaded();
+void Updater::downloadAuthor(UpdatableItemWrapper<Author> author) {
+  downloadItem(author);
 }
 
-
-/// \details Сперва производится подсчёт объектов, которые необходимо скачать, для выбранного списка эпох
-/// Следом производится обход по списке всех картин
+/// \details Сперва производится подсчёт объектов, которые необходимо скачать,
+/// для выбранного списка эпох Следом производится обход по списку всех картин
 /// Для каждой картины проверяется наличие её эпохи в списке эпох на закачку
 /// Для каждой картины проверяется необходимость закачать авторов
-void Updater::UploadSelectedItems(std::vector<EraListModelItem> &selectedEras)
-{
+void Updater::uploadSelectedItems(
+    const std::vector<EraListModelItem>& selectedEras) {
   int itemsForUpdateCount = countSelectedForUpdateItems(selectedEras);
-
-  qDebug()<<"COUNT"+QString::number(itemsForUpdateCount);
-
-
   emit maxValueCalculated(itemsForUpdateCount);
-  std::vector<EraListModelItem> eraListModelItems;
 
+  for (auto& art : m_updatableArts) {
+    auto eraInSelectedList =
+        std::find(selectedEras.begin(), selectedEras.end(), art.object.eraName);
 
-  for(auto& art : updatableArts)
-  {
-    auto eraInSelectedList = std::find(selectedEras.begin(), selectedEras.end(), art.object.eraName);
+    if (breaker) {
+      breaker = false;
+      emit stopLoading();
+      return;
+    }
 
-    if(eraInSelectedList != selectedEras.end())
-    {
-      UpdatableItemWrapper<Era> fakeItemWrapper(Era(art.object.eraName, "", QDate()), UpdateFileStatus(NOTHING));
+    if (eraInSelectedList != selectedEras.end()) {
+      UpdatableItemWrapper<Era> desiredEra(Era(art.object.eraName, "", QDate()),
+                                           UpdateFileStatus(NOTHING));
 
-      auto foundedEra = updatableEras.find(fakeItemWrapper);
-      if(foundedEra->updateFiles != NOTHING)
-      {
+      auto foundedEra = m_updatableEras.find(desiredEra);
+      if (foundedEra->updateFiles != NOTHING) {
         downloadEra(*foundedEra);
         foundedEra->updateFiles = NOTHING;
       }
 
-      if(art.object.eraName == foundedEra->object.name)
-      {
-        if(art.updateFiles != NOTHING)
-        {
-          if(eraInSelectedList->domesticSelected && art.object.domestic)
+      if (art.object.eraName == foundedEra->object.eraName) {
+        if (art.updateFiles != NOTHING) {
+          if (eraInSelectedList->domesticSelected && art.object.domestic) {
             downloadArt(art);
-          if(eraInSelectedList->internationalSelected && !art.object.domestic)
+          } else if (eraInSelectedList->internationalSelected &&
+                     !art.object.domestic) {
             downloadArt(art);
+          } else {
+            continue;
+          }
+          art.updateFiles = NOTHING;
         }
 
-        for(auto& artAuthor : art.object.artAuthors)
-        {
-          UpdatableItemWrapper<Author> test(artAuthor, NOTHING);
-          auto foundedAuthor = updatableAuthors.find(test);
-          if(foundedAuthor != updatableAuthors.end())
-          {
-            if(foundedAuthor->updateFiles != NOTHING)
-            {
+        for (auto& artAuthor : art.object.artAuthors) {
+          UpdatableItemWrapper<Author> desiredAuthor(artAuthor, NOTHING);
+          auto foundedAuthor = m_updatableAuthors.find(desiredAuthor);
+          if (foundedAuthor != m_updatableAuthors.end()) {
+            if (foundedAuthor->updateFiles != NOTHING) {
               downloadAuthor(*foundedAuthor);
-              foundedAuthor->updateFiles = NOTHING;
-              updatableAuthors.erase(foundedAuthor);
-
-              if(art.updateFiles == LOAD)
-                DB.addArtAuthor(foundedAuthor->object.authorName, art.object.imgName);
+              m_updatableAuthors.erase(foundedAuthor);
             }
           }
         }
       }
     }
   }
+  emit stopLoading();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*for(auto& era : selectedEras)
-{
-  UpdatableItemWrapper<Era> fakeItemWrapper(Era(era.eraName, "", QDate()), UpdateFileStatus(NOTHING));
-
-  auto foundedEra = updatableEras.find(fakeItemWrapper);
-  if(foundedEra->updateFiles != NOTHING)
-    downloadEra(*foundedEra);
-
-  for(auto& art : updatableArts)
-  {
-    if(art.object.eraName == foundedEra->object.name)
-    {
-      if(art.updateFiles != NOTHING)
-      {
-        if(era.domesticSelected && art.object.domestic)
-        {
-          downloadArt(art);
-        }
-        if(era.internationalSelected && !art.object.domestic)
-          downloadArt(art);
-      }
-
-      for(auto& artAuthor : art.object.artAuthors)
-      {
-        UpdatableItemWrapper<Author> test(artAuthor, NOTHING);
-        auto foundedAuthor = updatableAuthors.find(test);
-        if(foundedAuthor != updatableAuthors.end())
-        {
-          if(foundedAuthor->updateFiles != NOTHING)
-          {
-            downloadAuthor(*foundedAuthor);
-            foundedAuthor->updateFiles = NOTHING;
-            //updatableAuthors.erase(foundedAuthor);
-
-            if(art.updateFiles == LOAD)
-              DB.addArtAuthor(foundedAuthor->object.authorName, art.object.imgName);
-          }
-        }
-      }
-      art.updateFiles = NOTHING;
-    }
+void Updater::loadJson() {
+  try {
+    jsonLoader->loadJSON(jsonPath);
+  } catch (const std::runtime_error& error) {
+    qDebug() << error.what();
   }
-}*/
-//}
+}
 
+void Updater::setBreakFlag(bool breakLoading) { breaker = breakLoading; }
 
+template <class T>
+void Updater::prepareUpdatableItems(
+    std::set<T> jsonClassObjectsList, std::set<T> dbClassObjectsList,
+    std::set<UpdatableItemWrapper<T>>& m_updatableItems) {
+  for (auto& classObj : jsonClassObjectsList) {
+    UpdateFileStatus updateFiles;
+
+    auto foundedElement = dbClassObjectsList.find(classObj);
+    if (foundedElement != dbClassObjectsList.end()) {
+      if (classObj.lastUpdate > foundedElement->lastUpdate)
+        updateFiles = UPDATE;
+      else
+        updateFiles = NOTHING;
+    } else
+      updateFiles = LOAD;
+    m_updatableItems.insert(UpdatableItemWrapper<T>(classObj, updateFiles));
+  }
+}
+
+template <class T>
+void Updater::downloadItem(UpdatableItemWrapper<T> item) {
+  QString pixmapPath = getUpdatableItemPath(item.object.imgPath);
+  try {
+    pixmapLoader->loadPixmap(item.object.imgPath, pixmapPath);
+  } catch (const std::runtime_error& error) {
+    qDebug() << error.what();
+    return;
+  }
+
+  item.object.imgPath = pixmapPath;
+  if (item.updateFiles == LOAD)
+    DB.save(item.object);
+  else
+    DB.update(item.object);
+  emit fileLoaded();
+}

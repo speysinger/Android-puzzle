@@ -1,42 +1,39 @@
 #ifndef PUZZLEGAME_H
 #define PUZZLEGAME_H
 
-#include "mode.h"
-#include "puzzleview.h"
+#include <QLabel>
+
 #include "pathpoints.h"
 #include "puzzlepath.h"
-#include "game/puzzleitem/puzzleitem.h"
-#include "sound_controller/soundcontroller.h"
-#include <QLabel>
+#include "puzzleview.h"
+#include "src/game/puzzleitem/puzzleitem.h"
+#include "src/mode.h"
+#include "src/sound_controller/soundcontroller.h"
 
 class SettableItem;
 
 class PuzzleGame : public QWidget {
   Q_OBJECT
-public:
+ public:
   PuzzleGame(QWidget* parent = nullptr);
   void load(QPixmap source, Mode mode);
-  void setLabel(QString str) { // TODO: remove
-    m_label.setText(str);
-  }
-protected slots:
+ protected slots:
   void onItemClicked();
   void onItemSetted();
   void rotate90();
-signals:
+ signals:
   void finished();
   void back();
 
-protected:
-  QGraphicsScene m_scene;
-  PuzzleView m_view;
-  SoundController m_sound;
-  QLabel m_label;
-
+ protected:
   const int GroundLayer = 0;
   int m_selectionLayer;
   int m_unsetted;
   bool m_image_orientation;
+
+  QGraphicsScene m_scene;
+  PuzzleView m_view;
+  SoundController m_sound;
 };
 
-#endif // PUZZLEGAME_H
+#endif  // PUZZLEGAME_H

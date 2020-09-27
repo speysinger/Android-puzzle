@@ -2,16 +2,19 @@
 #define TESTRESULTSWIDGET_H
 
 #include <QQmlContext>
-#include "settings/update/qmlbuttonshandler.h"
-#include "settings/update/qmlwidget.h"
 
-class TestResultsWidget: public QmlWidget
-{
+#include "src/settings/update/qmlbuttonshandler.h"
+#include "src/settings/update/qmlwidget.h"
+
+///
+/// \brief The TestResultsWidget class
+/// Данный класс реализует создание окна вывода статистики тестирования
+class TestResultsWidget : public QmlWidget {
   Q_OBJECT
-public:
-  TestResultsWidget(QWidget *parent=nullptr);
-signals:
+ public:
+  TestResultsWidget(QWidget* parent = nullptr);
+ signals:
   void backToMainMenuButtonPressed();
 };
 
-#endif // TESTRESULTSWIDGET_H
+#endif  // TESTRESULTSWIDGET_H

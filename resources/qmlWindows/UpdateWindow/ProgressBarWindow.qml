@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.12
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls 1.2
@@ -8,13 +8,12 @@ Rectangle {
     width: Screen.width/4
     height: Screen.height/4
     color:"lemonchiffon"
-    //Получение нового значения прогрессбара
+    property string fontFamlily: "hAndy"
     Connections {
         target: progressInd
-        onProgressChanged: _progressBar.value=progress
+        onProgressChanged: _progressBar.value = progress
     }
 
-    //Обнуление прогресса по окончанию загрузки
     Connections
     {
         target: progressInd
@@ -31,8 +30,9 @@ Rectangle {
             id: name
             text: _progressBar.value+"/100%"
             font{
+                family: fontFamlily
                 pointSize: Math.min(_progressBarWindow.width===0?1:_progressBarWindow.width,
-                                    _progressBarWindow.height===0?1:_progressBarWindow.height)/15
+                                    _progressBarWindow.height===0?1:_progressBarWindow.height)/25
             }
 
             anchors.centerIn: _progressBar
@@ -58,8 +58,9 @@ Rectangle {
             anchors.centerIn: _cancelButton
             text: qsTr("Отмена")
             font {
+                family: fontFamlily
                 pointSize: Math.min(_progressBarWindow.width===0?1:_progressBarWindow.width,
-                                    _progressBarWindow.height===0?1:_progressBarWindow.width)/15
+                                    _progressBarWindow.height===0?1:_progressBarWindow.width)/30
             }
         }
         style: ButtonStyle{ background: Rectangle

@@ -1,60 +1,48 @@
 #include "gamemanager.h"
-#include "database/levelsdbfacade.h"
 
-GameManager::GameManager():artPuzzleMode()
-{}
+#include "src/database/levelsdbfacade.h"
 
-void GameManager::createGame(PuzzleGame *puzzleGame, Mode mode)
-{
+GameManager::GameManager() : m_artPuzzleMode() {}
+
+void GameManager::createGame(PuzzleGame* puzzleGame, Mode mode) {
   Art art = DB.randomArt();
-  getGame(puzzleGame, art, mode);
+  setGame(puzzleGame, art, mode);
 }
 
-void GameManager::createGame(PuzzleGame *puzzleGame, Author author, Mode mode)
-{
+void GameManager::createGame(PuzzleGame* puzzleGame, Author author, Mode mode) {
   Art art = DB.randomArt(author);
-  getGame(puzzleGame, art, mode);
+  setGame(puzzleGame, art, mode);
 }
 
-void GameManager::createGame(PuzzleGame *puzzleGame, Era era, Mode mode)
-{
+void GameManager::createGame(PuzzleGame* puzzleGame, Era era, Mode mode) {
   Art art = DB.randomArt(era);
-  getGame(puzzleGame, art, mode);
+  setGame(puzzleGame, art, mode);
 }
 
-void GameManager::createGame(PuzzleGame *puzzleGame, Art art, Mode mode)
-{
-  getGame(puzzleGame, art, mode);
+void GameManager::createGame(PuzzleGame* puzzleGame, Art art, Mode mode) {
+  setGame(puzzleGame, art, mode);
 }
 
-Art GameManager::getArt()
-{
-  return *m_currentArt;
-}
+Art GameManager::getArt() { return *m_currentArt; }
 
-void GameManager::addStatisticRecord(int puzzleCollectionTime)
-{
-  QString time = QString("%1:%2").arg( puzzleCollectionTime / 60000        , 2, 10, QChar('0'))
-                                .arg((puzzleCollectionTime % 60000) / 1000, 2, 10, QChar('0'));
+void GameManager::addStatisticRecord(int puzzleCollectionTime) {
+  QString time =
+      QString("%1:%2")
+          .arg(puzzleCollectionTime / 60000, 2, 10, QChar('0'))
+          .arg((puzzleCollectionTime % 60000) / 1000, 2, 10, QChar('0'));
 
-  QString mode = QString::number(artPuzzleMode.vertically) + "x" + QString::number(artPuzzleMode.horizontally);
+  QString mode = QString::number(m_artPuzzleMode.vertically) + "x" +
+                 QString::number(m_artPuzzleMode.horizontally);
 
-  StatisticRecord statisticRecord(m_currentArt->eraName,
-                                  m_currentArt->imgName,
-                                  time,
-                                  time,
-                                  mode
-                                  );
+  StatisticRecord statisticRecord(m_currentArt->eraName, m_currentArt->imgName,
+                                  time, time, mode);
   DB.checkStatistic(statisticRecord);
 }
 
-void GameManager::getGame(PuzzleGame *puzzleGame, Art art, Mode mode)
-{
-  m_currentArt = make_unique<Art>(art);
-  artPuzzleMode = mode;
+void GameManager::setGame(PuzzleGame* puzzleGame, Art art, Mode mode) {
+  m_currentArt = std::make_unique<Art>(art);
+  m_artPuzzleMode = mode;
 
   QPixmap pixmap(m_currentArt->imgPath);
-  puzzleGame->setLabel(m_currentArt->imgPath);
-  puzzleGame->load(pixmap, artPuzzleMode);
-
+  puzzleGame->load(pixmap, m_artPuzzleMode);
 }

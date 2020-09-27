@@ -1,22 +1,31 @@
 #ifndef TESTMANAGER_H
 #define TESTMANAGER_H
 
-#include <QSet>
-#include <QMap>
 #include <random>
-#include "database/levelstructures.h"
-#include "singleton.h"
 
-class TestManager:public QObject
-{
+#include "src/database/levelstructures.h"
+#include "src/singleton.h"
+
+///
+/// \brief The TestManager class
+/// Данный класс реализует:
+/// созданием вопросов для тестирования
+/// отправкой их в модели GridView
+/// обработкой результата теста
+///
+/// Предоставляет интерфейс, позволяющий:
+/// составить список, доступных для тестирования, эпох и вопросов по ним
+/// начинать тестирование по указанному списку эпох
+/// получить результаты тестирования и обработать их
+class TestManager : public QObject {
   Q_OBJECT
-public:
-  TestManager();
+ public:
   void loadAvailableEras();
 
-  void startTesting( std::vector<EraListModelItem>, int requiredCountOfQuestions);
+  void startTesting(std::vector<EraListModelItem>,
+                    int requiredCountOfQuestions);
   void takeResultsFromDropModel(std::vector<DropGridItem> results);
-signals:
+ signals:
   void erasReady(std::vector<EraListModelItem> vec, bool isTestingModule);
 
   void notEnoughFilesToStartTesting();
@@ -30,19 +39,26 @@ signals:
 
   void questionsIsOver();
 
-  void testResultsReady(std::vector<TestResultsItem> &testResults);
+  void testResultsReady(std::vector<TestResultsItem>& m_testResults);
 
-private:
+ private:
   struct QuestionWrapper;
+  enum QUESTIONTYPE { AUTHOR = 0, ERA = 1 };
 
   int convertButtonNumberToNumberQuestions(int buttonNumber);
 
-  std::vector<EraListModelItem> getAvailablesForTestingEras();
+  void getNumberOfEraQuestions(int& eraQuestions, int& artQuestions,
+                               std::vector<EraListModelItem>& selectedEras);
 
-  void getNumberOfQuestions(int &eraQuestions, int &artQuestions, std::vector<EraListModelItem> &selectedEras);
+  void findAnswers(std::vector<DropGridItem>& results, int& quadResidue);
+  void findCorrectAnswers(std::vector<DropGridItem>& results, int& quadResidue);
+  void findWrongAnswers(std::vector<DropGridItem>& results, int& quadResidue);
 
-  void findCorrectAnswers(std::vector<DropGridItem> &results, int &quadResidue);
-  void findWrongAnswers(std::vector<DropGridItem> &results, int &quadResidue);
+  void fillQuestionsList(int requiredQuestionsCount,
+                         std::vector<EraListModelItem> selectedEras);
+  void mergeQuestionsQuad(std::vector<QuestionWrapper>& questionsQuad,
+                          std::vector<QuestionWrapper>& questionsList,
+                          int& questionsCount);
 
   void sendQuadToDndModels();
 
@@ -50,53 +66,61 @@ private:
   DropGridItem createDropItem(Era era);
   DropGridItem createDropItem(Author author);
 
-  void increaseQuestionCounter(bool isEraQuestion, int &eraQuestionsCount, int &authorQuestionsCount);
+  void increaseQuestionCounter(bool isEraQuestion, int& eraQuestionsCount,
+                               int& authorQuestionsCount);
 
-  void pointToRightVector(std::vector<QuestionWrapper>::iterator &it);
-  void deleteItemFromRightVector(std::vector<QuestionWrapper>::iterator &it);
+  void pointToRightVector(std::vector<QuestionWrapper>::iterator& it);
+  void deleteItemFromRightVector(std::vector<QuestionWrapper>::iterator& it);
 
+  int getQuestionType();
 
   /// \brief
   ///  Обёртка над вопросом
-  struct QuestionWrapper{
-
+  /// Содержит dragItem(вопрос), dropGridItem(ответ), принадлежность к типу
+  /// вопроса
+  struct QuestionWrapper {
     DragGridItem dragGridItem;
     DropGridItem dropGridItem;
     bool isEraQuestion;
     bool isDomestic;
 
-    QuestionWrapper(DragGridItem dragGridItem_, DropGridItem dropGridItem_, bool isEraQuestion_, bool isDomestic_):
-      dragGridItem(dragGridItem_), dropGridItem(dropGridItem_), isEraQuestion(isEraQuestion_),
-      isDomestic(isDomestic_){}
+    QuestionWrapper(DragGridItem dragGridItem_, DropGridItem dropGridItem_,
+                    bool isEraQuestion_, bool isDomestic_)
+        : dragGridItem(dragGridItem_),
+          dropGridItem(dropGridItem_),
+          isEraQuestion(isEraQuestion_),
+          isDomestic(isDomestic_) {}
   };
 
   /// \brief
   /// Обёртка над эпохой и вопросами по ней
-  struct eraModuleQuestionsWrapper{
+  struct eraModuleQuestionsWrapper {
     Era era;
     std::vector<QuestionWrapper> questionsAndAnswers;
 
-    eraModuleQuestionsWrapper(Era era_,std::vector<QuestionWrapper> questionsAndAnswers_):
-      era(era_), questionsAndAnswers(questionsAndAnswers_){}
+    eraModuleQuestionsWrapper(Era era_,
+                              std::vector<QuestionWrapper> questionsAndAnswers_)
+        : era(era_), questionsAndAnswers(questionsAndAnswers_) {}
 
-    bool operator==(const QString &findEraName) const {
-      return era.name==findEraName;
+    bool operator==(const QString& findEraName) const {
+      return era.eraName == findEraName;
     }
-
   };
 
-  std::vector<eraModuleQuestionsWrapper> eraModule;
+  std::vector<eraModuleQuestionsWrapper> m_eraModule;
 
-  ///Элемент
-  std::vector<QuestionWrapper> eraForTestQuestions;
-  std::vector<QuestionWrapper> authorForTestQuestions;
+  std::vector<QuestionWrapper> m_eraForTestQuestions;
+  std::vector<QuestionWrapper> m_authorForTestQuestions;
 
-  std::vector<TestResultsItem> testResults;
+  std::vector<TestResultsItem> m_testResults;
 
-  bool currentTypeOfQuestionIsEra=false;
+  bool m_currentTypeOfQuestionIsEra = false;
+  const int questionItems = 4;
+
+  ///генератор псевдо-случайных чисел для std::shuffle для std::shuffle
+  std::random_device rd;
 };
-
 
 #define TESTMANAGER Singleton<TestManager>::instance()
 
-#endif // TESTMANAGER_H
+#endif  // TESTMANAGER_H

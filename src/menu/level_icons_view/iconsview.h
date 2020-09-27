@@ -3,36 +3,38 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QMap>
-#include "menuitemproxy.h"
+
+#include "menuiconproxy.h"
 
 class IconsView : public QGraphicsView {
   Q_OBJECT
-public:
-  IconsView(QWidget *parent = nullptr);
+ public:
+  IconsView(QWidget* parent = nullptr);
 
   void loadAuthors();
   void loadEras();
   void loadArts(Author author);
   void loadArts(Era era);
-protected:
-  void resizeEvent(QResizeEvent *event) override;
+
+ protected:
+  void resizeEvent(QResizeEvent* event) override;
   void disposeIcons();
 
   void scrollContentsBy(int dx, int dy) override;
 
   void setProxyItems();
 
-  void mousePressEvent(QMouseEvent *event) override;
-  void mouseReleaseEvent(QMouseEvent *event) override;
-signals:
+  void mousePressEvent(QMouseEvent* event) override;
+  void mouseReleaseEvent(QMouseEvent* event) override;
+ signals:
   void authorSelected(Author data);
   void eraSelected(Era data);
   void artSelected(Art data);
-protected:
+
+ protected:
   QGraphicsScene m_scene;
   QPoint m_clickPos;
-  std::vector<MenuItemProxy*> m_icons;
+  std::vector<MenuIconProxy*> m_icons;
 
   const int IconSize = 150;
   const int NColumn = 2;
@@ -41,4 +43,4 @@ protected:
   size_t lastLoadableItemIndex = 0;
 };
 
-#endif // ICONSVIEW_H
+#endif  // ICONSVIEW_H
